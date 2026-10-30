@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <h1>{% trans "Waiting for your approval" %}</h1>
+  {% if items %}
+    {% for item in items %}
+      <p class="card">
+        <a href="{% url 'portal_detail' item.pk %}"><strong>{{ item.title }}</strong></a><br>
+        <small>{{ item.client.name }}</small>
+      </p>
+    {% endfor %}
+  {% else %}
+    <p class="card">{% trans "Nothing is waiting for you right now." %}</p>
+  {% endif %}
+{% endblock %}

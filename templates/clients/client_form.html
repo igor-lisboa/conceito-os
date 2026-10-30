@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <h1>{% trans "New client" %}</h1>
+  <form method="post" class="card">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">{% trans "Create client" %}</button>
+    <a href="{% url 'client_list' %}">{% trans "Cancel" %}</a>
+  </form>
+{% endblock %}

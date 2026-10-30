@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ object.title }} · Conceito OS{% endblock %}
+
+{% block content %}
+  <h1>{{ object.title }}</h1>
+  <p><small>{{ object.client.name }} · {{ object.get_channel_display }} · {{ object.get_content_format_display }}</small></p>
+
+  <section class="card">
+    <h2>{% trans "Version" %} {{ latest.number }}</h2>
+    <p>{{ latest.caption|linebreaksbr }}</p>
+    {% if latest.cta %}<p><strong>{% trans "Call to action:" %}</strong> {{ latest.cta }}</p>{% endif %}
+    {% if latest.script %}<p><strong>{% trans "Script:" %}</strong> {{ latest.script|linebreaksbr }}</p>{% endif %}
+    {% if latest.media_url %}<p><a href="{{ latest.media_url }}">{% trans "View file" %}</a></p>{% endif %}
+  </section>
+
+  {% if object.state == 'client_review' %}
+    <form method="post" class="card">
+      {% csrf_token %}
+      <fieldset>
+        <legend>{% trans "Your decision" %}</legend>
+        {{ decision_form.decision }}
+      </fieldset>
+      {{ decision_form.comment.label_tag }} {{ decision_form.comment }}
+      <button type="submit">{% trans "Submit decision" %}</button>
+    </form>
+  {% else %}
+    <p class="card">{% trans "This content is not waiting for your decision." %}</p>
+  {% endif %}
+
+  <section>
+    <h2>{% trans "Your previous decisions" %}</h2>
+    {% for approval in client_approvals %}
+      <p class="card">{% trans "Version" %} {{ approval.version.number }} · {{ approval.get_decision_display }}
+        {% if approval.comment %}<br>“{{ approval.comment }}”{% endif %}</p>
+    {% empty %}
+      <p class="card">{% trans "No previous decisions." %}</p>
+    {% endfor %}
+  </section>
+{% endblock %}

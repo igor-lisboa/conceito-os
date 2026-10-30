@@ -1,0 +1,57 @@
+{% load static i18n %}{% get_current_language as CURRENT_LANGUAGE %}<!doctype html>
+<html lang="{{ CURRENT_LANGUAGE }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Conceito OS{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="{% url 'home' %}">Conceito OS</a>
+    {% if user.is_authenticated %}
+      <nav>
+        {% if request.membership.role == 'client' %}
+          <a href="{% url 'portal_list' %}">{% trans "Approvals" %}</a>
+        {% elif request.membership %}
+          <a href="{% url 'home' %}">{% trans "Home" %}</a>
+          <a href="{% url 'client_list' %}">{% trans "Clients" %}</a>
+          <a href="{% url 'content_list' %}">{% trans "Content" %}</a>
+        {% endif %}
+      </nav>
+    {% endif %}
+
+    <form method="post" action="{% url 'set_language' %}" class="inline lang-switch">
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ request.get_full_path }}">
+      <label for="lang-select" class="visually-hidden">{% trans "Language" %}</label>
+      <select name="language" id="lang-select" onchange="this.form.submit()">
+        {% get_available_languages as AVAILABLE_LANGUAGES %}
+        {% get_current_language as CURRENT_LANGUAGE %}
+        {% for code, name in AVAILABLE_LANGUAGES %}
+          <option value="{{ code }}"{% if code == CURRENT_LANGUAGE %} selected{% endif %}>{{ name }}</option>
+        {% endfor %}
+      </select>
+      <noscript><button type="submit" class="button-secondary">{% trans "Change" %}</button></noscript>
+    </form>
+
+    {% if user.is_authenticated %}
+      <form method="post" action="{% url 'logout' %}" class="inline">
+        {% csrf_token %}
+        <button type="submit" class="link-button">{% trans "Log out" %}</button>
+      </form>
+    {% endif %}
+  </header>
+
+  <main>
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li class="message message-{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

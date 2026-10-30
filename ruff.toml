@@ -1,0 +1,11 @@
+line-length = 120
+target-version = "py312"
+
+[lint]
+select = ["E", "F", "W", "I", "B", "UP", "DJ"]
+# UP042: LabeledEnum needs a custom __new__ (value + label), which StrEnum does not allow.
+ignore = ["DJ008", "UP042"]
+
+[lint.per-file-ignores]
+"*/migrations/*" = ["E", "F", "W", "I", "B", "UP", "DJ"]
+"config/settings/*" = ["F403", "F405"]

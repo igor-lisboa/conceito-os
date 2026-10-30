@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <h1>{% trans "Content" %}</h1>
+
+  <form method="get" class="card">
+    {{ filter_form.as_p }}
+    <button type="submit" class="button-secondary">{% trans "Filter" %}</button>
+  </form>
+
+  <p><a class="button" href="{% url 'content_create' %}">{% trans "New content" %}</a></p>
+
+  {% if items %}
+    <table>
+      <thead><tr><th>{% trans "Title" %}</th><th>{% trans "Client" %}</th><th>{% trans "Stage" %}</th></tr></thead>
+      <tbody>
+        {% for item in items %}
+          <tr>
+            <td><a href="{% url 'content_detail' item.pk %}">{{ item.title }}</a></td>
+            <td>{{ item.client.name }}</td>
+            <td><span class="state-badge">{{ item.get_state_display }}</span></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="card">{% trans "No content found." %}</p>
+  {% endif %}
+{% endblock %}

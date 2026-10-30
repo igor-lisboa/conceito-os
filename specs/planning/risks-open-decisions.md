@@ -52,10 +52,16 @@ Claude does NOT decide items on this list without approval from Beatriz (product
 | D-21 | "Client approval required": per client, per content type, or both | CLI, PRO | Per client, default on |
 | D-22 | Numeric non-functional targets (latency, availability, RPO/RTO, upload limits) | NFR | Set before production launch |
 | D-23 | Dark mode timing | DSG | After MVP; tokens ready from day one |
-| D-24 | Languages beyond pt-BR | NFR | pt-BR only until P4 |
+| D-24 | Languages beyond pt-BR | NFR | Decided 2026-11-01: English and pt-BR. Others not planned. |
 | D-25 | Capabilities actually available per account type in Meta/TikTok APIs (publishing, metrics) | INT, MET | Technical spike before P2 |
 | D-26 | Date change after client approval requires re-approval | CAL | Yes, if the date was shown at approval |
 
 ## Decided
 
-(none yet)
+| # | Decision | Date | Outcome |
+| --- | --- | --- | --- |
+| D-04 | Database engine | 2026-11-01 | MySQL 8 (product owner). Supabase and Postgres are not used. |
+| — | Backend framework | 2026-11-01 | Django 5.2 LTS (product owner). See [docs/architecture.md](../../docs/architecture.md). |
+| — | Architecture of the content context | 2026-11-01 | Hexagonal + DDD tactical patterns in `production`; simple services in `clients` and `accounts`. |
+| — | Hosting | 2026-11-01 | Vercel Python runtime; migrations run from the developer machine. |
+| — | Frontend | 2026-11-01 | Server-rendered templates for now; SPA deferred. |

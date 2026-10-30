@@ -27,7 +27,7 @@ Web platform for social media professionals and agencies (Conceito Co), conceive
 
 ## Conventions
 
-- **Language**: specs, code, identifiers and commit messages in English. Product UI copy in Brazilian Portuguese (pt-BR); user-facing routes stay in pt-BR (`/clientes`). Reply to the user in the language they write in.
+- **Language**: specs, code, identifiers and commit messages in English. The product UI is available in English and pt-BR through Django `gettext`: never hard-code user-visible text in one language; wrap it, and add the pt-BR entry to `locale/pt_BR/LC_MESSAGES/django.po`. Business rule messages are raised in English by the domain and translated at the web edge. User-facing routes stay in pt-BR (`/clientes`). Reply to the user in the language they write in.
 - **Stack** suggested but not decided (`specs/technical/architecture.md`): Next.js, TypeScript, React, Tailwind, PostgreSQL/Supabase. Confirm before scaffolding the project.
 - **Phases**: MVP → P2 → P3 → P4. Don't build later-phase features without being asked.
 - **Design**: tokens and identity in `specs/ux/design-system.md`. The brand lilac/pink/gray fail contrast as text; use them as fills only.

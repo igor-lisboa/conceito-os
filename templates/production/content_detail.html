@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ object.title }} · Conceito OS{% endblock %}
+
+{% block content %}
+  <h1>{{ object.title }}</h1>
+  <p>
+    {{ object.client.name }} · {{ object.get_channel_display }} · {{ object.get_content_format_display }}
+    · <span class="state-badge">{{ object.get_state_display }}</span>
+  </p>
+  {% if object.scheduled_for %}<p>{% trans "Scheduled for" %} {{ object.scheduled_for }}</p>{% endif %}
+  {% if object.state == 'failed' %}
+    <p class="message message-error">{% trans "Failure:" %} {{ object.failure_reason }}</p>
+  {% endif %}
+
+  <section class="card">
+    <h2>{% trans "Version" %} {{ latest.number }} ({% trans "current" %})</h2>
+    <p>{{ latest.caption|linebreaksbr }}</p>
+    {% if latest.cta %}<p><strong>{% trans "CTA:" %}</strong> {{ latest.cta }}</p>{% endif %}
+    {% if latest.script %}<p><strong>{% trans "Script:" %}</strong> {{ latest.script|linebreaksbr }}</p>{% endif %}
+    {% if latest.media_url %}<p><a href="{{ latest.media_url }}">{% trans "View media" %}</a></p>{% endif %}
+  </section>
+
+  <section class="card">
+    <h2>{% trans "Next actions" %}</h2>
+    <div class="actions">
+      {% if actions.plan %}
+        <form method="post" action="{% url 'content_action' object.pk 'plan' %}">{% csrf_token %}<button>{% trans "Plan" %}</button></form>
+      {% endif %}
+      {% if actions.start_production %}
+        <form method="post" action="{% url 'content_action' object.pk 'start_production' %}">{% csrf_token %}<button>{% trans "Start production" %}</button></form>
+      {% endif %}
+      {% if actions.send_internal_review %}
+        <form method="post" action="{% url 'content_action' object.pk 'send_internal_review' %}">{% csrf_token %}<button>{% trans "Send to internal review" %}</button></form>
+      {% endif %}
+    </div>
+
+    {% if actions.approve_internal or actions.reject_internal %}
+      <form method="post" class="card">
+        {% csrf_token %}
+        {{ action_form.as_p }}
+        <div class="actions">
+          <button formaction="{% url 'content_action' object.pk 'approve_internal' %}">{% trans "Approve internally" %}</button>
+          <button class="button-secondary" formaction="{% url 'content_action' object.pk 'reject_internal' %}">{% trans "Request changes" %}</button>
+        </div>
+      </form>
+    {% endif %}
+
+    {% if actions.schedule %}
+      <form method="post" action="{% url 'content_action' object.pk 'schedule' %}" class="card">
+        {% csrf_token %}
+        {{ action_form.scheduled_for.label_tag }} {{ action_form.scheduled_for }}
+        <button>{% trans "Schedule" %}</button>
+      </form>
+    {% endif %}
+
+    <div class="actions">
+      {% if actions.unschedule %}
+        <form method="post" action="{% url 'content_action' object.pk 'unschedule' %}">{% csrf_token %}<button class="button-secondary">{% trans "Remove schedule" %}</button></form>
+      {% endif %}
+      {% if actions.mark_published %}
+        <form method="post" action="{% url 'content_action' object.pk 'mark_published' %}">{% csrf_token %}<button>{% trans "Mark as published" %}</button></form>
+      {% endif %}
+      {% if actions.mark_failed %}
+        <form method="post" action="{% url 'content_action' object.pk 'mark_failed' %}" class="card">
+          {% csrf_token %}
+          <label for="id_comment">{% trans "Reason for the failure" %}</label>
+          <textarea name="comment" id="id_comment" rows="2" required></textarea>
+          <button class="button-secondary">{% trans "Record failure" %}</button>
+        </form>
+      {% endif %}
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>{% trans "New version" %}</h2>
+    <form method="post" action="{% url 'content_version' object.pk %}">
+      {% csrf_token %}
+      {{ version_form.as_p }}
+      <button>{% trans "Save version" %}</button>
+    </form>
+  </section>
+
+  <section>
+    <h2>{% trans "Approval history" %}</h2>
+    {% for approval in approvals %}
+      <p class="card">
+        {% trans "Version" %} {{ approval.version.number }} · {{ approval.get_stage_display }} ·
+        {{ approval.get_decision_display }}
+        {% if approval.comment %}<br>“{{ approval.comment }}”{% endif %}
+        {% if approval.actor %}<br><small>{{ approval.actor.get_username }} · {{ approval.created_at }}</small>{% endif %}
+      </p>
+    {% empty %}
+      <p class="card">{% trans "No decisions recorded yet." %}</p>
+    {% endfor %}
+  </section>
+{% endblock %}

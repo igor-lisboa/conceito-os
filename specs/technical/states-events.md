@@ -35,7 +35,20 @@ Every transition records actor, timestamp, version, rationale and external ID wh
 - `approved` is bound to a specific content version; editing it afterwards returns it to `internal_review` ([PRO-013](../modules/production-approval.md)).
 - `scheduled` requires `approved`, a valid connection and permission.
 - `failed` NEVER masquerades as `published`; controlled retry from `failed → scheduled`.
-- Manual fallback: `approved → published` with `publish_method = manual` ([INT-010](../modules/social-integrations.md)).
+- Manual publishing (until integrations exist): a person schedules the piece, then marks it `scheduled → published` after posting it by hand. No separate `publish_method` field exists yet ([INT-010](../modules/social-integrations.md) is pending).
+
+### Manual moves (implemented, `production/domain/states.py`)
+
+A person may move a piece by hand only along these edges. Every other change needs a named decision (approve, reject, schedule, unschedule, publish, fail).
+
+| From | To | Capability |
+| --- | --- | --- |
+| `draft` | `planned` | edit content |
+| `planned` | `in_production` | edit content |
+| `changes_requested` | `in_production` | edit content |
+| `in_production` | `internal_review` | edit content |
+
+Leaving `internal_review` requires a decision with a comment when rejecting.
 
 ## Lead
 

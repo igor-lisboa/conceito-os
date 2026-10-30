@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <h1>{{ client.name }}</h1>
+  <p>
+    {% trans "Client approval:" %}
+    {% if client.client_approval_required %}{% trans "required" %}{% else %}{% trans "not required" %}{% endif %}
+  </p>
+
+  <div class="actions">
+    <a class="button button-secondary" href="{% url 'client_briefing' client.pk %}">{% trans "Edit briefing" %}</a>
+    <a class="button" href="{% url 'content_create' %}">{% trans "New content" %}</a>
+  </div>
+
+  <h2>{% trans "Content" %}</h2>
+  {% if content_items %}
+    <table>
+      <thead><tr><th>{% trans "Title" %}</th><th>{% trans "Stage" %}</th></tr></thead>
+      <tbody>
+        {% for item in content_items %}
+          <tr>
+            <td><a href="{% url 'content_detail' item.pk %}">{{ item.title }}</a></td>
+            <td><span class="state-badge">{{ item.get_state_display }}</span></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="card">{% trans "No content for this client yet." %}</p>
+  {% endif %}
+{% endblock %}

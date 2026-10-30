@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <h1>{% trans "Home" %}</h1>
+  <section class="counts" aria-label="{% trans 'Summary' %}">
+    <div class="card"><strong>{{ counts.internal_review }}</strong>{% trans "In internal review" %}</div>
+    <div class="card"><strong>{{ counts.client_review }}</strong>{% trans "Waiting for client" %}</div>
+    <div class="card"><strong>{{ counts.scheduled }}</strong>{% trans "Scheduled" %}</div>
+    <div class="card"><strong>{{ counts.failed }}</strong>{% trans "Publishing failures" %}</div>
+  </section>
+  <p><a href="{% url 'content_list' %}">{% trans "See all content" %}</a></p>
+{% endblock %}

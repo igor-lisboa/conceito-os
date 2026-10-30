@@ -1,6 +1,6 @@
 ---
 id: cli
-status: draft
+status: partially-implemented
 phase: MVP
 version: 1.1
 updated: 2026-10-30
@@ -50,4 +50,6 @@ Duplicate client name; briefing with missing required sections (show gaps, allow
 
 ## Evidence
 
-—
+- Client scope and visibility: `clients/tests/test_scope.py
+- Services and audit: `clients/tests/test_services.py
+- Screens: `clients/tests/test_views.py`

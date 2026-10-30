@@ -1,0 +1,3 @@
+# Tools for developers only. Production (Vercel) installs requirements.txt.
+-r requirements.txt
+ruff>=0.6

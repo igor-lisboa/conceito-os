@@ -1,6 +1,6 @@
 ---
 id: auth
-status: draft
+status: partially-implemented
 phase: MVP
 version: 1.0
 updated: 2026-10-30
@@ -68,4 +68,6 @@ Expired invitation; revoked user with an open session; email already a member; l
 
 ## Evidence
 
-—
+- Roles and capability matrix: `accounts/tests/test_permissions.py
+- Active organization selection: `accounts/tests/test_middleware.py
+- Actor construction: `core/tests/test_actors.py`

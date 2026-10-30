@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <h1>{% trans "No access yet" %}</h1>
+  <p class="card">
+    {% trans "Your account is not linked to any organization. Ask the agency owner to grant you access." %}
+  </p>
+{% endblock %}

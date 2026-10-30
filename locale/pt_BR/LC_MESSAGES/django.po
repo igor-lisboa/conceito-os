@@ -1,0 +1,411 @@
+# Conceito OS: Brazilian Portuguese translations.
+# Source strings are the English msgids. After changing a string in the code or in
+# a template, add or update its entry here and run: python scripts/compile_translations.py
+msgid ""
+msgstr ""
+"Project-Id-Version: Conceito OS\n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+# --- Navigation and base layout ---------------------------------------------
+msgid "Approvals"
+msgstr "Aprovações"
+
+msgid "Home"
+msgstr "Início"
+
+msgid "Clients"
+msgstr "Clientes"
+
+msgid "Content"
+msgstr "Conteúdos"
+
+msgid "Language"
+msgstr "Idioma"
+
+msgid "Change"
+msgstr "Alterar"
+
+msgid "Log out"
+msgstr "Sair"
+
+msgid "Sign in"
+msgstr "Entrar"
+
+# --- Dashboard and empty states ----------------------------------------------
+msgid "Summary"
+msgstr "Resumo"
+
+msgid "In internal review"
+msgstr "Em revisão interna"
+
+msgid "Waiting for client"
+msgstr "Aguardando cliente"
+
+msgid "Scheduled"
+msgstr "Agendados"
+
+msgid "Publishing failures"
+msgstr "Falhas na publicação"
+
+msgid "See all content"
+msgstr "Ver todos os conteúdos"
+
+msgid "No access yet"
+msgstr "Sem acesso ainda"
+
+msgid "Your account is not linked to any organization. Ask the agency owner to grant you access."
+msgstr "Sua conta não está vinculada a nenhuma organização. Peça à proprietária da agência para liberar o seu acesso."
+
+# --- Clients ------------------------------------------------------------------
+msgid "New client"
+msgstr "Novo cliente"
+
+msgid "Brand"
+msgstr "Marca"
+
+msgid "Client approval"
+msgstr "Aprovação do cliente"
+
+msgid "Required"
+msgstr "Obrigatória"
+
+msgid "Not required"
+msgstr "Não exigida"
+
+msgid "No clients available for you yet."
+msgstr "Nenhum cliente disponível para você ainda."
+
+msgid "Create client"
+msgstr "Criar cliente"
+
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgid "Client approval:"
+msgstr "Aprovação do cliente:"
+
+msgid "required"
+msgstr "obrigatória"
+
+msgid "not required"
+msgstr "não exigida"
+
+msgid "Edit briefing"
+msgstr "Editar briefing"
+
+msgid "New content"
+msgstr "Novo conteúdo"
+
+msgid "Title"
+msgstr "Título"
+
+msgid "Stage"
+msgstr "Etapa"
+
+msgid "No content for this client yet."
+msgstr "Nenhum conteúdo para este cliente ainda."
+
+msgid "Briefing"
+msgstr "Briefing"
+
+msgid "Save briefing"
+msgstr "Salvar briefing"
+
+msgid "Back"
+msgstr "Voltar"
+
+msgid "Client created."
+msgstr "Cliente criado."
+
+msgid "Briefing saved."
+msgstr "Briefing salvo."
+
+msgid "Client"
+msgstr "Cliente"
+
+msgid "Brand name"
+msgstr "Nome da marca"
+
+msgid "Require client approval before scheduling"
+msgstr "Exigir aprovação do cliente antes de agendar"
+
+msgid "Objective"
+msgstr "Objetivo"
+
+msgid "Audience"
+msgstr "Público"
+
+msgid "Tone of voice"
+msgstr "Tom de voz"
+
+msgid "Competitors"
+msgstr "Concorrentes"
+
+msgid "Notes"
+msgstr "Observações"
+
+# --- Content list, form and detail -------------------------------------------
+msgid "Filter"
+msgstr "Filtrar"
+
+msgid "No content found."
+msgstr "Nenhum conteúdo encontrado."
+
+msgid "Create content"
+msgstr "Criar conteúdo"
+
+msgid "Content created."
+msgstr "Conteúdo criado."
+
+msgid "All stages"
+msgstr "Todas as etapas"
+
+msgid "Caption"
+msgstr "Legenda"
+
+msgid "Call to action (CTA)"
+msgstr "Chamada para ação (CTA)"
+
+msgid "Script"
+msgstr "Roteiro"
+
+msgid "Media link"
+msgstr "Link da mídia"
+
+msgid "Channel"
+msgstr "Canal"
+
+msgid "Format"
+msgstr "Formato"
+
+msgid "Responsible"
+msgstr "Responsável"
+
+msgid "Comment"
+msgstr "Comentário"
+
+msgid "Comment (required when requesting changes)"
+msgstr "Comentário (obrigatório para pedir ajustes)"
+
+msgid "Publish on"
+msgstr "Publicar em"
+
+msgid "Scheduled for"
+msgstr "Agendado para"
+
+msgid "Failure:"
+msgstr "Falha:"
+
+msgid "Version"
+msgstr "Versão"
+
+msgid "current"
+msgstr "atual"
+
+msgid "CTA:"
+msgstr "CTA:"
+
+msgid "Script:"
+msgstr "Roteiro:"
+
+msgid "View media"
+msgstr "Ver mídia"
+
+msgid "Next actions"
+msgstr "Próximas ações"
+
+msgid "Plan"
+msgstr "Planejar"
+
+msgid "Start production"
+msgstr "Iniciar produção"
+
+msgid "Send to internal review"
+msgstr "Enviar para revisão interna"
+
+msgid "Approve internally"
+msgstr "Aprovar internamente"
+
+msgid "Request changes"
+msgstr "Pedir ajustes"
+
+msgid "Schedule"
+msgstr "Agendar"
+
+msgid "Remove schedule"
+msgstr "Remover agendamento"
+
+msgid "Mark as published"
+msgstr "Marcar como publicado"
+
+msgid "Reason for the failure"
+msgstr "Motivo da falha"
+
+msgid "Record failure"
+msgstr "Registrar falha"
+
+msgid "New version"
+msgstr "Nova versão"
+
+msgid "Save version"
+msgstr "Salvar versão"
+
+msgid "Approval history"
+msgstr "Histórico de aprovações"
+
+msgid "No decisions recorded yet."
+msgstr "Nenhuma decisão registrada ainda."
+
+msgid "Check the version fields."
+msgstr "Revise os campos da versão."
+
+msgid "New version saved."
+msgstr "Nova versão salva."
+
+msgid "Check the fields you entered."
+msgstr "Revise os campos informados."
+
+msgid "Action recorded."
+msgstr "Ação registrada."
+
+# --- Portal -------------------------------------------------------------------
+msgid "Waiting for your approval"
+msgstr "Aguardando sua aprovação"
+
+msgid "Nothing is waiting for you right now."
+msgstr "Nada aguardando você no momento."
+
+msgid "Call to action:"
+msgstr "Chamada para ação:"
+
+msgid "View file"
+msgstr "Ver arquivo"
+
+msgid "Your decision"
+msgstr "Sua decisão"
+
+msgid "Submit decision"
+msgstr "Enviar decisão"
+
+msgid "This content is not waiting for your decision."
+msgstr "Este conteúdo não está aguardando sua decisão."
+
+msgid "Your previous decisions"
+msgstr "Suas decisões anteriores"
+
+msgid "No previous decisions."
+msgstr "Nenhuma decisão anterior."
+
+msgid "Decision"
+msgstr "Decisão"
+
+msgid "Approve"
+msgstr "Aprovar"
+
+msgid "Choose approve or request changes."
+msgstr "Escolha aprovar ou pedir ajustes."
+
+msgid "Thank you! Your decision was recorded."
+msgstr "Obrigado! Sua decisão foi registrada."
+
+# --- Domain labels (shown through choices) -----------------------------------
+msgid "Draft"
+msgstr "Rascunho"
+
+msgid "Planned"
+msgstr "Planejado"
+
+msgid "In production"
+msgstr "Em produção"
+
+msgid "Internal review"
+msgstr "Revisão interna"
+
+msgid "Changes requested"
+msgstr "Ajustes solicitados"
+
+msgid "Approved"
+msgstr "Aprovado"
+
+msgid "Published"
+msgstr "Publicado"
+
+msgid "Publishing failed"
+msgstr "Falha na publicação"
+
+msgid "Instagram"
+msgstr "Instagram"
+
+msgid "TikTok"
+msgstr "TikTok"
+
+msgid "Feed"
+msgstr "Feed"
+
+msgid "Carousel"
+msgstr "Carrossel"
+
+msgid "Reels"
+msgstr "Reels"
+
+msgid "Stories"
+msgstr "Stories"
+
+msgid "TikTok video"
+msgstr "Vídeo TikTok"
+
+msgid "Owner / admin"
+msgstr "Proprietária / admin"
+
+msgid "Account manager"
+msgstr "Gestor de conta"
+
+msgid "Creative / collaborator"
+msgstr "Criativo / colaborador"
+
+msgid "Invited freelancer"
+msgstr "Freelancer convidado"
+
+msgid "End client"
+msgstr "Cliente final"
+
+# --- Business rule messages (raised by the domain, translated at the web edge) --
+msgid "The person responsible must be a member of the same organization."
+msgstr "O responsável precisa ser membro da mesma organização."
+
+msgid "This content is not in internal review."
+msgstr "Este conteúdo não está em revisão interna."
+
+msgid "Explain what needs to change."
+msgstr "Explique o que precisa ser ajustado."
+
+msgid "This content is not waiting for your approval."
+msgstr "Este conteúdo não está aguardando sua aprovação."
+
+msgid "Explain the changes you need."
+msgstr "Explique os ajustes que você precisa."
+
+msgid "Enter the publishing date."
+msgstr "Informe a data de publicação."
+
+msgid "The publishing date must be in the future."
+msgstr "A data de publicação precisa estar no futuro."
+
+msgid "Describe the publishing failure."
+msgstr "Descreva a falha de publicação."
+
+msgid "Cannot change from '{source}' to '{target}'."
+msgstr "Não é possível mudar de '{source}' para '{target}'."
+
+msgid "Cannot move from '{source}' to '{target}' by hand."
+msgstr "Não é possível mover de '{source}' para '{target}' manualmente."
+
+msgid "Remove the schedule before editing the content."
+msgstr "Remova o agendamento antes de editar o conteúdo."
+
+msgid "Published content cannot be edited."
+msgstr "Conteúdo publicado não pode ser editado."

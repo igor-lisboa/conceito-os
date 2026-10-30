@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <h1>{% trans "Clients" %}</h1>
+  <p><a class="button" href="{% url 'client_create' %}">{% trans "New client" %}</a></p>
+
+  {% if clients %}
+    <table>
+      <thead><tr><th>{% trans "Brand" %}</th><th>{% trans "Client approval" %}</th></tr></thead>
+      <tbody>
+        {% for client in clients %}
+          <tr>
+            <td><a href="{% url 'client_detail' client.pk %}">{{ client.name }}</a></td>
+            <td>{% if client.client_approval_required %}{% trans "Required" %}{% else %}{% trans "Not required" %}{% endif %}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="card">{% trans "No clients available for you yet." %}</p>
+  {% endif %}
+{% endblock %}

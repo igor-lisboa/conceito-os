@@ -1,6 +1,6 @@
 ---
 id: por
-status: draft
+status: partially-implemented
 phase: MVP (approvals) / P2 (rest)
 version: 1.1
 updated: 2026-10-30
@@ -35,4 +35,4 @@ An application inside the same product, in a separate and simple environment.
 
 ## Evidence
 
-—
+- Portal screens and hidden internal data: `portal/tests/test_views.py`
