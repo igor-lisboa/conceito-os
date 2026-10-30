@@ -127,8 +127,15 @@ python -m pip install -r requirements-dev.txt
 
 ### 2. Set the environment variables
 
-Django does not read `.env` files on its own. Set the variables in your shell
-before each command. The full list is in [Configuration reference](#configuration-reference).
+For local work, put the variables in a file named `.env` in the project root.
+Copy `.env.example` to `.env` and fill it in. The settings load it automatically,
+and variables already set in your shell take priority. The file is git-ignored.
+The full list is in [Configuration reference](#configuration-reference).
+
+The values for the Docker database are already in the example:
+`MYSQL_HOST=127.0.0.1`, `MYSQL_USER=conceito`, `MYSQL_PASSWORD=conceito-local-only`.
+If you see `Access denied for user '<your Windows name>'`, the `MYSQL_USER` variable
+is missing: the driver then falls back to your operating system user.
 
 ```powershell
 # Windows PowerShell (for local development)
@@ -152,7 +159,11 @@ This needs the MySQL database to exist and have its tables (see [Database](#data
 python manage.py runserver
 ```
 
-Open <http://127.0.0.1:8000/accounts/login/>.
+Open <http://127.0.0.1:8080/accounts/login/>.
+
+We use port **8080** locally. On some Windows machines port 8000 is blocked
+(`Error: You don't have permission to access that port.`) because another program
+holds it. To pick a different port, run for example `python manage.py runserver 8090`.
 
 ---
 
@@ -185,23 +196,97 @@ python manage.py test production.tests.domain --settings=config.settings.test
 
 ## Database (MySQL)
 
-The database is not provisioned yet, so the code is ready but **no migrations
-have been applied to a real server**. When the MySQL server is ready:
+### Local MySQL with Docker (recommended)
 
-1. Create the database and user:
+`docker-compose.yml` starts MySQL 8.4 with `utf8mb4` on `127.0.0.1:3306`. Data
+is kept in a Docker volume. The passwords are for your machine only.
 
-   ```sql
-   CREATE DATABASE conceito_os CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
-   CREATE USER 'conceito'@'%' IDENTIFIED BY 'a-strong-password';
-   GRANT ALL PRIVILEGES ON conceito_os.* TO 'conceito'@'%';
-   ```
+```bash
+docker compose up -d --wait        # start MySQL and wait until it is healthy
+docker compose ps                  # should show "healthy"
+```
 
-2. Set `MYSQL_*` variables (see the reference) and run:
+Point the app at it. Use the variables from the Docker file (the defaults match):
 
-   ```bash
-   python manage.py migrate
-   python manage.py createsuperuser
-   ```
+```powershell
+# Windows PowerShell
+$env:MYSQL_HOST = "127.0.0.1"
+$env:MYSQL_USER = "conceito"
+$env:MYSQL_PASSWORD = "conceito-local-only"
+$env:MYSQL_DATABASE = "conceito_os"
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver
+```
+
+```bash
+# macOS / Linux / Git Bash
+export MYSQL_HOST=127.0.0.1 MYSQL_USER=conceito MYSQL_PASSWORD=conceito-local-only MYSQL_DATABASE=conceito_os
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver
+```
+
+Run the test suite against MySQL instead of SQLite (Django creates and drops a
+`test_conceito_os` database; your data is not touched):
+
+```bash
+TEST_DATABASE=mysql python manage.py test --settings=config.settings.test
+```
+
+Stop or reset the database:
+
+```bash
+docker compose down        # stop, keep the data
+docker compose down -v     # stop and delete all local data (then run migrate again)
+```
+
+The init script in `docker/mysql/init/` runs only when the volume is first
+created. If you change it, run `docker compose down -v` and start again.
+
+### First administrator
+
+The administrator is created with a command, not by hand. The email and password
+come from the `INITIAL_ADMIN_*` values in your `.env` file, so the password is
+never written in the code:
+
+```bash
+python manage.py create_initial_admin
+```
+
+It is safe to run again: it does not duplicate the user or the organization. It
+creates the account as a superuser (for `/admin/`) and makes the user the owner of
+the default organization, so the same login works in the app. Sign in with the
+email address on the login page.
+
+To change the administrator's password, set the new `INITIAL_ADMIN_PASSWORD` and run
+`python manage.py create_initial_admin --reset-password`.
+
+### Email (SMTP) and password recovery
+
+The app sends two kinds of email: a **welcome** message when a user is created, and
+the **password reset** link from "Forgot your password?". Locally they go to the
+Mailpit container, which catches them. Nothing leaves your machine.
+
+Open the inbox at <http://127.0.0.1:8025> after you create the admin or request a reset.
+
+The SMTP settings are the `EMAIL_*` variables in the [configuration reference](#configuration-reference).
+The welcome email is written in Portuguese (pt-BR); change `WELCOME_EMAIL_LANGUAGE`
+in `accounts/emails.py` to change it. Password reset emails follow the language
+the person is browsing in.
+
+### Your own MySQL server
+
+Create the database and user yourself, then set the `MYSQL_*` variables:
+
+```sql
+CREATE DATABASE conceito_os CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+CREATE USER 'conceito'@'%' IDENTIFIED BY 'a-strong-password';
+GRANT ALL PRIVILEGES ON conceito_os.* TO 'conceito'@'%';
+GRANT ALL PRIVILEGES ON `test_conceito_os`.* TO 'conceito'@'%';  -- only if you run tests on MySQL
+```
+
+Then run `python manage.py migrate` and `python manage.py createsuperuser`.
 
 Migrations are already generated in each app's `migrations/` folder. Run `python manage.py showmigrations` to see them. When you change a
 model, run `python manage.py makemigrations <app>` and review the file before
@@ -239,6 +324,18 @@ All configuration comes from environment variables. See `config/settings/base.py
 | `MYSQL_PASSWORD` | Yes, for MySQL | empty | |
 | `MYSQL_HOST` | No | `127.0.0.1` | |
 | `MYSQL_PORT` | No | `3306` | |
+| `EMAIL_HOST` | No | `127.0.0.1` | SMTP server. Locally the Mailpit container. |
+| `EMAIL_PORT` | No | `1025` | SMTP port. |
+| `EMAIL_HOST_USER` | Production | empty | SMTP login, if the provider needs one. |
+| `EMAIL_HOST_PASSWORD` | Production | empty | SMTP password. Mark as sensitive. |
+| `EMAIL_USE_TLS` | No | `False` | Set `True` for most providers on port 587. |
+| `EMAIL_USE_SSL` | No | `False` | Set `True` for port 465. |
+| `DEFAULT_FROM_EMAIL` | No | `Conceito OS <no-reply@conceito.com.br>` | Sender address. |
+| `SITE_URL` | No | `http://127.0.0.1:8080` | Public address of the site, used in email links. |
+| `INITIAL_ADMIN_EMAIL` | For the admin command | empty | Email of the first administrator. |
+| `INITIAL_ADMIN_PASSWORD` | For the admin command | empty | Its password. Never commit it. |
+| `INITIAL_ADMIN_NAME` | No | `Administrador` | Display name. |
+| `INITIAL_ADMIN_ORGANIZATION` | No | `Conceito Co` | Organization the admin owns. |
 
 ---
 
@@ -296,13 +393,14 @@ architecture boundaries).
 
 These are known gaps, not bugs. They are tracked in the specs.
 
-- **No database has been migrated yet.** Migrations are generated; they have not been run against MySQL.
+- **Only the local Docker database is migrated.** The production MySQL server does not exist yet; run `migrate` against it once it is ready ([deployment guide](docs/deployment.md)).
 - **Publishing is manual.** Scheduling marks the intent; a person publishes and marks it published. Automatic publishing needs the Meta and TikTok integrations ([spec](specs/modules/social-integrations.md)).
 - **No file uploads.** Media is a link. Storage on Vercel needs an external service (decision pending).
 - **Dates use UTC in forms.** The spec asks for each agency's timezone. The data is stored in UTC; the per-organization timezone is not applied to the screens yet.
 - **Client access is managed in the admin.** There is no screen yet for the owner to grant brand access.
 - **One organization per screen session.** A user in several organizations can be switched by setting the session key; there is no switcher in the UI yet.
-- **No password reset, MFA or invitations by email.** Spec items AUTH-002, AUTH-004 and AUTH-011 are pending.
+- **No MFA or invitations by email yet.** Password recovery and the welcome email work. Spec items AUTH-004 (MFA) and AUTH-011 (invitations) are pending.
+- **Only the first administrator is created by command.** New users are created in the Django admin for now; the welcome email is sent when they are saved.
 - **Dark mode and tablet-specific layouts** are out of scope (see the design system spec).
 
 ---

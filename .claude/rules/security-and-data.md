@@ -22,3 +22,5 @@ Sources: `specs/technical/security-privacy.md`, `specs/product/01-roles-permissi
 - Integration errors never delete drafts nor fake success.
 - No fictitious data shown as real; missing = `N/D`.
 - Timestamps in UTC; money as integer cents or exact decimal.
+- Passwords and SMTP credentials never go into code, migrations, fixtures, docs or commit messages. They come from environment variables (`.env` locally, the hosting settings in production). `.env` is git-ignored; never print or copy its values into other files.
+- Emails are sent only through `accounts/emails.py` or Django's password reset views, so the failure handling and the link format stay in one place.

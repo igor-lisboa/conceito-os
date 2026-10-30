@@ -1,0 +1,13 @@
+{% load i18n %}{% blocktrans with name=user.get_full_name|default:user.username %}Hello, {{ name }}!{% endblocktrans %}
+
+{% trans "Your access to Conceito OS is ready." %}
+
+{% trans "Sign in with this email address:" %} {{ user.email }}
+
+{% trans "Sign in here:" %} {{ login_url }}
+
+{% trans "If you forgot your password, use the 'Forgot your password?' link on the sign-in page to set a new one." %}
+
+{% trans "If you did not expect this message, you can ignore it." %}
+
+-- Conceito OS

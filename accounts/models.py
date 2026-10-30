@@ -8,7 +8,21 @@ from .roles import Role
 
 
 class User(AbstractUser):
-    """The login account. A person can belong to several organizations (see Membership)."""
+    """The login account. A person can belong to several organizations (see Membership).
+
+    Email is required and unique: people sign in with it and reset their password through it.
+    """
+
+    email = models.EmailField("email address", unique=True)
+
+    REQUIRED_FIELDS = ["email"]
+
+    def save(self, *args, **kwargs):
+        # Store emails in lowercase. Uniqueness then means the same thing on every
+        # database: MySQL ignores case in unique checks by default, SQLite does not.
+        if self.email:
+            self.email = self.email.lower()
+        super().save(*args, **kwargs)
 
 
 class Organization(models.Model):

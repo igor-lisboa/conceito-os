@@ -1,0 +1,52 @@
+# Local MySQL for development and tests. Not used in production (see docs/deployment.md).
+#
+#   docker compose up -d        start the database and wait until it is healthy
+#   docker compose logs -f db   follow the server log
+#   docker compose down         stop it (data is kept in the volume)
+#   docker compose down -v      stop it AND delete all local data
+#
+# The passwords below are for this machine only. Override them with a .env file
+# next to this file if you want different values.
+
+services:
+  db:
+    image: mysql:8.4
+    container_name: conceito-os-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root-local-only}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-conceito_os}
+      MYSQL_USER: ${MYSQL_USER:-conceito}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-conceito-local-only}
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_0900_ai_ci
+    ports:
+      # Bound to localhost only, so the database is not exposed on your network.
+      - "127.0.0.1:${MYSQL_PORT:-3306}:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      # Runs once, on the first start, to let the app user create the test database.
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p\"$$MYSQL_ROOT_PASSWORD\" --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
+
+  # Local SMTP server with a web inbox. Nothing is sent to the internet.
+  # Open http://127.0.0.1:8025 to read the emails the app sends (welcome, password reset).
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: conceito-os-mailpit
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:1025:1025"  # SMTP, used by the app
+      - "127.0.0.1:8025:8025"  # web inbox, used by you
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: "1"
+      MP_SMTP_AUTH_ALLOW_INSECURE: "1"
+
+volumes:
+  mysql-data:

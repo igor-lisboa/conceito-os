@@ -18,7 +18,11 @@ def make_organization(name="Agência Teste"):
 def make_membership(organization, role, username=None):
     """Create a user and make them a member of `organization` with `role`."""
     username = username or f"user-{role}-{User.objects.count() + 1}"
-    user = User.objects.create_user(username=username, password="senha-de-teste-123")
+    user = User.objects.create_user(
+        username=username,
+        email=f"{username}@example.com",
+        password="senha-de-teste-123",
+    )
     return Membership.objects.create(user=user, organization=organization, role=role)
 
 

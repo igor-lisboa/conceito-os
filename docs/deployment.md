@@ -83,23 +83,46 @@ python manage.py migrate
 
 Check the migration list with `python manage.py showmigrations`.
 
-## 6. Create the first owner
+## 6. Create the first administrator
 
-Use the Django admin, which is read only for content but full for organizations,
-users, memberships and clients:
+The administrator is created with a command, the same one used locally. It reads
+`INITIAL_ADMIN_*` from the environment, so the password is never stored in the code.
 
-```powershell
-python manage.py createsuperuser
-```
+1. Choose a strong password for the production administrator. Do not reuse the
+   local development password.
+2. Run once, from your machine, with the **production** database and SMTP settings
+   in your shell (see step 5 for the pattern):
 
-Then open `https://your-project.vercel.app/admin/` and:
+   ```powershell
+   $env:INITIAL_ADMIN_EMAIL = "admin@conceito.com.br"
+   $env:INITIAL_ADMIN_PASSWORD = "<the new strong password>"
+   python manage.py create_initial_admin
+   Remove-Item Env:INITIAL_ADMIN_PASSWORD
+   ```
 
-1. Create the **Organization** (agency).
-2. Create the **User** (Beatriz), then add a **Membership** with role *Proprietária / admin*.
-3. Create the clients and the memberships of the team. For account managers,
-   creatives, freelancers and client users, add **Client access** rows on each
-   client page so they can see the right brands.
+3. Sign in at `https://your-project.vercel.app/accounts/login/` with the email address.
+4. Use `https://your-project.vercel.app/admin/` to add the organizations, teams
+   and clients that are not yet in the app.
 
+The command is safe to run again. Use `--reset-password` only to change the password.
+
+## 6b. Configure the email provider (SMTP)
+
+The welcome and password reset emails need an SMTP account from your email
+provider (a transactional email service, or the company's mail server). Set these
+variables in Vercel, the same way as step 4:
+
+| Name | Example |
+| --- | --- |
+| `EMAIL_HOST` | the provider's SMTP host |
+| `EMAIL_PORT` | `587` (STARTTLS, with `EMAIL_USE_TLS=True`) or `465` (with `EMAIL_USE_SSL=True`) |
+| `EMAIL_HOST_USER` / `EMAIL_HOST_PASSWORD` | the SMTP credentials (mark the password as sensitive) |
+| `DEFAULT_FROM_EMAIL` | `Conceito OS <no-reply@conceito.com.br>` (the domain must be verified with the provider) |
+| `SITE_URL` | `https://your-project.vercel.app` (or your custom domain) |
+
+Test it after deploying: request a password reset for the admin address and check
+the inbox. Emails that fail to send are written to the Vercel function logs; they do
+not stop an account from being created.
 ## 7. Check the deployment
 
 - `https://your-project.vercel.app/accounts/login/` loads.

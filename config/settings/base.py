@@ -10,6 +10,25 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
+def load_local_env_file(path):
+    """Read KEY=VALUE lines from a local .env file into os.environ.
+
+    Variables already set in the shell win over the file. The file is git-ignored
+    and does not exist on Vercel, where the variables come from the project settings.
+    """
+    if not path.exists():
+        return
+    for raw_line in path.read_text(encoding="utf-8").splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        os.environ.setdefault(key.strip(), value.strip().strip("\"'"))
+
+
+load_local_env_file(BASE_DIR / ".env")
+
+
 def env_bool(name, default=False):
     return os.environ.get(name, str(default)).lower() in ("1", "true", "yes", "on")
 
@@ -104,6 +123,10 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # --- Auth ------------------------------------------------------------------
 
 AUTH_USER_MODEL = "accounts.User"
+AUTHENTICATION_BACKENDS = [
+    "accounts.backends.EmailOrUsernameBackend",
+    "django.contrib.auth.backends.ModelBackend",
+]
 
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
@@ -141,3 +164,24 @@ WHITENOISE_USE_FINDERS = True
 
 # Uploaded files are not stored here yet: Vercel's filesystem is read-only
 # and temporary. Media is a URL field until a storage decision is made.
+
+# --- Email (SMTP) -----------------------------------------------------------
+# Locally the defaults point to the Mailpit container (see docker-compose.yml).
+# In production set these to the real SMTP provider (see docs/deployment.md).
+# Tests never send real mail: Django's test runner uses an in-memory outbox.
+
+EMAIL_BACKEND = os.environ.get("EMAIL_BACKEND", "django.core.mail.backends.smtp.EmailBackend")
+EMAIL_HOST = os.environ.get("EMAIL_HOST", "127.0.0.1")
+EMAIL_PORT = int(os.environ.get("EMAIL_PORT", "1025"))
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
+EMAIL_USE_TLS = env_bool("EMAIL_USE_TLS", default=False)
+EMAIL_USE_SSL = env_bool("EMAIL_USE_SSL", default=False)
+EMAIL_TIMEOUT = 15
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "Conceito OS <no-reply@conceito.com.br>")
+
+# Public address of the site, used to build links inside emails.
+SITE_URL = os.environ.get("SITE_URL", "http://127.0.0.1:8080").rstrip("/")
+
+# How long a password reset link stays valid, in seconds (one day).
+PASSWORD_RESET_TIMEOUT = 60 * 60 * 24

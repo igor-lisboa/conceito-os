@@ -9,7 +9,7 @@ User = get_user_model()
 
 class ActiveMembershipTests(TestCase):
     def setUp(self):
-        self.user = User.objects.create_user("ana", password="x")
+        self.user = User.objects.create_user("ana", email="ana@example.com", password="x")
         self.agency_a = Organization.objects.create(name="Agência A")
         self.agency_b = Organization.objects.create(name="Agência B")
         self.membership_a = Membership.objects.create(user=self.user, organization=self.agency_a, role=Role.OWNER)
@@ -31,7 +31,7 @@ class ActiveMembershipTests(TestCase):
         self.assertEqual(get_active_membership(request), self.membership_b)
 
     def test_ignores_session_choice_that_belongs_to_another_user(self):
-        other = User.objects.create_user("bruno", password="x")
+        other = User.objects.create_user("bruno", email="bruno@example.com", password="x")
         foreign = Membership.objects.create(
             user=other, organization=Organization.objects.create(name="Outra"), role=Role.OWNER
         )
@@ -39,7 +39,7 @@ class ActiveMembershipTests(TestCase):
         self.assertEqual(get_active_membership(request), self.membership_a)
 
     def test_user_without_membership_gets_none(self):
-        lonely = User.objects.create_user("carla", password="x")
+        lonely = User.objects.create_user("carla", email="carla@example.com", password="x")
         request = self._request()
         request.user = lonely
         self.assertIsNone(get_active_membership(request))

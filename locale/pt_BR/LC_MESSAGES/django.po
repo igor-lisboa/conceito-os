@@ -409,3 +409,80 @@ msgstr "Remova o agendamento antes de editar o conteúdo."
 
 msgid "Published content cannot be edited."
 msgstr "Conteúdo publicado não pode ser editado."
+
+# --- Accounts: sign-in and password recovery -----------------------------------
+msgid "Email"
+msgstr "E-mail"
+
+msgid "Forgot your password?"
+msgstr "Esqueceu sua senha?"
+
+msgid "Enter the email address of your account. We will send you a link to set a new password."
+msgstr "Informe o e-mail da sua conta. Enviaremos um link para você definir uma nova senha."
+
+msgid "Send reset link"
+msgstr "Enviar link de redefinição"
+
+msgid "Back to sign in"
+msgstr "Voltar para o login"
+
+msgid "Check your email"
+msgstr "Verifique seu e-mail"
+
+msgid "If an account exists for that email address, we have sent a link to set a new password. The link expires in 24 hours."
+msgstr "Se existir uma conta com este e-mail, enviamos um link para definir uma nova senha. O link expira em 24 horas."
+
+msgid "Set a new password"
+msgstr "Defina uma nova senha"
+
+msgid "Save new password"
+msgstr "Salvar nova senha"
+
+msgid "This reset link is invalid or has already been used. Request a new one."
+msgstr "Este link de redefinição é inválido ou já foi usado. Solicite um novo."
+
+msgid "Request a new link"
+msgstr "Solicitar um novo link"
+
+msgid "Password changed"
+msgstr "Senha alterada"
+
+msgid "Your new password is saved. You can sign in now."
+msgstr "Sua nova senha foi salva. Você já pode entrar."
+
+# --- Accounts: emails -----------------------------------------------------------
+msgid "Welcome to Conceito OS"
+msgstr "Bem-vindo ao Conceito OS"
+
+msgid "Hello, %(name)s!"
+msgstr "Olá, %(name)s!"
+
+msgid "Your access to Conceito OS is ready."
+msgstr "Seu acesso ao Conceito OS está pronto."
+
+msgid "Sign in with this email address:"
+msgstr "Entre com este endereço de e-mail:"
+
+msgid "Sign in here:"
+msgstr "Entre aqui:"
+
+msgid "If you forgot your password, use the 'Forgot your password?' link on the sign-in page to set a new one."
+msgstr "Se esquecer sua senha, use o link 'Esqueceu sua senha?' na página de login para definir uma nova."
+
+msgid "If you did not expect this message, you can ignore it."
+msgstr "Se você não esperava esta mensagem, pode ignorá-la."
+
+msgid "Reset your Conceito OS password"
+msgstr "Redefinir sua senha do Conceito OS"
+
+msgid "You are receiving this email because a password reset was requested for your account at Conceito OS."
+msgstr "Você recebeu este e-mail porque foi solicitada a redefinição de senha da sua conta no Conceito OS."
+
+msgid "Choose a new password here:"
+msgstr "Escolha uma nova senha aqui:"
+
+msgid "Your username, in case you have forgotten it:"
+msgstr "Seu nome de usuário, caso tenha esquecido:"
+
+msgid "If you did not ask for this, you can ignore this email. Your password will not change."
+msgstr "Se você não solicitou, ignore este e-mail. Sua senha não será alterada."

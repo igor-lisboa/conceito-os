@@ -1,8 +1,12 @@
 """Settings used by the test suite.
 
-Tests run on SQLite in memory, so they never need the MySQL server. Behavior
-that depends on the database engine is kept to what both engines support.
+By default tests run on SQLite in memory, so they need no database server.
+To run the suite against the real MySQL engine (for example the Docker database
+from docker-compose.yml), set TEST_DATABASE=mysql. Django then creates a separate
+test_<MYSQL_DATABASE> database and drops it afterwards. Your data is not touched.
 """
+
+import os
 
 from .base import *  # noqa: F401,F403
 
@@ -10,12 +14,16 @@ SECRET_KEY = "test-only-secret-key"
 DEBUG = False
 ALLOWED_HOSTS = ["testserver", "localhost"]
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": ":memory:",
+if os.environ.get("TEST_DATABASE", "sqlite").lower() == "mysql":
+    # Keep DATABASES from base.py: it reads the MYSQL_* variables.
+    pass
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": ":memory:",
+        }
     }
-}
 
 # Faster password hashing keeps the test suite quick.
 PASSWORD_HASHERS = ["django.contrib.auth.hashers.MD5PasswordHasher"]

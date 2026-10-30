@@ -23,7 +23,7 @@ Owner/admin manages everything here. Other roles only manage their own session a
 ### Authentication
 
 - **AUTH-001** Sign in with email + password or an authorized identity provider; sign out.
-- **AUTH-002** Password recovery. Failed sign-in or recovery MUST NOT reveal whether an account exists.
+- **AUTH-002** Password recovery. Failed sign-in or recovery MUST NOT reveal whether an account exists. *Implemented 2026-11-01: email link valid for 24 hours, one use; same answer for unknown emails.*
 - **AUTH-003** Session protection (expiry, revocation on password change or access removal).
 - **AUTH-004** MFA available, required according to risk (which roles: D-17).
 - **AUTH-005** Accept an invitation and land on `/inicio` or the authorized portal, depending on role.
@@ -68,6 +68,7 @@ Expired invitation; revoked user with an open session; email already a member; l
 
 ## Evidence
 
-- Roles and capability matrix: `accounts/tests/test_permissions.py
-- Active organization selection: `accounts/tests/test_middleware.py
+- Sign-in by email, password recovery, welcome email, first administrator: `accounts/tests/test_auth.py`
+- Roles and capability matrix: `accounts/tests/test_permissions.py`
+- Active organization selection: `accounts/tests/test_middleware.py`
 - Actor construction: `core/tests/test_actors.py`
