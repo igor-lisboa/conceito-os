@@ -27,21 +27,21 @@ ports-and-adapters). Simple parts of the system are not forced into this shape.
 ```text
             ┌─────────────────────────────────────────────────────┐
             │  Web / delivery (Django views, templates, forms)     │  driving adapters
-            │  production/views.py, portal/views.py, clients/...   │
+            │  apps/production/views.py, apps/portal/views.py, apps/clients/...   │
             └───────────────┬─────────────────────────────────────┘
                             │ calls
             ┌───────────────▼─────────────────────────────────────┐
             │  Application (use cases)                             │
-            │  production/application/content_service.py          │
+            │  apps/production/application/content_service.py          │
             │  - checks capability, scope, transaction, audit      │
             │  - depends on PORTS (interfaces), not on Django      │
             └───────────────┬───────────────────┬─────────────────┘
                             │ uses              │ uses (port)
             ┌───────────────▼─────────┐   ┌─────▼──────────────────────────────┐
             │  Domain (business rules)│   │  Adapters (driven)                  │
-            │  production/domain/     │   │  production/adapters/               │
+            │  apps/production/domain/     │   │  apps/production/adapters/               │
             │  - Content aggregate    │   │  - DjangoContentRepository          │
-            │  - state machine        │   │  core/audit.py (DjangoAuditLog)     │
+            │  - state machine        │   │  apps/core/audit.py (DjangoAuditLog)     │
             │  - policy (who sees what)│  │  composition.py (wires everything)  │
             │  NO Django. NO database.│   └─────┬──────────────────────────────┘
             └─────────────────────────┘         │ ORM
@@ -56,7 +56,7 @@ and the port interfaces, but not the Django adapters. Only the adapters and the
 web layer import Django models.
 
 This is enforced by:
-- the test suite: `production/tests/domain/` runs with no database and no Django models;
+- the test suite: `apps/production/tests/domain/` runs with no database and no Django models;
 - code review and the rule file `.claude/rules/architecture.md`;
 - `ruff`, which flags unused or missing imports (it does not enforce layering, so review matters).
 
@@ -78,7 +78,7 @@ keep each one in its own Django app.
 ### 3.1 The `production` folder map
 
 ```text
-production/
+apps/production/
   domain/                  pure Python. Test without a database.
     states.py              the lifecycle as data: allowed moves, edit rules
     content.py             Content aggregate, value objects, domain events
@@ -108,9 +108,9 @@ Example: an account manager approves a piece internally.
 
 1. **URL** `POST /conteudos/12/acao/approve_internal/` reaches `ContentActionView` (web layer).
 2. The view checks the user is logged in and has `ACCESS_INTERNAL` (`CapabilityRequiredMixin`).
-3. The view builds an `Actor` from the logged-in membership (`core/actors.py`). The actor is a plain object: user id, organization, role, the client ids it may see.
+3. The view builds an `Actor` from the logged-in membership (`apps/core/actors.py`). The actor is a plain object: user id, organization, role, the client ids it may see.
 4. The view calls `ContentService.decide_internal(actor, 12, approve=True, comment="")`.
-5. The service checks the capability `APPROVE_INTERNAL` (`accounts/permissions.py`).
+5. The service checks the capability `APPROVE_INTERNAL` (`apps/accounts/permissions.py`).
 6. The service loads the piece through the `ContentRepository` port. The adapter returns a `Content` aggregate.
 7. The service checks the actor may access the piece (`policy.can_access`). If not, `NotFound` (HTTP 404).
 8. The service opens a transaction and calls `content.decide_internal(...)`. **This is where the business rule runs**: the piece must be in internal review; approval moves it to client review, or straight to approved when the client does not need to approve. The aggregate records an `Approval` and emits domain events.
@@ -190,13 +190,13 @@ table would be slow. Writes always go through the application layer.
 
 ## 9. Rules for contributors
 
-- The domain (`production/domain/`) never imports Django, the database, `datetime.now()` or request data. Pass `now` in as an argument.
+- The domain (`apps/production/domain/`) never imports Django, the database, `datetime.now()` or request data. Pass `now` in as an argument.
 - Views never change a `Content` state or create approvals directly. Call `ContentService`.
 - Every use case checks the capability first, then the scope, then the domain rule.
 - Out-of-scope records return `NotFound`, never `Forbidden`, so IDs cannot be probed.
 - Audit events are written inside the same transaction as the change.
 - The Django admin is read-only for content and approvals. Changes go through the application so the rules always apply.
-- Enums are `LabeledEnum` from `core/enums.py` (pure Python). Use `translated_choices()` from `core/choices.py` for Django fields.
-- Every model inherits `UUIDModel` from `core/models.py`, so its primary key is a GUID. Do not declare a model with a plain `models.Model` for a business record. The test in `core/tests/test_identifiers.py` fails if you do.
-- Domain messages are English identifiers with named parameters: `DomainError("Cannot change from '{source}' to '{target}'.", source=..., target=...)`. The web edge translates them (`core/http.py`). Never import `gettext` into `production/domain/`.
+- Enums are `LabeledEnum` from `apps/core/enums.py` (pure Python). Use `translated_choices()` from `apps/core/choices.py` for Django fields.
+- Every model inherits `UUIDModel` from `apps/core/models.py`, so its primary key is a GUID. Do not declare a model with a plain `models.Model` for a business record. The test in `apps/core/tests/test_identifiers.py` fails if you do.
+- Domain messages are English identifiers with named parameters: `DomainError("Cannot change from '{source}' to '{target}'.", source=..., target=...)`. The web edge translates them (`apps/core/http.py`). Never import `gettext` into `apps/production/domain/`.
 - Add a test with every new rule. Prefer a test that describes a user situation over a test that checks a getter.

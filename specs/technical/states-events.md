@@ -37,7 +37,7 @@ Every transition records actor, timestamp, version, rationale and external ID wh
 - `failed` NEVER masquerades as `published`; controlled retry from `failed → scheduled`.
 - Manual publishing (until integrations exist): a person schedules the piece, then marks it `scheduled → published` after posting it by hand. No separate `publish_method` field exists yet ([INT-010](../modules/social-integrations.md) is pending).
 
-### Manual moves (implemented, `production/domain/states.py`)
+### Manual moves (implemented, `apps/production/domain/states.py`)
 
 A person may move a piece by hand only along these edges. Every other change needs a named decision (approve, reject, schedule, unschedule, publish, fail).
 

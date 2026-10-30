@@ -34,18 +34,18 @@ Built by and for **Conceito Co**, with **Beatriz** as product owner.
 
 | Area | Status | Where to look |
 | --- | --- | --- |
-| Login, logout, organizations, memberships, roles | Working | `accounts/` |
-| Role-based permissions (owner, account manager, creative, freelancer, client) | Working and tested | `accounts/permissions.py` |
-| Clients and brand briefing | Working | `clients/` |
-| Client access (who sees which brand) | Working, managed in the admin | `clients/models.py` |
-| Content lifecycle (draft → planned → production → internal review → client review → approved → scheduled → published / failed) | Working and tested | `production/domain/` |
-| Versions, with approvals tied to the version reviewed | Working | `production/domain/content.py` |
-| Editing after approval returns the piece to review | Working | `production/domain/states.py` |
-| Freelancers see only the pieces assigned to them | Working | `production/domain/policy.py` |
-| Client portal: approve or request changes with a comment | Working | `portal/` |
-| English and Português (Brasil) interface, chosen per browser | Working and tested | `locale/`, `core/http.py` |
-| Audit trail of every state change and approval (append-only) | Working | `core/audit.py` |
-| Dashboard counts | Working | `core/views.py` |
+| Login, logout, organizations, memberships, roles | Working | `apps/accounts/` |
+| Role-based permissions (owner, account manager, creative, freelancer, client) | Working and tested | `apps/accounts/permissions.py` |
+| Clients and brand briefing | Working | `apps/clients/` |
+| Client access (who sees which brand) | Working, managed in the admin | `apps/clients/models.py` |
+| Content lifecycle (draft → planned → production → internal review → client review → approved → scheduled → published / failed) | Working and tested | `apps/production/domain/` |
+| Versions, with approvals tied to the version reviewed | Working | `apps/production/domain/content.py` |
+| Editing after approval returns the piece to review | Working | `apps/production/domain/states.py` |
+| Freelancers see only the pieces assigned to them | Working | `apps/production/domain/policy.py` |
+| Client portal: approve or request changes with a comment | Working | `apps/portal/` |
+| English and Português (Brasil) interface, chosen per browser | Working and tested | `web/locale/`, `apps/core/http.py` |
+| Audit trail of every state change and approval (append-only) | Working | `apps/core/audit.py` |
+| Dashboard counts | Working | `apps/core/views.py` |
 | Publishing to Instagram / TikTok | **Not built.** Publishing is marked manually. | specs/modules/social-integrations.md |
 | CRM, proposals, contracts, metrics, reports, finance, billing | **Not built.** Specified only. | specs/modules/ |
 | Notifications, AI engines, automations | **Not built.** Specified only. | specs/modules/ |
@@ -72,37 +72,44 @@ considered and why we did not choose them.
 
 ## Project layout
 
+The root holds only what the tools expect there. Everything else is grouped:
+
 ```text
 proj-beatriz/
-├── manage.py                 Django command entry point
-├── api/index.py              Vercel entry point (exposes the WSGI app)
-├── vercel.json               Routes every request to api/index.py
-├── requirements.txt          Production dependencies
-├── requirements-dev.txt      Development tools (ruff)
-├── .env.example              Environment variables template (never commit .env)
+├── manage.py               Django command entry point
+├── README.md, CLAUDE.md    this guide, and the instructions for the AI assistant
+├── docker-compose.yml      local MySQL and Mailpit
+├── vercel.json             Vercel routing (every request goes to api/)
+├── requirements*.txt       production and development dependencies
+├── ruff.toml               lint rules
+├── .env.example            list of environment variables (copy to .env)
 │
-├── config/                   Project settings and URLs
-│   └── settings/base.py      Everything configurable comes from environment variables
-│   └── settings/test.py      Test settings (SQLite in memory, so tests need no MySQL)
+├── apps/                   the system's contexts (each one is a Django app)
+│   ├── accounts/           users, organizations, roles, team, MFA, sign-in
+│   ├── clients/            clients, briefing, brand library (links)
+│   ├── production/         content lifecycle (hexagonal core with DDD)
+│   │   ├── domain/         business rules in plain Python (no Django)
+│   │   ├── application/    use cases and port interfaces
+│   │   └── adapters/       Django implementation of the ports
+│   ├── portal/             client portal (approvals, calendar, results, files)
+│   ├── crm/                leads and proposals (manual)
+│   ├── reports/            monthly metrics (manual, N/D when missing)
+│   ├── tasks/              follow-up tasks
+│   ├── notifications/      in-app and email notifications
+│   └── core/               shared base: errors, enums, actor, audit log, HTTP helpers
 │
-├── accounts/                 Users, organizations, memberships, roles, permission matrix
-├── clients/                  Client brands, briefing, client access (simple services)
-├── production/               Content lifecycle (hexagonal core + DDD)
-│   ├── domain/               Business rules in plain Python (no Django)
-│   ├── application/          Use cases (ContentService) and port interfaces
-│   ├── adapters/             Django implementation of the repository port
-│   ├── composition.py        Wires the real adapters into the use cases
-│   └── tests/                domain/, application/, adapters/, HTTP and query tests
-├── portal/                   Client-facing approval screens
-├── core/                     Shared kernel: errors, Actor, enums, audit log, HTTP helpers
+├── config/                 Django settings, URLs and WSGI entry point
+├── api/                    Vercel entry point (exposes the WSGI app)
+├── web/                    what the browser receives
+│   ├── templates/          HTML templates
+│   ├── static/             CSS and other static files
+│   └── locale/             Portuguese (pt-BR) translations
 │
-├── templates/                HTML templates (one folder per app)
-├── static/                   CSS and other static files
-├── docs/                     Architecture and deployment guides
-└── specs/                    Product specifications (the source of truth for behavior)
+├── docs/                   architecture, phase 1 decisions, technical debt, deployment
+├── specs/                  product specifications (the source of truth for behavior)
+├── scripts/                maintenance scripts (translations)
+└── docker/                 initialization of the local MySQL container
 ```
-
----
 
 ## Getting started (local)
 
@@ -179,12 +186,12 @@ suite runs in a few seconds. Test layers:
 
 | Folder | What it checks | Database? |
 | --- | --- | --- |
-| `production/tests/domain/` | The lifecycle rules, approvals, scheduling, failures, policy | No |
-| `production/tests/application/` | Permissions, scope, audit and transactions, with in-memory fakes | No |
-| `production/tests/adapters/` | Saving and loading the aggregate through real tables | Yes |
-| `production/tests/test_views.py`, `portal/tests/` | Full HTTP flows, 403/404 rules, data hidden from clients | Yes |
-| `production/tests/test_queries.py` | The read side agrees with the domain policy | Yes |
-| `accounts/tests/`, `clients/tests/`, `core/tests/` | Role matrix, sessions, client scope, actors | Yes |
+| `apps/production/tests/domain/` | The lifecycle rules, approvals, scheduling, failures, policy | No |
+| `apps/production/tests/application/` | Permissions, scope, audit and transactions, with in-memory fakes | No |
+| `apps/production/tests/adapters/` | Saving and loading the aggregate through real tables | Yes |
+| `apps/production/tests/test_views.py`, `apps/portal/tests/` | Full HTTP flows, 403/404 rules, data hidden from clients | Yes |
+| `apps/production/tests/test_queries.py` | The read side agrees with the domain policy | Yes |
+| `apps/accounts/tests/`, `apps/clients/tests/`, `apps/core/tests/` | Role matrix, sessions, client scope, actors | Yes |
 
 Run one test module while developing:
 
@@ -275,7 +282,7 @@ Open the inbox at <http://127.0.0.1:8025> after you create the admin or request 
 
 The SMTP settings are the `EMAIL_*` variables in the [configuration reference](#configuration-reference).
 The welcome email is written in Portuguese (pt-BR); change `WELCOME_EMAIL_LANGUAGE`
-in `accounts/emails.py` to change it. Password reset emails follow the language
+in `apps/accounts/emails.py` to change it. Password reset emails follow the language
 the person is browsing in.
 
 ### Your own MySQL server
@@ -351,17 +358,17 @@ choice is stored in a cookie for that browser, so it stays until they change it.
 How it works:
 
 - Source text in the code and templates is English. Django's translation system
-  (`gettext`) turns it into Portuguese using `locale/pt_BR/LC_MESSAGES/django.po`.
+  (`gettext`) turns it into Portuguese using `web/locale/pt_BR/LC_MESSAGES/django.po`.
 - Business rule messages (for example "Cannot change from 'Published' to 'Draft'.")
   are raised by the domain in English and translated at the web edge
-  (`core/http.py`), so the domain never depends on Django.
+  (`apps/core/http.py`), so the domain never depends on Django.
 - Enum labels (stages, roles, formats) are translated when they are displayed.
 
 To change or add a translation:
 
 1. Wrap new text with `{% trans "..." %}` in a template, or `gettext("...")` in Python.
 2. Add the English text as `msgid` and the Portuguese as `msgstr` in
-   `locale/pt_BR/LC_MESSAGES/django.po`.
+   `web/locale/pt_BR/LC_MESSAGES/django.po`.
 3. Compile the catalog. This uses a pure Python script, so no GNU gettext tools are needed:
 
    ```bash
@@ -378,7 +385,7 @@ selected language automatically.
 - **Specs first.** Behavior is defined in [specs/](specs/README.md). A change to a
   rule starts with the spec, then the code, then the tests. The spec keeps a
   changelog and an "Evidence" section that names the tests proving each rule.
-- **Rules live in the domain.** `production/domain/` has no Django imports. Views
+- **Rules live in the domain.** `apps/production/domain/` has no Django imports. Views
   never change a content state directly; they call `ContentService`.
 - **Every rule has a test that describes a situation**, such as "a freelancer
   cannot approve their own piece" or "a client cannot see another brand's piece".

@@ -14,7 +14,7 @@ from pathlib import Path
 
 import polib
 
-LOCALE_DIR = Path(__file__).resolve().parent.parent / "locale"
+LOCALE_DIR = Path(__file__).resolve().parent.parent / "web" / "locale"
 
 
 def compile_all():

@@ -20,7 +20,7 @@ New in the review: consolidates notification requirements from UC-14, the MVP ac
 - **NTF-006** Mentions in comments notify the mentioned user.
 - **NTF-007** MVP events: task assigned, review requested, client approved/requested changes, due date approaching, publishing failed, integration expired.
 - **NTF-008** (P3) Critical intelligence alerts per event; daily/weekly digests for Updates and Trends.
-- **NTF-009** Notifications to end clients only go through the portal/email and never include internal data.
+- **NTF-009** Notifications to end clients only go through the apps/portal/email and never include internal data.
 
 ## Data
 
@@ -33,8 +33,8 @@ New in the review: consolidates notification requirements from UC-14, the MVP ac
 
 ## Evidence
 
-- Recipients and idempotency: `notifications/tests/test_adapters.py`
-- Inbox, open and mark-read: `notifications/tests/test_views.py`
-- Which content events notify: `production/tests/application/test_notifications_events.py`
+- Recipients and idempotency: `apps/notifications/tests/test_adapters.py`
+- Inbox, open and mark-read: `apps/notifications/tests/test_views.py`
+- Which content events notify: `apps/production/tests/application/test_notifications_events.py`
 
 Not built yet: notification preferences (NTF-005), digests and intelligence alerts (NTF-008). See docs/technical-debt.md (TD-10, TD-27).

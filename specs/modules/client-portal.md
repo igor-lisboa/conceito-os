@@ -35,4 +35,4 @@ An application inside the same product, in a separate and simple environment.
 
 ## Evidence
 
-- Portal screens and hidden internal data: `portal/tests/test_views.py`
+- Portal screens and hidden internal data: `apps/portal/tests/test_views.py`

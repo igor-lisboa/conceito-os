@@ -12,7 +12,7 @@ from pathlib import Path
 import polib
 
 ROOT = Path(__file__).resolve().parent.parent
-PO = ROOT / "locale" / "pt_BR" / "LC_MESSAGES" / "django.po"
+PO = ROOT / "web" / "locale" / "pt_BR" / "LC_MESSAGES" / "django.po"
 
 NEW = {
     # Navigation
@@ -225,7 +225,7 @@ def add_missing(catalog):
 
 def strings_in_templates():
     found = set()
-    for path in (ROOT / "templates").rglob("*.html"):
+    for path in (ROOT / "web" / "templates").rglob("*.html"):
         text = path.read_text(encoding="utf-8")
         found.update(re.findall(r'\{%\s*trans\s+"([^"]+)"', text))
         found.update(re.findall(r"\{%\s*trans\s+'([^']+)'", text))

@@ -50,6 +50,6 @@ Duplicate client name; briefing with missing required sections (show gaps, allow
 
 ## Evidence
 
-- Client scope and visibility: `clients/tests/test_scope.py
-- Services and audit: `clients/tests/test_services.py
-- Screens: `clients/tests/test_views.py`
+- Client scope and visibility: `apps/clients/tests/test_scope.py
+- Services and audit: `apps/clients/tests/test_services.py
+- Screens: `apps/clients/tests/test_views.py`

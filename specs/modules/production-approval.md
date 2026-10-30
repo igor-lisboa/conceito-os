@@ -47,7 +47,7 @@ updated: 2026-10-30
 
 ## Evidence
 
-- Domain rules: `production/tests/domain/test_content.py`, `test_states.py`
-- Use cases and permissions: `production/tests/application/test_content_service.py
-- Persistence round-trip: `production/tests/adapters/test_django_repository.py
-- Screens: `production/tests/test_views.py`, read side: `production/tests/test_queries.py`
+- Domain rules: `apps/production/tests/domain/test_content.py`, `test_states.py`
+- Use cases and permissions: `apps/production/tests/application/test_content_service.py
+- Persistence round-trip: `apps/production/tests/adapters/test_django_repository.py
+- Screens: `apps/production/tests/test_views.py`, read side: `apps/production/tests/test_queries.py`

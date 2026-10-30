@@ -15,5 +15,5 @@ Sources: `specs/ux/design-system.md`, `specs/ux/navigation-responsive.md`, `spec
 - Keyboard, visible focus, adequate touch targets; no unnecessary horizontal scrolling.
 - Filters in the URL; back preserves the client context; breadcrumbs on desktop.
 - Hiding unauthorized modules is a convenience; the server blocks them.
-- User-visible text is always translatable: `{% trans %}` in templates, `gettext` / `gettext_lazy` in Python. Never hard-code Portuguese or English in a template. Add the pt-BR entry to `locale/pt_BR/LC_MESSAGES/django.po` and run `python scripts/compile_translations.py`.
-- Domain code (`production/domain/`) raises `DomainError` with an English message and parameters; it never imports `gettext`.
+- User-visible text is always translatable: `{% trans %}` in templates, `gettext` / `gettext_lazy` in Python. Never hard-code Portuguese or English in a template. Add the pt-BR entry to `web/locale/pt_BR/LC_MESSAGES/django.po` and run `python scripts/compile_translations.py`.
+- Domain code (`apps/production/domain/`) raises `DomainError` with an English message and parameters; it never imports `gettext`.

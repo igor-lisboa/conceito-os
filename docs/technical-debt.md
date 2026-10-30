@@ -124,7 +124,7 @@ cost later.
 | TD-S1 | Some user-facing strings are only in English in the 404, 403 and 500 pages. | Portuguese users see English on error pages. | With TD-36 |
 | TD-S2 | The welcome email is always in pt-BR, whatever the new user's browser language. | Minor. | When TD-48 is done |
 | TD-S3 | Mailpit image is `latest`, not pinned. | An upgrade could change local behaviour without notice. | Now (one line in compose) |
-| TD-S4 | `visible_content` (read side) repeats the rule of `production/domain/policy.py` in ORM form. A test keeps them in step. | Two places to change when the rule changes. | When the policy changes next |
+| TD-S4 | `visible_content` (read side) repeats the rule of `apps/production/domain/policy.py` in ORM form. A test keeps them in step. | Two places to change when the rule changes. | When the policy changes next |
 | TD-S5 | Login by username is still allowed next to login by email. | Two ways in; the username is not always private. | Keep until the team agrees; review with TD-11 |
 | TD-S6 | Publishing is marked by hand, with no link to the post. | Relies on people remembering to mark it. | With TD-43 and TD-20 |
 | TD-S7 | The database has no `WHERE`-level row security; tenant isolation is in application code, tested. | A future bug in a query could leak data. | Consider with TD-37 |
@@ -142,24 +142,24 @@ cost later.
 
 | ID | Done on | Evidence |
 | --- | --- | --- |
-| TD-01 (manual minimum) | 2026-11-01 | `crm/tests/test_crm.py`, `reports/tests/test_reports.py` |
-| TD-02 | 2026-11-01 | `clients/tests/test_library.py` |
-| TD-03 | 2026-11-01 | `accounts/tests/test_team.py` |
-| TD-08 | 2026-11-01 | `core/tests/test_audit_view.py` |
-| TD-09 | 2026-11-01 | `accounts/tests/test_throttle_and_timezone.py` |
-| TD-12 (per instance) | 2026-11-01 | `accounts/tests/test_throttle_and_timezone.py` |
-| TD-15 | 2026-11-01 | `accounts/tests/test_throttle_and_timezone.py` |
-| TD-43 | 2026-11-01 | `production/tests/test_published_link.py` |
-| Notifications (NTF-001..004, 006 partly) | 2026-11-01 | `notifications/tests/`, `production/tests/application/test_notifications_events.py` |
-| Client archiving (CLI-005) | 2026-11-01 | `clients/tests/test_services.py` |
-| TD-04 (month, agenda, duplicate) | 2026-11-01 | `production/tests/test_comments_and_planning.py` |
-| TD-05 (board) | 2026-11-01 | `production/tests/test_comments_and_planning.py` |
-| TD-06 | 2026-11-01 | `tasks/tests/test_tasks.py` |
-| TD-07 (bottom bar) | 2026-11-01 | `templates/base.html` (checked by the page tests) |
-| TD-11 (optional) | 2026-11-01 | `accounts/tests/test_mfa.py` |
+| TD-01 (manual minimum) | 2026-11-01 | `apps/crm/tests/test_crm.py`, `apps/reports/tests/test_reports.py` |
+| TD-02 | 2026-11-01 | `apps/clients/tests/test_library.py` |
+| TD-03 | 2026-11-01 | `apps/accounts/tests/test_team.py` |
+| TD-08 | 2026-11-01 | `apps/core/tests/test_audit_view.py` |
+| TD-09 | 2026-11-01 | `apps/accounts/tests/test_throttle_and_timezone.py` |
+| TD-12 (per instance) | 2026-11-01 | `apps/accounts/tests/test_throttle_and_timezone.py` |
+| TD-15 | 2026-11-01 | `apps/accounts/tests/test_throttle_and_timezone.py` |
+| TD-43 | 2026-11-01 | `apps/production/tests/test_published_link.py` |
+| Notifications (NTF-001..004, 006 partly) | 2026-11-01 | `apps/notifications/tests/`, `apps/production/tests/application/test_notifications_events.py` |
+| Client archiving (CLI-005) | 2026-11-01 | `apps/clients/tests/test_services.py` |
+| TD-04 (month, agenda, duplicate) | 2026-11-01 | `apps/production/tests/test_comments_and_planning.py` |
+| TD-05 (board) | 2026-11-01 | `apps/production/tests/test_comments_and_planning.py` |
+| TD-06 | 2026-11-01 | `apps/tasks/tests/test_tasks.py` |
+| TD-07 (bottom bar) | 2026-11-01 | `web/templates/base.html` (checked by the page tests) |
+| TD-11 (optional) | 2026-11-01 | `apps/accounts/tests/test_mfa.py` |
 | TD-14 (logs) | 2026-11-01 | `config/settings/base.py` |
-| TD-26 | 2026-11-01 | `portal/tests/test_sections.py` |
-| TD-29 | 2026-11-01 | `production/tests/test_comments_and_planning.py`, `portal/tests/test_sections.py` |
+| TD-26 | 2026-11-01 | `apps/portal/tests/test_sections.py` |
+| TD-29 | 2026-11-01 | `apps/production/tests/test_comments_and_planning.py`, `apps/portal/tests/test_sections.py` |
 
 ---
 

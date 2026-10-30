@@ -24,11 +24,11 @@ The product owner chose this stack. It supersedes the suggestion from the source
 
 ## Layering (ARC-010..ARC-016)
 
-- **ARC-010** The domain of each context with business rules (`production/domain/`) MUST NOT import Django, the database, the clock or request data.
-- **ARC-011** Use cases (`production/application/`) depend on domain code and on port interfaces, not on Django adapters.
-- **ARC-012** Adapters implement ports and are the only place that imports Django models for those rules (`production/adapters/`, `core/audit.py`).
+- **ARC-010** The domain of each context with business rules (`apps/production/domain/`) MUST NOT import Django, the database, the clock or request data.
+- **ARC-011** Use cases (`apps/production/application/`) depend on domain code and on port interfaces, not on Django adapters.
+- **ARC-012** Adapters implement ports and are the only place that imports Django models for those rules (`apps/production/adapters/`, `apps/core/audit.py`).
 - **ARC-013** Web views call use cases and never change a state or create an approval directly.
-- **ARC-014** The composition root (`production/composition.py`) is the only place that wires real adapters into use cases.
+- **ARC-014** The composition root (`apps/production/composition.py`) is the only place that wires real adapters into use cases.
 - **ARC-015** Read-side lists may query the ORM directly. A test MUST check that the read filter agrees with the domain policy.
 - **ARC-016** A context may stay in the simple style (Django models and service functions) while its rules are few. Moving it to the hexagonal style is required when it gains a state machine or approvals.
 
@@ -46,7 +46,7 @@ The product owner chose this stack. It supersedes the suggestion from the source
 
 ## Evidence
 
-- Layering: `production/tests/domain/` (no database), `production/tests/application/` (fakes), `production/tests/test_queries.py`.
+- Layering: `apps/production/tests/domain/` (no database), `apps/production/tests/application/` (fakes), `apps/production/tests/test_queries.py`.
 - Deployment entry and settings: `api/index.py`, `vercel.json`, `config/settings/base.py`, [docs/deployment.md](../../docs/deployment.md).
 
 ## Open decisions

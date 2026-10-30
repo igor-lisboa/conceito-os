@@ -63,15 +63,15 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "accounts",
-    "clients",
-    "production",
-    "portal",
-    "notifications",
-    "crm",
-    "reports",
-    "tasks",
-    "core",
+    "apps.accounts",
+    "apps.clients",
+    "apps.production",
+    "apps.portal",
+    "apps.notifications",
+    "apps.crm",
+    "apps.reports",
+    "apps.tasks",
+    "apps.core",
 ]
 
 MIDDLEWARE = [
@@ -82,9 +82,9 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "accounts.middleware.ActiveMembershipMiddleware",
-    "accounts.middleware.OrganizationTimezoneMiddleware",
-    "accounts.middleware.MFAEnforcementMiddleware",
+    "apps.accounts.middleware.ActiveMembershipMiddleware",
+    "apps.accounts.middleware.OrganizationTimezoneMiddleware",
+    "apps.accounts.middleware.MFAEnforcementMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -95,14 +95,14 @@ WSGI_APPLICATION = "config.wsgi.application"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "templates"],
+        "DIRS": [BASE_DIR / "web" / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                "notifications.context_processors.unread_notifications",
+                "apps.notifications.context_processors.unread_notifications",
             ],
         },
     },
@@ -140,7 +140,7 @@ CACHES = {
 
 AUTH_USER_MODEL = "accounts.User"
 AUTHENTICATION_BACKENDS = [
-    "accounts.backends.EmailOrUsernameBackend",
+    "apps.accounts.backends.EmailOrUsernameBackend",
     "django.contrib.auth.backends.ModelBackend",
 ]
 
@@ -164,7 +164,7 @@ LANGUAGES = [
     ("en", "English"),
     ("pt-br", "Português (Brasil)"),
 ]
-LOCALE_PATHS = [BASE_DIR / "locale"]
+LOCALE_PATHS = [BASE_DIR / "web" / "locale"]
 TIME_ZONE = "UTC"
 USE_I18N = True
 USE_TZ = True
@@ -174,7 +174,7 @@ USE_TZ = True
 # works on Vercel without a separate collectstatic step.
 
 STATIC_URL = "static/"
-STATICFILES_DIRS = [BASE_DIR / "static"]
+STATICFILES_DIRS = [BASE_DIR / "web" / "static"]
 WHITENOISE_USE_FINDERS = True
 # STATIC_ROOT is intentionally not set: nothing runs collectstatic (see docs/deployment.md).
 
@@ -220,8 +220,8 @@ LOGGING = {
     },
     "root": {"handlers": ["console"], "level": "WARNING"},
     "loggers": {
-        "accounts": {"handlers": ["console"], "level": "INFO", "propagate": False},
-        "notifications": {"handlers": ["console"], "level": "INFO", "propagate": False},
+        "apps.accounts": {"handlers": ["console"], "level": "INFO", "propagate": False},
+        "apps.notifications": {"handlers": ["console"], "level": "INFO", "propagate": False},
         "django.request": {"handlers": ["console"], "level": "ERROR", "propagate": False},
     },
 }

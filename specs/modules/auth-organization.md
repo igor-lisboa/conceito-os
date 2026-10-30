@@ -68,7 +68,7 @@ Expired invitation; revoked user with an open session; email already a member; l
 
 ## Evidence
 
-- Sign-in by email, password recovery, welcome email, first administrator: `accounts/tests/test_auth.py`
-- Roles and capability matrix: `accounts/tests/test_permissions.py`
-- Active organization selection: `accounts/tests/test_middleware.py`
-- Actor construction: `core/tests/test_actors.py`
+- Sign-in by email, password recovery, welcome email, first administrator: `apps/accounts/tests/test_auth.py`
+- Roles and capability matrix: `apps/accounts/tests/test_permissions.py`
+- Active organization selection: `apps/accounts/tests/test_middleware.py`
+- Actor construction: `apps/core/tests/test_actors.py`

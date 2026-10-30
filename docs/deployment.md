@@ -148,5 +148,5 @@ not stop an account from being created.
 | `DisallowedHost` | Add the domain to `DJANGO_ALLOWED_HOSTS`. |
 | CSRF error on forms | Add `https://<domain>` to `DJANGO_CSRF_TRUSTED_ORIGINS`. |
 | `OperationalError: Can't connect to MySQL` | Host, port or firewall; the database must accept Vercel's connections. |
-| Static files return 404 | Check that the `static/` folder is in the deployment. WhiteNoise serves it from the app folders. |
+| Static files return 404 | Check that the `web/static/` folder is in the deployment. WhiteNoise serves it from the app folders. |
 | `Table ... doesn't exist` | Migrations not run against this database (step 5). |
