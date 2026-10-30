@@ -414,6 +414,8 @@ These are known gaps, not bugs. They are tracked in the specs.
 | [specs/planning/roadmap.md](specs/planning/roadmap.md) | Phases and build order. |
 | [specs/planning/risks-open-decisions.md](specs/planning/risks-open-decisions.md) | Open decisions waiting for the product owner. |
 | [docs/architecture.md](docs/architecture.md) | How the code is organized, why, and the alternatives we rejected. |
+| [docs/phase-1-decisions.md](docs/phase-1-decisions.md) | Every decision taken for the Phase 1 MVP, with its reason and where it lives in the code. |
+| [docs/technical-debt.md](docs/technical-debt.md) | What the full specification needs and the code does not do yet, by priority. |
 | [docs/deployment.md](docs/deployment.md) | Vercel and MySQL setup, step by step. |
 | [CLAUDE.md](CLAUDE.md) | Instructions for the AI assistant working in this repository. |
 

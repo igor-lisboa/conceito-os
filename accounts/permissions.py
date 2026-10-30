@@ -27,6 +27,11 @@ class Capability:
     APPROVE_INTERNAL = "approve_internal"
     CLIENT_APPROVE = "client_approve"
     SCHEDULE_CONTENT = "schedule_content"
+    ARCHIVE_CLIENT = "archive_client"
+    MANAGE_TEAM = "manage_team"  # invite and remove members, grant client access
+    VIEW_AUDIT = "view_audit"
+    MANAGE_CRM = "manage_crm"  # leads and proposals
+    ENTER_METRICS = "enter_metrics"  # manual metric entry for reports
 
 
 ROLE_CAPABILITIES = {
@@ -34,26 +39,35 @@ ROLE_CAPABILITIES = {
         Capability.ACCESS_INTERNAL,
         Capability.SEE_ALL_CLIENTS,
         Capability.CREATE_CLIENT,
+        Capability.ARCHIVE_CLIENT,
         Capability.EDIT_BRIEFING,
         Capability.CREATE_CONTENT,
         Capability.EDIT_CONTENT,
         Capability.APPROVE_INTERNAL,
         Capability.SCHEDULE_CONTENT,
+        Capability.MANAGE_TEAM,
+        Capability.VIEW_AUDIT,
+        Capability.MANAGE_CRM,
+        Capability.ENTER_METRICS,
     },
     Role.ACCOUNT_MANAGER: {
         Capability.ACCESS_INTERNAL,
         Capability.CREATE_CLIENT,
+        Capability.ARCHIVE_CLIENT,
         Capability.EDIT_BRIEFING,
         Capability.CREATE_CONTENT,
         Capability.EDIT_CONTENT,
         Capability.APPROVE_INTERNAL,
         Capability.SCHEDULE_CONTENT,
+        Capability.MANAGE_CRM,
+        Capability.ENTER_METRICS,
     },
     Role.CREATIVE: {
         Capability.ACCESS_INTERNAL,
         Capability.EDIT_BRIEFING,
         Capability.CREATE_CONTENT,
         Capability.EDIT_CONTENT,
+        Capability.ENTER_METRICS,
     },
     # Freelancers only edit content assigned to them (checked by the content policy).
     Role.FREELANCER: {

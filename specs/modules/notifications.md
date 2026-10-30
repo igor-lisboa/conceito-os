@@ -1,6 +1,6 @@
 ---
 id: ntf
-status: draft
+status: partially-implemented
 phase: MVP (basic) / P3 (digests and intelligence alerts)
 version: 1.0
 updated: 2026-10-30
@@ -33,4 +33,8 @@ New in the review: consolidates notification requirements from UC-14, the MVP ac
 
 ## Evidence
 
-—
+- Recipients and idempotency: `notifications/tests/test_adapters.py`
+- Inbox, open and mark-read: `notifications/tests/test_views.py`
+- Which content events notify: `production/tests/application/test_notifications_events.py`
+
+Not built yet: notification preferences (NTF-005), digests and intelligence alerts (NTF-008). See docs/technical-debt.md (TD-10, TD-27).

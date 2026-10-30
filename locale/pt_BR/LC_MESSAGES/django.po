@@ -486,3 +486,31 @@ msgstr "Seu nome de usuário, caso tenha esquecido:"
 
 msgid "If you did not ask for this, you can ignore this email. Your password will not change."
 msgstr "Se você não solicitou, ignore este e-mail. Sua senha não será alterada."
+
+# --- Notifications ----------------------------------------------------------------
+msgid "Notifications"
+msgstr "Notificações"
+
+msgid "Mark all as read"
+msgstr "Marcar todas como lidas"
+
+msgid "No notifications yet."
+msgstr "Nenhuma notificação ainda."
+
+msgid "“{title}” for {client} is waiting for your approval."
+msgstr "“{title}” de {client} está aguardando sua aprovação."
+
+msgid "“{title}” for {client} is ready for internal review."
+msgstr "“{title}” de {client} está pronto para revisão interna."
+
+msgid "{client} asked for changes on “{title}”."
+msgstr "{client} pediu ajustes em “{title}”."
+
+msgid "{client} approved “{title}”."
+msgstr "{client} aprovou “{title}”."
+
+msgid "“{title}” needs changes before it goes to the client."
+msgstr "“{title}” precisa de ajustes antes de ir para o cliente."
+
+msgid "Publishing “{title}” failed: {reason}"
+msgstr "A publicação de “{title}” falhou: {reason}"

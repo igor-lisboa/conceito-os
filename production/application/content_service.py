@@ -19,12 +19,24 @@ from production.domain.states import ContentState
 ENTITY_TYPE = "ContentItem"
 
 
+# Which state changes tell someone something, and what kind of notification they send.
+NOTIFICATION_KINDS = {
+    (ContentState.IN_PRODUCTION.value, ContentState.INTERNAL_REVIEW.value): "internal_review",
+    (ContentState.INTERNAL_REVIEW.value, ContentState.CLIENT_REVIEW.value): "client_review",
+    (ContentState.CLIENT_REVIEW.value, ContentState.CHANGES_REQUESTED.value): "changes_requested",
+    (ContentState.CLIENT_REVIEW.value, ContentState.APPROVED.value): "approved_by_client",
+    (ContentState.INTERNAL_REVIEW.value, ContentState.IN_PRODUCTION.value): "internal_rejected",
+    (ContentState.SCHEDULED.value, ContentState.FAILED.value): "publish_failed",
+}
+
+
 class ContentService:
-    def __init__(self, *, repository, audit, clock, transaction):
+    def __init__(self, *, repository, audit, clock, transaction, notifier=None):
         self.repository = repository
         self.audit = audit
         self.clock = clock  # callable returning the current datetime
         self.transaction = transaction  # callable returning a context manager
+        self.notifier = notifier  # optional: None disables notifications (used in some tests)
 
     # --- creating ----------------------------------------------------------
 
@@ -137,3 +149,24 @@ class ContentService:
                 entity_id=content.id,
                 metadata=event.data,
             )
+            if event.name == "content.state_changed":
+                self._notify(actor, content, event.data)
+
+    def _notify(self, actor, content, change):
+        kind = NOTIFICATION_KINDS.get((change["from"], change["to"]))
+        if kind is None or self.notifier is None:
+            return
+        # One notification per event: the same change of the same version is never sent twice.
+        event_key = f"{kind}:{content.id}:{len(content.versions)}:{len(content.approvals)}"
+        extra = {"reason": change["comment"]} if kind == "publish_failed" else None
+        self.notifier.notify(
+            kind=kind,
+            organization_id=content.organization_id,
+            client_id=content.client_id,
+            content_id=content.id,
+            title=content.title,
+            owner_id=content.owner_id,
+            actor_user_id=actor.user_id,
+            event_key=event_key,
+            extra=extra,
+        )

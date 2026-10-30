@@ -2,6 +2,7 @@
 
 Format: `YYYY-MM-DD · file(s) · change · reason`. Newest first.
 
+- 2026-11-01 · modules/notifications.md, modules/clients-briefing.md · NTF-001..004 and NTF-006 partly implemented (in-app and email for content review events; idempotent; visibility-scoped); client archiving (CLI-005) implemented; documented in docs/phase-1-decisions.md and docs/technical-debt.md · Phase 1 MVP consolidation
 - 2026-11-01 · modules/auth-organization.md · AUTH-002 implemented: password recovery by email, welcome email on account creation (pt-BR), sign-in by email, `create_initial_admin` command; email is required and unique · product owner request (admin access, SMTP)
 - 2026-11-01 · technical/non-functional.md, planning/risks-open-decisions.md · UI available in English (default) and pt-BR, selectable per browser; NFR-002 added for translation completeness · product owner request
 - 2026-11-01 · technical/architecture.md · Decided stack (Django 5.2, MySQL, Vercel, WhiteNoise); added layering rules ARC-010..016 · hexagonal + DDD decision, see docs/architecture.md

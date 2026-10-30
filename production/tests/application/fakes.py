@@ -38,6 +38,18 @@ class InMemoryContentRepository:
         return (organization_id, user_id) in self.internal_members
 
 
+class RecordingNotifier:
+    def __init__(self):
+        self.calls = []
+
+    def notify(self, **call):
+        self.calls.append(call)
+        return []
+
+    def kinds(self):
+        return [call["kind"] for call in self.calls]
+
+
 class RecordingAuditLog:
     def __init__(self):
         self.events = []
@@ -69,11 +81,13 @@ class Harness:
     def __init__(self):
         self.repository = InMemoryContentRepository()
         self.audit = RecordingAuditLog()
+        self.notifier = RecordingNotifier()
         self.service = ContentService(
             repository=self.repository,
             audit=self.audit,
             clock=lambda: NOW,
             transaction=contextlib.nullcontext,
+            notifier=self.notifier,
         )
         self.repository.client_rules[(self.ORGANIZATION_ID, self.CLIENT_ID)] = True
         self.repository.internal_members.add((self.ORGANIZATION_ID, 2))  # a team member

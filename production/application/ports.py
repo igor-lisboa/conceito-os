@@ -24,6 +24,24 @@ class ContentRepository(Protocol):
         """True if the user is a member of the organization and not a client end-user."""
 
 
+class Notifier(Protocol):
+    def notify(
+        self,
+        *,
+        kind: str,
+        organization_id: int,
+        client_id: int,
+        content_id: int,
+        title: str,
+        owner_id: int | None,
+        actor_user_id: int | None,
+        event_key: str,
+        extra: dict | None = None,
+    ) -> list:
+        """Tell the people who must know about a content event. Repeated calls with the
+        same event_key create nothing new."""
+
+
 class AuditLog(Protocol):
     def record(
         self,

@@ -58,8 +58,9 @@ class DjangoContentRepository:
         self._insert_new_approvals(row, content)
 
     def client_approval_rule(self, organization_id, client_id):
+        # Archived clients are treated as missing: no new content for them.
         return (
-            Client.objects.filter(organization_id=organization_id, pk=client_id)
+            Client.objects.filter(organization_id=organization_id, pk=client_id, archived_at__isnull=True)
             .values_list("client_approval_required", flat=True)
             .first()
         )

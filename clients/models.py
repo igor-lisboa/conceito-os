@@ -8,6 +8,8 @@ class Client(models.Model):
     name = models.CharField(max_length=120)
     # When True, content must be approved by the client before it can be scheduled.
     client_approval_required = models.BooleanField(default=True)
+    # Archived clients disappear from lists and accept no new content. Nothing is deleted.
+    archived_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Notifications" %} · Conceito OS{% endblock %}
+
+{% block content %}
+  <h1>{% trans "Notifications" %}</h1>
+
+  {% if notifications %}
+    <form method="post" action="{% url 'notification_read_all' %}" class="actions">
+      {% csrf_token %}
+      <button class="button-secondary">{% trans "Mark all as read" %}</button>
+    </form>
+
+    {% for notification in notifications %}
+      <p class="card{% if notification.is_unread %} unread{% endif %}">
+        <a href="{% url 'notification_open' notification.pk %}">{{ notification.message }}</a><br>
+        <small>{{ notification.created_at }}</small>
+      </p>
+    {% endfor %}
+  {% else %}
+    <p class="card">{% trans "No notifications yet." %}</p>
+  {% endif %}
+{% endblock %}
