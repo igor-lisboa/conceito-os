@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Leads" %} · Conceito OS{% endblock %}
+
+{% block content %}
+  <h1>{% trans "Leads" %}</h1>
+  <p class="actions">
+    <a class="button" href="{% url 'lead_create' %}">{% trans "New lead" %}</a>
+    <a class="button button-secondary" href="{% url 'proposal_list' %}">{% trans "Proposals" %}</a>
+  </p>
+
+  {% for stage, leads in columns %}
+    <section class="card">
+      <h2>{{ stage.label }} ({{ leads|length }})</h2>
+      {% for lead in leads %}
+        <div class="card">
+          <strong>{{ lead.name }}</strong>
+          {% if lead.next_action %}<br><small>{% trans "Next action" %}: {{ lead.next_action }}{% if lead.next_action_date %} · {{ lead.next_action_date }}{% endif %}</small>{% endif %}
+          <form method="post" action="{% url 'lead_stage' lead.pk %}" class="actions">
+            {% csrf_token %}
+            <label class="visually-hidden" for="stage-{{ lead.pk }}">{% trans "Stage" %}</label>
+            <select name="stage" id="stage-{{ lead.pk }}">
+              {% for value, label in stage_choices %}
+                <option value="{{ value }}"{% if value == lead.stage %} selected{% endif %}>{{ label }}</option>
+              {% endfor %}
+            </select>
+            <button class="button-secondary">{% trans "Move" %}</button>
+          </form>
+        </div>
+      {% empty %}
+        <p><small>{% trans "No leads here." %}</small></p>
+      {% endfor %}
+    </section>
+  {% endfor %}
+{% endblock %}

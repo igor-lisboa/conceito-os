@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <h1>{% trans "Add to library" %} · {{ client_record.name }}</h1>
+  <p class="card">{% trans "Paste the link to the file (Drive, Dropbox or similar). The file itself stays there." %}</p>
+  <form method="post" class="card">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">{% trans "Save link" %}</button>
+    <a href="{% url 'client_detail' client_record.pk %}">{% trans "Cancel" %}</a>
+  </form>
+{% endblock %}

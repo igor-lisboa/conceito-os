@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Audit log" %} · Conceito OS{% endblock %}
+
+{% block content %}
+  <h1>{% trans "Audit log" %}</h1>
+  <form method="get" class="card actions">
+    <label for="action-filter">{% trans "Action starts with" %}</label>
+    <input type="text" name="action" id="action-filter" value="{{ request.GET.action }}" placeholder="content.">
+    <button class="button-secondary">{% trans "Filter" %}</button>
+  </form>
+
+  {% if events %}
+    <table>
+      <thead><tr><th>{% trans "When" %}</th><th>{% trans "Who" %}</th><th>{% trans "Action" %}</th><th>{% trans "Item" %}</th></tr></thead>
+      <tbody>
+        {% for event in events %}
+          <tr>
+            <td>{{ event.created_at }}</td>
+            <td>{{ event.actor.email|default:"—" }}</td>
+            <td><code>{{ event.action }}</code></td>
+            <td>{{ event.entity_type }} #{{ event.entity_id }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% if page_obj.has_next %}<p><a href="?page={{ page_obj.next_page_number }}{% if request.GET.action %}&action={{ request.GET.action }}{% endif %}">{% trans "Next page" %}</a></p>{% endif %}
+  {% else %}
+    <p class="card">{% trans "No events match this filter." %}</p>
+  {% endif %}
+{% endblock %}

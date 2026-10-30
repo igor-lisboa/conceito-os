@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "New task" %} · Conceito OS{% endblock %}
+
+{% block content %}
+  <h1>{% trans "New task" %}</h1>
+  <form method="post" class="card">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">{% trans "Save task" %}</button>
+    <a href="{% url 'task_list' %}">{% trans "Cancel" %}</a>
+  </form>
+{% endblock %}

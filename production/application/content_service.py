@@ -115,9 +115,9 @@ class ContentService:
         require_capability(actor, Capability.SCHEDULE_CONTENT)
         return self._change(actor, content_id, lambda c: c.unschedule())
 
-    def mark_published(self, actor, content_id):
+    def mark_published(self, actor, content_id, *, url=""):
         require_capability(actor, Capability.SCHEDULE_CONTENT)
-        return self._change(actor, content_id, lambda c: c.mark_published(now=self.clock()))
+        return self._change(actor, content_id, lambda c: c.mark_published(now=self.clock(), url=url))
 
     def mark_failed(self, actor, content_id, *, reason):
         require_capability(actor, Capability.SCHEDULE_CONTENT)

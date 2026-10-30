@@ -29,6 +29,21 @@
     <p class="card">{% trans "This content is not waiting for your decision." %}</p>
   {% endif %}
 
+  <section class="card">
+    <h2>{% trans "Comments" %}</h2>
+    {% for comment in client_comments %}
+      <p class="card"><small>{{ comment.created_at }}</small><br>{{ comment.body|linebreaksbr }}</p>
+    {% empty %}
+      <p>{% trans "No comments yet." %}</p>
+    {% endfor %}
+    <form method="post" action="{% url 'portal_comment' object.pk %}">
+      {% csrf_token %}
+      <label for="portal-comment-body">{% trans "Write a comment for the team" %}</label>
+      <textarea name="body" id="portal-comment-body" rows="3" maxlength="2000" required></textarea>
+      <button>{% trans "Send comment" %}</button>
+    </form>
+  </section>
+
   <section>
     <h2>{% trans "Your previous decisions" %}</h2>
     {% for approval in client_approvals %}

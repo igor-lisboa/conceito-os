@@ -10,6 +10,7 @@
     · <span class="state-badge">{{ object.get_state_display }}</span>
   </p>
   {% if object.scheduled_for %}<p>{% trans "Scheduled for" %} {{ object.scheduled_for }}</p>{% endif %}
+  {% if object.published_url %}<p><a href="{{ object.published_url }}">{% trans "Published post" %}</a></p>{% endif %}
   {% if object.state == 'failed' %}
     <p class="message message-error">{% trans "Failure:" %} {{ object.failure_reason }}</p>
   {% endif %}
@@ -60,7 +61,11 @@
         <form method="post" action="{% url 'content_action' object.pk 'unschedule' %}">{% csrf_token %}<button class="button-secondary">{% trans "Remove schedule" %}</button></form>
       {% endif %}
       {% if actions.mark_published %}
-        <form method="post" action="{% url 'content_action' object.pk 'mark_published' %}">{% csrf_token %}<button>{% trans "Mark as published" %}</button></form>
+        <form method="post" action="{% url 'content_action' object.pk 'mark_published' %}" class="card">
+          {% csrf_token %}
+          {{ action_form.link.label_tag }} {{ action_form.link }}
+          <button>{% trans "Mark as published" %}</button>
+        </form>
       {% endif %}
       {% if actions.mark_failed %}
         <form method="post" action="{% url 'content_action' object.pk 'mark_failed' %}" class="card">
@@ -79,6 +84,29 @@
       {% csrf_token %}
       {{ version_form.as_p }}
       <button>{% trans "Save version" %}</button>
+    </form>
+  </section>
+
+  <section class="card">
+    <h2>{% trans "Comments" %}</h2>
+    {% for comment in comments %}
+      <p class="card"><strong>{{ comment.author.email|default:"—" }}</strong> <small>{{ comment.created_at }}</small><br>{{ comment.body|linebreaksbr }}</p>
+    {% empty %}
+      <p>{% trans "No comments yet." %}</p>
+    {% endfor %}
+    <form method="post" action="{% url 'content_comment' object.pk %}">
+      {% csrf_token %}
+      <label for="comment-body">{% trans "Write a comment (mention someone with @email)" %}</label>
+      <textarea name="body" id="comment-body" rows="3" maxlength="2000" required></textarea>
+      <button>{% trans "Add comment" %}</button>
+    </form>
+  </section>
+
+  <section class="card">
+    <h2>{% trans "Copy" %}</h2>
+    <form method="post" action="{% url 'content_duplicate' object.pk %}">
+      {% csrf_token %}
+      <button class="button-secondary">{% trans "Duplicate as a new draft" %}</button>
     </form>
   </section>
 

@@ -1,0 +1,1 @@
+{% load i18n %}{% blocktrans with org=organization %}You were invited to {{ org }} on Conceito OS{% endblocktrans %}

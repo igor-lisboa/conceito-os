@@ -35,7 +35,8 @@ msgstr "Sair"
 msgid "Sign in"
 msgstr "Entrar"
 
-# --- Dashboard and empty states ----------------------------------------------
+# --- Dashboard and empty states
+# ----------------------------------------------
 msgid "Summary"
 msgstr "Resumo"
 
@@ -57,10 +58,15 @@ msgstr "Ver todos os conteúdos"
 msgid "No access yet"
 msgstr "Sem acesso ainda"
 
-msgid "Your account is not linked to any organization. Ask the agency owner to grant you access."
-msgstr "Sua conta não está vinculada a nenhuma organização. Peça à proprietária da agência para liberar o seu acesso."
+msgid ""
+"Your account is not linked to any organization. Ask the agency owner to "
+"grant you access."
+msgstr ""
+"Sua conta não está vinculada a nenhuma organização. Peça à proprietária da "
+"agência para liberar o seu acesso."
 
-# --- Clients ------------------------------------------------------------------
+# --- Clients
+# ------------------------------------------------------------------
 msgid "New client"
 msgstr "Novo cliente"
 
@@ -148,7 +154,8 @@ msgstr "Concorrentes"
 msgid "Notes"
 msgstr "Observações"
 
-# --- Content list, form and detail -------------------------------------------
+# --- Content list, form and detail
+# -------------------------------------------
 msgid "Filter"
 msgstr "Filtrar"
 
@@ -272,7 +279,8 @@ msgstr "Revise os campos informados."
 msgid "Action recorded."
 msgstr "Ação registrada."
 
-# --- Portal -------------------------------------------------------------------
+# --- Portal
+# -------------------------------------------------------------------
 msgid "Waiting for your approval"
 msgstr "Aguardando sua aprovação"
 
@@ -312,7 +320,8 @@ msgstr "Escolha aprovar ou pedir ajustes."
 msgid "Thank you! Your decision was recorded."
 msgstr "Obrigado! Sua decisão foi registrada."
 
-# --- Domain labels (shown through choices) -----------------------------------
+# --- Domain labels (shown through choices)
+# -----------------------------------
 msgid "Draft"
 msgstr "Rascunho"
 
@@ -373,7 +382,8 @@ msgstr "Freelancer convidado"
 msgid "End client"
 msgstr "Cliente final"
 
-# --- Business rule messages (raised by the domain, translated at the web edge) --
+# --- Business rule messages (raised by the domain, translated at the web
+# edge) --
 msgid "The person responsible must be a member of the same organization."
 msgstr "O responsável precisa ser membro da mesma organização."
 
@@ -410,15 +420,20 @@ msgstr "Remova o agendamento antes de editar o conteúdo."
 msgid "Published content cannot be edited."
 msgstr "Conteúdo publicado não pode ser editado."
 
-# --- Accounts: sign-in and password recovery -----------------------------------
+# --- Accounts: sign-in and password recovery
+# -----------------------------------
 msgid "Email"
 msgstr "E-mail"
 
 msgid "Forgot your password?"
 msgstr "Esqueceu sua senha?"
 
-msgid "Enter the email address of your account. We will send you a link to set a new password."
-msgstr "Informe o e-mail da sua conta. Enviaremos um link para você definir uma nova senha."
+msgid ""
+"Enter the email address of your account. We will send you a link to set a "
+"new password."
+msgstr ""
+"Informe o e-mail da sua conta. Enviaremos um link para você definir uma nova"
+" senha."
 
 msgid "Send reset link"
 msgstr "Enviar link de redefinição"
@@ -429,8 +444,12 @@ msgstr "Voltar para o login"
 msgid "Check your email"
 msgstr "Verifique seu e-mail"
 
-msgid "If an account exists for that email address, we have sent a link to set a new password. The link expires in 24 hours."
-msgstr "Se existir uma conta com este e-mail, enviamos um link para definir uma nova senha. O link expira em 24 horas."
+msgid ""
+"If an account exists for that email address, we have sent a link to set a "
+"new password. The link expires in 24 hours."
+msgstr ""
+"Se existir uma conta com este e-mail, enviamos um link para definir uma nova"
+" senha. O link expira em 24 horas."
 
 msgid "Set a new password"
 msgstr "Defina uma nova senha"
@@ -438,8 +457,10 @@ msgstr "Defina uma nova senha"
 msgid "Save new password"
 msgstr "Salvar nova senha"
 
-msgid "This reset link is invalid or has already been used. Request a new one."
-msgstr "Este link de redefinição é inválido ou já foi usado. Solicite um novo."
+msgid ""
+"This reset link is invalid or has already been used. Request a new one."
+msgstr ""
+"Este link de redefinição é inválido ou já foi usado. Solicite um novo."
 
 msgid "Request a new link"
 msgstr "Solicitar um novo link"
@@ -450,7 +471,8 @@ msgstr "Senha alterada"
 msgid "Your new password is saved. You can sign in now."
 msgstr "Sua nova senha foi salva. Você já pode entrar."
 
-# --- Accounts: emails -----------------------------------------------------------
+# --- Accounts: emails
+# -----------------------------------------------------------
 msgid "Welcome to Conceito OS"
 msgstr "Bem-vindo ao Conceito OS"
 
@@ -466,8 +488,12 @@ msgstr "Entre com este endereço de e-mail:"
 msgid "Sign in here:"
 msgstr "Entre aqui:"
 
-msgid "If you forgot your password, use the 'Forgot your password?' link on the sign-in page to set a new one."
-msgstr "Se esquecer sua senha, use o link 'Esqueceu sua senha?' na página de login para definir uma nova."
+msgid ""
+"If you forgot your password, use the 'Forgot your password?' link on the "
+"sign-in page to set a new one."
+msgstr ""
+"Se esquecer sua senha, use o link 'Esqueceu sua senha?' na página de login "
+"para definir uma nova."
 
 msgid "If you did not expect this message, you can ignore it."
 msgstr "Se você não esperava esta mensagem, pode ignorá-la."
@@ -475,8 +501,12 @@ msgstr "Se você não esperava esta mensagem, pode ignorá-la."
 msgid "Reset your Conceito OS password"
 msgstr "Redefinir sua senha do Conceito OS"
 
-msgid "You are receiving this email because a password reset was requested for your account at Conceito OS."
-msgstr "Você recebeu este e-mail porque foi solicitada a redefinição de senha da sua conta no Conceito OS."
+msgid ""
+"You are receiving this email because a password reset was requested for your"
+" account at Conceito OS."
+msgstr ""
+"Você recebeu este e-mail porque foi solicitada a redefinição de senha da sua"
+" conta no Conceito OS."
 
 msgid "Choose a new password here:"
 msgstr "Escolha uma nova senha aqui:"
@@ -484,10 +514,14 @@ msgstr "Escolha uma nova senha aqui:"
 msgid "Your username, in case you have forgotten it:"
 msgstr "Seu nome de usuário, caso tenha esquecido:"
 
-msgid "If you did not ask for this, you can ignore this email. Your password will not change."
-msgstr "Se você não solicitou, ignore este e-mail. Sua senha não será alterada."
+msgid ""
+"If you did not ask for this, you can ignore this email. Your password will "
+"not change."
+msgstr ""
+"Se você não solicitou, ignore este e-mail. Sua senha não será alterada."
 
-# --- Notifications ----------------------------------------------------------------
+# --- Notifications
+# ----------------------------------------------------------------
 msgid "Notifications"
 msgstr "Notificações"
 
@@ -514,3 +548,576 @@ msgstr "“{title}” precisa de ajustes antes de ir para o cliente."
 
 msgid "Publishing “{title}” failed: {reason}"
 msgstr "A publicação de “{title}” falhou: {reason}"
+
+msgid "Reports"
+msgstr "Relatórios"
+
+msgid "Sales"
+msgstr "Vendas"
+
+msgid "Team"
+msgstr "Equipe"
+
+msgid "Settings"
+msgstr "Configurações"
+
+msgid "Audit log"
+msgstr "Log de auditoria"
+
+msgid "Role"
+msgstr "Papel"
+
+msgid "All clients"
+msgstr "Todos os clientes"
+
+msgid "None"
+msgstr "Nenhum"
+
+msgid "Remove access"
+msgstr "Remover acesso"
+
+msgid "Invite person"
+msgstr "Convidar pessoa"
+
+msgid "Invitation sent."
+msgstr "Convite enviado."
+
+msgid "Access removed."
+msgstr "Acesso removido."
+
+msgid "Send invitation"
+msgstr "Enviar convite"
+
+msgid "We will email a link so they can create their own password."
+msgstr "Enviaremos um link para a pessoa criar a própria senha."
+
+msgid "Clients this person can see"
+msgstr "Clientes que esta pessoa pode ver"
+
+msgid "Owners see every client, so this is only needed for other roles."
+msgstr ""
+"Proprietárias veem todos os clientes; esta lista só é necessária para os "
+"demais papéis."
+
+msgid "This person is already a member of this organization."
+msgstr "Esta pessoa já é membro desta organização."
+
+msgid "You cannot remove your own access."
+msgstr "Você não pode remover o próprio acesso."
+
+msgid "The last owner of the organization cannot be removed."
+msgstr "A última proprietária da organização não pode ser removida."
+
+msgid "This membership belongs to another organization."
+msgstr "Este vínculo pertence a outra organização."
+
+msgid "You were invited to join a team on Conceito OS."
+msgstr "Você foi convidado para fazer parte de uma equipe no Conceito OS."
+
+msgid "You were invited to %(org)s on Conceito OS"
+msgstr "Você foi convidado para %(org)s no Conceito OS"
+
+msgid "Organization: %(org)s"
+msgstr "Organização: %(org)s"
+
+msgid ""
+"Create your password with this link. It works once and expires in 24 hours:"
+msgstr ""
+"Crie sua senha com este link. Ele funciona uma vez e expira em 24 horas:"
+
+msgid "Then sign in with your email address on the sign-in page."
+msgstr "Depois, entre com seu e-mail na página de login."
+
+msgid "If you did not expect this invitation, you can ignore this email."
+msgstr "Se você não esperava este convite, pode ignorar este e-mail."
+
+msgid "Too many failed attempts. Try again in 15 minutes."
+msgstr "Muitas tentativas sem sucesso. Tente de novo em 15 minutos."
+
+msgid "Organization settings"
+msgstr "Configurações da organização"
+
+msgid "Organization name"
+msgstr "Nome da organização"
+
+msgid "Time zone"
+msgstr "Fuso horário"
+
+msgid "Settings saved."
+msgstr "Configurações salvas."
+
+msgid "Dates on screen follow this time zone. Times are stored in UTC."
+msgstr ""
+"As datas na tela seguem este fuso horário. Os horários são guardados em UTC."
+
+msgid "Save"
+msgstr "Salvar"
+
+msgid "Action starts with"
+msgstr "Ação começa com"
+
+msgid "When"
+msgstr "Quando"
+
+msgid "Who"
+msgstr "Quem"
+
+msgid "Action"
+msgstr "Ação"
+
+msgid "Item"
+msgstr "Item"
+
+msgid "Next page"
+msgstr "Próxima página"
+
+msgid "No events match this filter."
+msgstr "Nenhum evento corresponde a este filtro."
+
+msgid "Link to the published post"
+msgstr "Link da publicação"
+
+msgid "Published post"
+msgstr "Publicação"
+
+msgid "Library"
+msgstr "Biblioteca"
+
+msgid "Add link"
+msgstr "Adicionar link"
+
+msgid "Add to library"
+msgstr "Adicionar à biblioteca"
+
+msgid "No links in the library yet."
+msgstr "Nenhum link na biblioteca ainda."
+
+msgid ""
+"Paste the link to the file (Drive, Dropbox or similar). The file itself "
+"stays there."
+msgstr ""
+"Cole o link do arquivo (Drive, Dropbox ou similar). O arquivo continua no "
+"mesmo lugar."
+
+msgid "Save link"
+msgstr "Salvar link"
+
+msgid "Link added to the library."
+msgstr "Link adicionado à biblioteca."
+
+msgid "Kind"
+msgstr "Tipo"
+
+msgid "Link"
+msgstr "Link"
+
+msgid "Logo"
+msgstr "Logo"
+
+msgid "Font"
+msgstr "Fonte"
+
+msgid "Template"
+msgstr "Modelo"
+
+msgid "Reference"
+msgstr "Referência"
+
+msgid "Other"
+msgstr "Outro"
+
+msgid "Leads"
+msgstr "Leads"
+
+msgid "Proposals"
+msgstr "Propostas"
+
+msgid "New lead"
+msgstr "Novo lead"
+
+msgid "New proposal"
+msgstr "Nova proposta"
+
+msgid "Lead saved."
+msgstr "Lead salvo."
+
+msgid "Proposal saved."
+msgstr "Proposta salva."
+
+msgid "Stage updated."
+msgstr "Etapa atualizada."
+
+msgid "Status updated."
+msgstr "Status atualizado."
+
+msgid "Unknown stage."
+msgstr "Etapa desconhecida."
+
+msgid "Unknown status."
+msgstr "Status desconhecido."
+
+msgid "Source"
+msgstr "Origem"
+
+msgid "Contact"
+msgstr "Contato"
+
+msgid "Next action"
+msgstr "Próxima ação"
+
+msgid "Next action date"
+msgstr "Data da próxima ação"
+
+msgid "Name"
+msgstr "Nome"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "Lead"
+msgstr "Lead"
+
+msgid "Amount (BRL)"
+msgstr "Valor (BRL)"
+
+msgid "Save lead"
+msgstr "Salvar lead"
+
+msgid "Save proposal"
+msgstr "Salvar proposta"
+
+msgid "No leads here."
+msgstr "Nenhum lead aqui."
+
+msgid "No proposals yet."
+msgstr "Nenhuma proposta ainda."
+
+msgid "Move"
+msgstr "Mover"
+
+msgid "Update"
+msgstr "Atualizar"
+
+msgid "Referral"
+msgstr "Indicação"
+
+msgid "Website"
+msgstr "Site"
+
+msgid "Contacted"
+msgstr "Contatado"
+
+msgid "Meeting"
+msgstr "Reunião"
+
+msgid "Won"
+msgstr "Ganho"
+
+msgid "Lost"
+msgstr "Perdido"
+
+msgid "New"
+msgstr "Novo"
+
+msgid "Sent"
+msgstr "Enviada"
+
+msgid "Accepted"
+msgstr "Aceita"
+
+msgid "Rejected"
+msgstr "Recusada"
+
+msgid "Monthly report"
+msgstr "Relatório mensal"
+
+msgid "Network"
+msgstr "Rede"
+
+msgid "Metric"
+msgstr "Métrica"
+
+msgid "Value"
+msgstr "Valor"
+
+msgid "Month"
+msgstr "Mês"
+
+msgid "Show"
+msgstr "Mostrar"
+
+msgid "Enter a value"
+msgstr "Informar um valor"
+
+msgid "Back to report"
+msgstr "Voltar ao relatório"
+
+msgid "Save value"
+msgstr "Salvar valor"
+
+msgid "Value saved."
+msgstr "Valor salvo."
+
+msgid "Value updated."
+msgstr "Valor atualizado."
+
+msgid "N/D"
+msgstr "N/D"
+
+msgid "N/D means no value was entered for this month. No number is estimated."
+msgstr ""
+"N/D significa que nenhum valor foi informado para este mês. Nenhum número é "
+"estimado."
+
+msgid "Use the format YYYY-MM, for example 2026-10."
+msgstr "Use o formato AAAA-MM, por exemplo 2026-10."
+
+msgid "Format: YYYY-MM"
+msgstr "Formato: AAAA-MM"
+
+msgid "Reach"
+msgstr "Alcance"
+
+msgid "Interactions"
+msgstr "Interações"
+
+msgid "Saves"
+msgstr "Salvamentos"
+
+msgid "Followers"
+msgstr "Seguidores"
+
+msgid "Views"
+msgstr "Visualizações"
+
+msgid ""
+"Type the number as it appears in the network's insights. Entering the same "
+"month again updates the value."
+msgstr ""
+"Digite o número como aparece nas métricas da rede. Informar o mesmo mês de "
+"novo atualiza o valor."
+
+msgid ""
+"Install an authenticator app on your phone (Google Authenticator, Microsoft "
+"Authenticator or similar)."
+msgstr ""
+"Instale um aplicativo autenticador no seu celular (Google Authenticator, "
+"Microsoft Authenticator ou similar)."
+
+msgid "Add an account with this key, or open the link below on the phone:"
+msgstr "Adicione uma conta com esta chave, ou abra o link abaixo no celular:"
+
+msgid "Type the 6-digit code the app shows now:"
+msgstr "Digite o cÃ³digo de 6 dÃ­gitos que o aplicativo mostra agora:"
+
+msgid "Add comment"
+msgstr "Adicionar comentÃ¡rio"
+
+msgid "Agenda"
+msgstr "Agenda"
+
+msgid "Alerts"
+msgstr "Avisos"
+
+msgid "Board"
+msgstr "Quadro"
+
+msgid "Calendar"
+msgstr "CalendÃ¡rio"
+
+msgid "Comments"
+msgstr "ComentÃ¡rios"
+
+msgid "Confirm"
+msgstr "Confirmar"
+
+msgid "Copy"
+msgstr "CÃ³pia"
+
+msgid "copy"
+msgstr "cÃ³pia"
+
+msgid "Due"
+msgstr "Vence"
+
+msgid "Duplicate as a new draft"
+msgstr "Duplicar como novo rascunho"
+
+msgid "Empty"
+msgstr "Vazio"
+
+msgid "Enter your code"
+msgstr "Digite seu cÃ³digo"
+
+msgid "Files"
+msgstr "Arquivos"
+
+msgid "For questions about your content, write to"
+msgstr "Para dÃºvidas sobre o seu conteÃºdo, escreva para"
+
+msgid "Main"
+msgstr "Principal"
+
+msgid "Mark as done"
+msgstr "Marcar como concluÃ­da"
+
+msgid "Months"
+msgstr "Meses"
+
+msgid ""
+"Move a piece with its buttons on the piece page. Each change is recorded."
+msgstr ""
+"Mova uma peÃ§a pelos botÃµes da prÃ³pria pÃ¡gina da peÃ§a. Cada mudanÃ§a "
+"fica registrada."
+
+msgid "New task"
+msgstr "Nova tarefa"
+
+msgid "Next"
+msgstr "PrÃ³ximo"
+
+msgid "No brands available for you yet."
+msgstr "Nenhuma marca disponÃ­vel para vocÃª ainda."
+
+msgid "No comments yet."
+msgstr "Nenhum comentÃ¡rio ainda."
+
+msgid "No files shared with you yet."
+msgstr "Nenhum arquivo compartilhado com vocÃª ainda."
+
+msgid "No tasks yet."
+msgstr "Nenhuma tarefa ainda."
+
+msgid "Nothing scheduled this month."
+msgstr "Nada agendado neste mÃªs."
+
+msgid "Nothing scheduled yet."
+msgstr "Nada agendado ainda."
+
+msgid "Open in my authenticator app"
+msgstr "Abrir no meu aplicativo autenticador"
+
+msgid "Previous"
+msgstr "Anterior"
+
+msgid "Production board"
+msgstr "Quadro de produÃ§Ã£o"
+
+msgid "Reopen"
+msgstr "Reabrir"
+
+msgid "Results"
+msgstr "Resultados"
+
+msgid "Save task"
+msgstr "Salvar tarefa"
+
+msgid "Scheduled content, month view"
+msgstr "ConteÃºdo agendado, visÃ£o do mÃªs"
+
+msgid "Security"
+msgstr "SeguranÃ§a"
+
+msgid "Send comment"
+msgstr "Enviar comentÃ¡rio"
+
+msgid "Show everyone's tasks"
+msgstr "Mostrar as tarefas de todos"
+
+msgid "Show my tasks"
+msgstr "Mostrar minhas tarefas"
+
+msgid "Skip to content"
+msgstr "Pular para o conteÃºdo"
+
+msgid "Tasks"
+msgstr "Tarefas"
+
+msgid "Turn on"
+msgstr "Ativar"
+
+msgid "Two-step sign-in"
+msgstr "VerificaÃ§Ã£o em duas etapas"
+
+msgid ""
+"Two-step sign-in is on. You will be asked for a code from your app after "
+"your password."
+msgstr ""
+"A verificaÃ§Ã£o em duas etapas estÃ¡ ativa. Depois da senha, vocÃª vai "
+"precisar de um cÃ³digo do seu aplicativo."
+
+msgid "Write a comment (mention someone with @email)"
+msgstr "Escreva um comentÃ¡rio (mencione alguÃ©m com @e-mail)"
+
+msgid "Write a comment for the team"
+msgstr "Escreva um comentÃ¡rio para a equipe"
+
+msgid "Task"
+msgstr "Tarefa"
+
+msgid "Due date"
+msgstr "Data limite"
+
+msgid "Code from your app"
+msgstr "CÃ³digo do seu aplicativo"
+
+msgid "Mon"
+msgstr "Seg"
+
+msgid "Tue"
+msgstr "Ter"
+
+msgid "Wed"
+msgstr "Qua"
+
+msgid "Thu"
+msgstr "Qui"
+
+msgid "Fri"
+msgstr "Sex"
+
+msgid "Sat"
+msgstr "SÃ¡b"
+
+msgid "Sun"
+msgstr "Dom"
+
+msgid "Write a comment of up to 2000 characters."
+msgstr "Escreva um comentÃ¡rio de atÃ© 2000 caracteres."
+
+msgid "Comment added."
+msgstr "ComentÃ¡rio adicionado."
+
+msgid "Comment sent."
+msgstr "ComentÃ¡rio enviado."
+
+msgid "Copy created as a draft."
+msgstr "CÃ³pia criada como rascunho."
+
+msgid "Task added."
+msgstr "Tarefa adicionada."
+
+msgid "Two-step sign-in is on for your account."
+msgstr "A verificaÃ§Ã£o em duas etapas estÃ¡ ativa na sua conta."
+
+msgid "That code is not right. Check the time on your phone and try again."
+msgstr ""
+"Este cÃ³digo nÃ£o estÃ¡ certo. Confira a hora do seu celular e tente de "
+"novo."
+
+msgid "That code is not right."
+msgstr "Este cÃ³digo nÃ£o estÃ¡ certo."
+
+msgid ""
+"1. Install an authenticator app on your phone (Google Authenticator, "
+"Microsoft Authenticator or similar)."
+msgstr ""
+"1. Instale um aplicativo autenticador no seu celular (Google Authenticator, "
+"Microsoft Authenticator ou similar)."
+
+msgid "2. Add an account with this key, or open the link below on the phone:"
+msgstr ""
+"2. Adicione uma conta com esta chave, ou abra o link abaixo no celular:"
+
+msgid "3. Type the 6-digit code the app shows now:"
+msgstr "3. Digite o código de 6 dígitos que o aplicativo mostra agora:"

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Board" %} · Conceito OS{% endblock %}
+
+{% block content %}
+  <h1>{% trans "Production board" %}</h1>
+
+  <form method="get" class="card actions">
+    {{ filters.client.label_tag }} {{ filters.client }}
+    <button class="button-secondary">{% trans "Filter" %}</button>
+  </form>
+
+  <div class="board">
+    {% for state, items in columns %}
+      <section class="column" aria-labelledby="col-{{ state.value }}">
+        <h2 id="col-{{ state.value }}">{{ state.label }} <small>({{ items|length }})</small></h2>
+        {% for item in items %}
+          <a class="card-link" href="{% url 'content_detail' item.pk %}">
+            <span class="card">
+              <strong>{{ item.title }}</strong><br>
+              <small>{{ item.client.name }}</small>
+            </span>
+          </a>
+        {% empty %}
+          <p><small>{% trans "Empty" %}</small></p>
+        {% endfor %}
+      </section>
+    {% endfor %}
+  </div>
+  <p><small>{% trans "Move a piece with its buttons on the piece page. Each change is recorded." %}</small></p>
+{% endblock %}

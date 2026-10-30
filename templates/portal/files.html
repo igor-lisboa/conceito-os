@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Files" %} · Conceito OS{% endblock %}
+
+{% block content %}
+  <h1>{% trans "Files" %}</h1>
+  {% for asset in assets %}
+    <p class="card"><span class="state-badge">{{ asset.get_kind_display }}</span>
+      <a href="{{ asset.url }}" rel="noopener">{{ asset.title }}</a><br><small>{{ asset.client.name }}</small></p>
+  {% empty %}
+    <p class="card">{% trans "No files shared with you yet." %}</p>
+  {% endfor %}
+{% endblock %}

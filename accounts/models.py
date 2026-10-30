@@ -52,3 +52,16 @@ class Membership(models.Model):
 
     def __str__(self):
         return f"{self.user} @ {self.organization} ({Role(self.role).label})"
+
+
+class MFADevice(models.Model):
+    """An authenticator app linked to an account. Only a confirmed device is enforced at sign-in."""
+
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="mfa_device")
+    # TODO(TD-S11): encrypt at rest before production (see docs/technical-debt.md).
+    secret = models.CharField(max_length=64)
+    confirmed = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"MFA for {self.user}"

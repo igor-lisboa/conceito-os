@@ -92,6 +92,7 @@ class Content:
     approvals: list = field(default_factory=list)
     scheduled_for: object = None
     published_at: object = None
+    published_url: str = ""
     failure_reason: str = ""
     id: int | None = None  # set by the repository when the piece is first saved
     _events: list = field(default_factory=list, repr=False)
@@ -170,8 +171,9 @@ class Content:
     def unschedule(self):
         self._change_state(ContentState.APPROVED, scheduled_for=None)
 
-    def mark_published(self, *, now):
-        self._change_state(ContentState.PUBLISHED, published_at=now)
+    def mark_published(self, *, now, url=""):
+        """The team posted the piece by hand. The link, when given, is kept as proof."""
+        self._change_state(ContentState.PUBLISHED, published_at=now, published_url=url.strip())
 
     def mark_failed(self, reason):
         """A failure stays visible as failed. It is never recorded as published."""

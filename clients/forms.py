@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
-from .models import ClientBriefing
+from .models import BrandAsset, ClientBriefing
 
 
 class ClientForm(forms.Form):
@@ -33,4 +33,15 @@ class ClientBriefingForm(forms.ModelForm):
             "tone_of_voice": forms.Textarea(attrs={"rows": 3}),
             "competitors": forms.Textarea(attrs={"rows": 3}),
             "notes": forms.Textarea(attrs={"rows": 3}),
+        }
+
+
+class BrandAssetForm(forms.ModelForm):
+    class Meta:
+        model = BrandAsset
+        fields = ["title", "kind", "url"]
+        labels = {
+            "title": _("Title"),
+            "kind": _("Kind"),
+            "url": _("Link"),
         }

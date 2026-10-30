@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Proposals" %} · Conceito OS{% endblock %}
+
+{% block content %}
+  <h1>{% trans "Proposals" %}</h1>
+  <p class="actions">
+    <a class="button" href="{% url 'proposal_create' %}">{% trans "New proposal" %}</a>
+    <a class="button button-secondary" href="{% url 'lead_board' %}">{% trans "Leads" %}</a>
+  </p>
+
+  {% if proposals %}
+    <table>
+      <thead><tr><th>{% trans "Title" %}</th><th>{% trans "Amount (BRL)" %}</th><th>{% trans "Status" %}</th><th>{% trans "Update" %}</th></tr></thead>
+      <tbody>
+        {% for proposal in proposals %}
+          <tr>
+            <td>{{ proposal.title }}<br><small>{% if proposal.client %}{{ proposal.client.name }}{% elif proposal.lead %}{{ proposal.lead.name }}{% endif %}</small></td>
+            <td>R$ {{ proposal.amount }}</td>
+            <td><span class="state-badge">{{ proposal.get_status_display }}</span></td>
+            <td>
+              <form method="post" action="{% url 'proposal_status' proposal.pk %}" class="actions">
+                {% csrf_token %}
+                <label class="visually-hidden" for="status-{{ proposal.pk }}">{% trans "Status" %}</label>
+                <select name="status" id="status-{{ proposal.pk }}">
+                  {% for value, label in status_choices %}
+                    <option value="{{ value }}"{% if value == proposal.status %} selected{% endif %}>{{ label }}</option>
+                  {% endfor %}
+                </select>
+                <button class="button-secondary">{% trans "Save" %}</button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="card">{% trans "No proposals yet." %}</p>
+  {% endif %}
+{% endblock %}

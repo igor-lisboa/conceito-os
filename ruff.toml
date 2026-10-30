@@ -9,3 +9,5 @@ ignore = ["DJ008", "UP042"]
 [lint.per-file-ignores]
 "*/migrations/*" = ["E", "F", "W", "I", "B", "UP", "DJ"]
 "config/settings/*" = ["F403", "F405"]
+# The translation table has one long Portuguese sentence per line on purpose.
+"scripts/add_translations.py" = ["E501"]

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Tasks" %} · Conceito OS{% endblock %}
+
+{% block content %}
+  <h1>{% trans "Tasks" %}</h1>
+  <p class="actions">
+    <a class="button" href="{% url 'task_create' %}">{% trans "New task" %}</a>
+    {% if mine %}
+      <a class="button button-secondary" href="{% url 'task_list' %}">{% trans "Show everyone's tasks" %}</a>
+    {% else %}
+      <a class="button button-secondary" href="?mine=1">{% trans "Show my tasks" %}</a>
+    {% endif %}
+  </p>
+
+  {% for task in tasks %}
+    <div class="card{% if task.is_done %} done{% endif %}">
+      <form method="post" action="{% url 'task_toggle' task.pk %}" class="actions">
+        {% csrf_token %}
+        <button class="button-secondary" aria-label="{% if task.is_done %}{% trans 'Reopen' %}{% else %}{% trans 'Mark as done' %}{% endif %}: {{ task.title }}">
+          {% if task.is_done %}&#10003;{% else %}&#9633;{% endif %}
+        </button>
+        <span>
+          <strong>{{ task.title }}</strong><br>
+          <small>
+            {% if task.client %}{{ task.client.name }} · {% endif %}
+            {% if task.owner %}{{ task.owner.email }} · {% endif %}
+            {% if task.due_date %}{% trans "Due" %} {{ task.due_date|date:"d/m/Y" }}{% endif %}
+          </small>
+        </span>
+      </form>
+    </div>
+  {% empty %}
+    <p class="card">{% trans "No tasks yet." %}</p>
+  {% endfor %}
+{% endblock %}

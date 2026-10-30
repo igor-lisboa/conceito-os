@@ -34,6 +34,7 @@ class ContentItem(models.Model):
     client_approval_required = models.BooleanField(default=True)
     scheduled_for = models.DateTimeField(null=True, blank=True)
     published_at = models.DateTimeField(null=True, blank=True)
+    published_url = models.URLField(max_length=500, blank=True)
     failure_reason = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -81,3 +82,17 @@ class Approval(models.Model):
 
     def __str__(self):
         return f"{ApprovalStage(self.stage).label}: {ApprovalDecision(self.decision).label} (v{self.version.number})"
+
+
+class Comment(models.Model):
+    organization = models.ForeignKey("accounts.Organization", on_delete=models.CASCADE, related_name="+")
+    content = models.ForeignKey("production.ContentItem", on_delete=models.CASCADE, related_name="comments")
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name="+")
+    body = models.TextField(max_length=2000)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["created_at", "id"]
+
+    def __str__(self):
+        return f"Comment on {self.content_id}"

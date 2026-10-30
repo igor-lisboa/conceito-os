@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Monthly report" %} · Conceito OS{% endblock %}
+
+{% block content %}
+  <h1>{% trans "Monthly report" %}</h1>
+
+  <form method="get" class="card actions">
+    <label for="client-select">{% trans "Client" %}</label>
+    <select name="client" id="client-select">
+      {% for item in clients %}
+        <option value="{{ item.pk }}"{% if client and item.pk == client.pk %} selected{% endif %}>{{ item.name }}</option>
+      {% endfor %}
+    </select>
+    <label for="month-input">{% trans "Month" %}</label>
+    <input type="month" name="month" id="month-input" value="{{ month|date:'Y-m' }}">
+    <button class="button-secondary">{% trans "Show" %}</button>
+  </form>
+
+  {% if client %}
+    <table>
+      <thead><tr><th>{% trans "Network" %}</th><th>{% trans "Metric" %}</th><th>{% trans "Value" %}</th></tr></thead>
+      <tbody>
+        {% for row in rows %}
+          <tr>
+            <td>{{ row.platform }}</td>
+            <td>{{ row.metric }}</td>
+            <td>{% if row.missing %}<span class="state-badge">{% trans "N/D" %}</span>{% else %}{{ row.value }}{% endif %}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <p><small>{% trans "N/D means no value was entered for this month. No number is estimated." %}</small></p>
+    {% if can_enter %}<p><a class="button" href="{% url 'metric_entry' %}">{% trans "Enter a value" %}</a></p>{% endif %}
+  {% else %}
+    <p class="card">{% trans "No clients available for you yet." %}</p>
+  {% endif %}
+{% endblock %}

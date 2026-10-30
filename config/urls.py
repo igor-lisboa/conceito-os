@@ -9,5 +9,8 @@ urlpatterns = [
     path("conteudos/", include("production.urls")),
     path("portal/", include("portal.urls")),
     path("notificacoes/", include("notifications.urls")),
+    path("comercial/", include("crm.urls")),
+    path("relatorios/", include("reports.urls")),
+    path("tarefas/", include("tasks.urls")),
     path("", include("core.urls")),
 ]

@@ -1,5 +1,8 @@
 from django.db import models
 
+from core.choices import translated_choices
+from core.enums import LabeledEnum
+
 
 class Client(models.Model):
     """A brand served by the agency (not the platform subscriber)."""
@@ -55,3 +58,28 @@ class ClientBriefing(models.Model):
 
     def __str__(self):
         return f"Briefing of {self.client}"
+
+
+class AssetKind(LabeledEnum):
+    LOGO = ("logo", "Logo")
+    FONT = ("font", "Font")
+    TEMPLATE = ("template", "Template")
+    REFERENCE = ("reference", "Reference")
+    OTHER = ("other", "Other")
+
+
+class BrandAsset(models.Model):
+    """A link to a brand file kept elsewhere (Drive, Dropbox...). Files are not uploaded yet (PD-03)."""
+
+    organization = models.ForeignKey("accounts.Organization", on_delete=models.CASCADE, related_name="+")
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, related_name="assets")
+    title = models.CharField(max_length=120)
+    kind = models.CharField(max_length=20, choices=translated_choices(AssetKind), default=AssetKind.OTHER.value)
+    url = models.URLField(max_length=500)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["kind", "title"]
+
+    def __str__(self):
+        return self.title

@@ -7,18 +7,37 @@
   <link rel="stylesheet" href="{% static 'css/app.css' %}">
 </head>
 <body>
+  <a class="skip-link" href="#conteudo">{% trans "Skip to content" %}</a>
+
   <header class="topbar">
     <a class="brand" href="{% url 'home' %}">Conceito OS</a>
     {% if user.is_authenticated %}
-      <nav>
+      <nav class="main-nav" aria-label="{% trans 'Main' %}">
         {% if request.membership.role == 'client' %}
           <a href="{% url 'portal_list' %}">{% trans "Approvals" %}</a>
+          <a href="{% url 'portal_calendar' %}">{% trans "Calendar" %}</a>
+          <a href="{% url 'portal_results' %}">{% trans "Results" %}</a>
+          <a href="{% url 'portal_files' %}">{% trans "Files" %}</a>
+          <a href="{% url 'portal_contact' %}">{% trans "Contact" %}</a>
         {% elif request.membership %}
           <a href="{% url 'home' %}">{% trans "Home" %}</a>
           <a href="{% url 'client_list' %}">{% trans "Clients" %}</a>
           <a href="{% url 'content_list' %}">{% trans "Content" %}</a>
+          <a href="{% url 'content_calendar' %}">{% trans "Calendar" %}</a>
+          <a href="{% url 'content_board' %}">{% trans "Board" %}</a>
+          <a href="{% url 'task_list' %}">{% trans "Tasks" %}</a>
+          <a href="{% url 'report' %}">{% trans "Reports" %}</a>
+          {% if request.membership.role == 'owner' or request.membership.role == 'account_manager' %}
+            <a href="{% url 'lead_board' %}">{% trans "Sales" %}</a>
+          {% endif %}
+          {% if request.membership.role == 'owner' %}
+            <a href="{% url 'team_list' %}">{% trans "Team" %}</a>
+            <a href="{% url 'organization_settings' %}">{% trans "Settings" %}</a>
+            <a href="{% url 'audit_log' %}">{% trans "Audit log" %}</a>
+          {% endif %}
         {% endif %}
         <a href="{% url 'notification_list' %}">{% trans "Notifications" %}{% if unread_notification_count %} ({{ unread_notification_count }}){% endif %}</a>
+        <a href="{% url 'mfa_setup' %}">{% trans "Security" %}</a>
       </nav>
     {% endif %}
 
@@ -28,9 +47,9 @@
       <label for="lang-select" class="visually-hidden">{% trans "Language" %}</label>
       <select name="language" id="lang-select" onchange="this.form.submit()">
         {% get_available_languages as AVAILABLE_LANGUAGES %}
-        {% get_current_language as CURRENT_LANGUAGE %}
+        {% get_current_language as CURRENT_LANGUAGE_CODE %}
         {% for code, name in AVAILABLE_LANGUAGES %}
-          <option value="{{ code }}"{% if code == CURRENT_LANGUAGE %} selected{% endif %}>{{ name }}</option>
+          <option value="{{ code }}"{% if code == CURRENT_LANGUAGE_CODE %} selected{% endif %}>{{ name }}</option>
         {% endfor %}
       </select>
       <noscript><button type="submit" class="button-secondary">{% trans "Change" %}</button></noscript>
@@ -44,9 +63,9 @@
     {% endif %}
   </header>
 
-  <main>
+  <main id="conteudo" tabindex="-1">
     {% if messages %}
-      <ul class="messages">
+      <ul class="messages" role="status">
         {% for message in messages %}
           <li class="message message-{{ message.tags }}">{{ message }}</li>
         {% endfor %}
@@ -54,5 +73,22 @@
     {% endif %}
     {% block content %}{% endblock %}
   </main>
+
+  {% if user.is_authenticated and request.membership %}
+    <nav class="bottom-nav" aria-label="{% trans 'Main' %}">
+      {% if request.membership.role == 'client' %}
+        <a href="{% url 'portal_list' %}">{% trans "Approvals" %}</a>
+        <a href="{% url 'portal_calendar' %}">{% trans "Calendar" %}</a>
+        <a href="{% url 'portal_files' %}">{% trans "Files" %}</a>
+        <a href="{% url 'portal_contact' %}">{% trans "Contact" %}</a>
+      {% else %}
+        <a href="{% url 'home' %}">{% trans "Home" %}</a>
+        <a href="{% url 'client_list' %}">{% trans "Clients" %}</a>
+        <a href="{% url 'content_calendar' %}">{% trans "Calendar" %}</a>
+        <a href="{% url 'task_list' %}">{% trans "Tasks" %}</a>
+        <a href="{% url 'notification_list' %}">{% trans "Alerts" %}{% if unread_notification_count %} ({{ unread_notification_count }}){% endif %}</a>
+      {% endif %}
+    </nav>
+  {% endif %}
 </body>
 </html>

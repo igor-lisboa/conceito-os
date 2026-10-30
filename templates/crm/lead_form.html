@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "New lead" %} · Conceito OS{% endblock %}
+
+{% block content %}
+  <h1>{% trans "New lead" %}</h1>
+  <form method="post" class="card">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">{% trans "Save lead" %}</button>
+    <a href="{% url 'lead_board' %}">{% trans "Cancel" %}</a>
+  </form>
+{% endblock %}

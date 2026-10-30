@@ -1,0 +1,12 @@
+{% load i18n %}{% trans "You were invited to join a team on Conceito OS." %}
+
+{% blocktrans with org=organization %}Organization: {{ org }}{% endblocktrans %}
+
+{% trans "Create your password with this link. It works once and expires in 24 hours:" %}
+{{ link }}
+
+{% trans "Then sign in with your email address on the sign-in page." %}
+
+{% trans "If you did not expect this invitation, you can ignore this email." %}
+
+-- Conceito OS

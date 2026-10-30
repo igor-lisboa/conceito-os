@@ -42,9 +42,10 @@ class ContentForm(ContentVersionForm):
 
 
 class ContentActionForm(forms.Form):
-    """Extra input some actions need: a comment or reason, or a publishing date."""
+    """Extra input some actions need: a comment or reason, a publishing date, or the link of the post."""
 
     comment = forms.CharField(label=_("Comment"), widget=forms.Textarea(attrs={"rows": 2}), required=False)
+    link = forms.URLField(label=_("Link to the published post"), max_length=500, required=False)
     scheduled_for = forms.DateTimeField(
         label=_("Publish on"),
         required=False,

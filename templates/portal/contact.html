@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Contact" %} · Conceito OS{% endblock %}
+
+{% block content %}
+  <h1>{% trans "Contact" %}</h1>
+  <p class="card">
+    {% trans "For questions about your content, write to" %}
+    <a href="mailto:{{ contact_email }}">{{ contact_email }}</a>.
+  </p>
+{% endblock %}

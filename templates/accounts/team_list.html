@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Team" %} · Conceito OS{% endblock %}
+
+{% block content %}
+  <h1>{% trans "Team" %}</h1>
+  <p><a class="button" href="{% url 'team_invite' %}">{% trans "Invite person" %}</a></p>
+
+  <table>
+    <thead><tr><th>{% trans "Email" %}</th><th>{% trans "Role" %}</th><th>{% trans "Clients" %}</th><th></th></tr></thead>
+    <tbody>
+      {% for member in members %}
+        <tr>
+          <td>{{ member.user.email }}</td>
+          <td>{{ member.get_role_display }}</td>
+          <td>
+            {% if member.role == 'owner' %}{% trans "All clients" %}{% else %}
+              {% for access in member.client_accesses.all %}{{ access.client.name }}{% if not forloop.last %}, {% endif %}{% empty %}{% trans "None" %}{% endfor %}
+            {% endif %}
+          </td>
+          <td>
+            {% if member.pk != request.membership.pk %}
+              <form method="post" action="{% url 'team_remove' member.pk %}">
+                {% csrf_token %}
+                <button class="button-secondary">{% trans "Remove access" %}</button>
+              </form>
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

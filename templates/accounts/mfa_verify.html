@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Enter your code" %} · Conceito OS{% endblock %}
+
+{% block content %}
+  <h1>{% trans "Enter your code" %}</h1>
+  {% if locked %}
+    <p class="card">{% trans "Too many failed attempts. Try again in 15 minutes." %}</p>
+  {% else %}
+    <form method="post" class="card">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">{% trans "Confirm" %}</button>
+    </form>
+  {% endif %}
+{% endblock %}

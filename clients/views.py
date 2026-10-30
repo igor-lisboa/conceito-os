@@ -1,6 +1,8 @@
+from django.contrib import messages
 from django.shortcuts import get_object_or_404, redirect
-from django.urls import reverse_lazy
-from django.views.generic import DetailView, FormView, ListView, UpdateView
+from django.urls import reverse, reverse_lazy
+from django.utils.translation import gettext
+from django.views.generic import CreateView, DetailView, FormView, ListView, UpdateView
 
 from accounts.mixins import CapabilityRequiredMixin
 from accounts.permissions import Capability
@@ -9,7 +11,7 @@ from core.http import run_action
 from production.queries import visible_content
 
 from . import services
-from .forms import ClientBriefingForm, ClientForm
+from .forms import BrandAssetForm, ClientBriefingForm, ClientForm
 from .queries import visible_clients
 
 
@@ -74,3 +76,29 @@ class BriefingUpdateView(CapabilityRequiredMixin, UpdateView):
         if not saved:
             return self.form_invalid(form)
         return redirect("client_detail", pk=self.object.client_id)
+
+
+class AssetCreateView(CapabilityRequiredMixin, CreateView):
+    """Add a link to the brand library (CLI-007). Files stay where they are."""
+
+    required_capability = Capability.EDIT_BRIEFING
+    template_name = "clients/asset_form.html"
+    form_class = BrandAssetForm
+
+    def dispatch(self, request, *args, **kwargs):
+        # Out-of-scope clients get 404 before any form work.
+        if request.user.is_authenticated:
+            self.client_record = get_object_or_404(visible_clients(request.membership), pk=kwargs["pk"])
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(client_record=self.client_record, **kwargs)
+
+    def form_valid(self, form):
+        form.instance.organization = self.request.membership.organization
+        form.instance.client = self.client_record
+        messages.success(self.request, gettext("Link added to the library."))
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse("client_detail", args=[self.client_record.pk])

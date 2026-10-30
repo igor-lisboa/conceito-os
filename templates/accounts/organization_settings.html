@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Organization settings" %} · Conceito OS{% endblock %}
+
+{% block content %}
+  <h1>{% trans "Organization settings" %}</h1>
+  <form method="post" class="card">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p><small>{% trans "Dates on screen follow this time zone. Times are stored in UTC." %}</small></p>
+    <button type="submit">{% trans "Save" %}</button>
+  </form>
+{% endblock %}

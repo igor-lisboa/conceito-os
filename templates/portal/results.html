@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Results" %} · Conceito OS{% endblock %}
+
+{% block content %}
+  <h1>{% trans "Results" %} · {{ month|date:"F Y" }}</h1>
+  {% for block in blocks %}
+    <section class="card">
+      <h2>{{ block.client.name }}</h2>
+      <table>
+        <thead><tr><th>{% trans "Network" %}</th><th>{% trans "Metric" %}</th><th>{% trans "Value" %}</th></tr></thead>
+        <tbody>
+          {% for row in block.rows %}
+            <tr><td>{{ row.platform }}</td><td>{{ row.metric }}</td><td>{{ row.value }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+  {% empty %}
+    <p class="card">{% trans "No brands available for you yet." %}</p>
+  {% endfor %}
+  <p><small>{% trans "N/D means no value was entered for this month. No number is estimated." %}</small></p>
+{% endblock %}

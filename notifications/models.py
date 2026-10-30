@@ -11,6 +11,7 @@ KIND_MESSAGES = {
     "approved_by_client": "{client} approved “{title}”.",
     "internal_rejected": "“{title}” needs changes before it goes to the client.",
     "publish_failed": "Publishing “{title}” failed: {reason}",
+    "mention": "{author} mentioned you on “{title}”.",
 }
 
 

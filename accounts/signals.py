@@ -9,6 +9,7 @@ from .models import User
 @receiver(post_save, sender=User)
 def send_welcome_on_creation(sender, instance, created, raw=False, **kwargs):
     """Welcome a new user once their row is committed, so the email never points to a
-    user that was rolled back."""
-    if created and not raw and instance.email:
+    user that was rolled back. Invited users have no password yet: they get the
+    invitation email instead (see accounts/team.py)."""
+    if created and not raw and instance.email and instance.has_usable_password():
         transaction.on_commit(lambda: send_welcome_email(instance))

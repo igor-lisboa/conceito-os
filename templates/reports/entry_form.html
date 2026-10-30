@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Enter a value" %} · Conceito OS{% endblock %}
+
+{% block content %}
+  <h1>{% trans "Enter a value" %}</h1>
+  <p class="card">{% trans "Type the number as it appears in the network's insights. Entering the same month again updates the value." %}</p>
+  <form method="post" class="card">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">{% trans "Save value" %}</button>
+    <a href="{% url 'report' %}">{% trans "Back to report" %}</a>
+  </form>
+{% endblock %}

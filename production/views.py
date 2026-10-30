@@ -6,7 +6,7 @@ the result. Errors are translated by core/http.py.
 
 from django.contrib import messages
 from django.http import Http404
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.utils.translation import gettext
 from django.views import View
@@ -17,6 +17,7 @@ from accounts.permissions import Capability, has_capability
 from core.actors import actor_for
 from core.http import run_action
 
+from .comments import add_comment
 from .composition import build_content_service
 from .domain.content import VersionData
 from .domain.states import ContentState
@@ -117,6 +118,7 @@ class ContentDetailView(CapabilityRequiredMixin, DetailView):
             }
         )
         context["action_form"] = ContentActionForm()
+        context["comments"] = self.object.comments.select_related("author")
         context["actions"] = _available_actions(actor_for(self.request.membership), self.object.state)
         return context
 
@@ -151,7 +153,7 @@ ACTION_HANDLERS = {
     "reject_internal": lambda s, a, i, d: s.decide_internal(a, i, approve=False, comment=d["comment"]),
     "schedule": lambda s, a, i, d: s.schedule(a, i, when=d["scheduled_for"]),
     "unschedule": lambda s, a, i, d: s.unschedule(a, i),
-    "mark_published": lambda s, a, i, d: s.mark_published(a, i),
+    "mark_published": lambda s, a, i, d: s.mark_published(a, i, url=d["link"]),
     "mark_failed": lambda s, a, i, d: s.mark_failed(a, i, reason=d["comment"]),
 }
 
@@ -174,4 +176,21 @@ class ContentActionView(CapabilityRequiredMixin, View):
                 lambda: handler(build_content_service(), actor_for(request.membership), pk, form.cleaned_data),
                 success_message="Action recorded.",
             )
+        return redirect("content_detail", pk=pk)
+
+
+class ContentCommentView(CapabilityRequiredMixin, View):
+    """A team comment on a piece. Mentioned members are notified (PRO-004, NTF-006)."""
+
+    required_capability = Capability.ACCESS_INTERNAL
+    http_method_names = ["post"]
+
+    def post(self, request, pk):
+        content = get_object_or_404(visible_content(actor_for(request.membership)), pk=pk)
+        body = request.POST.get("body", "").strip()
+        if not body or len(body) > 2000:
+            messages.error(request, gettext("Write a comment of up to 2000 characters."))
+        else:
+            add_comment(content, request.user, body)
+            messages.success(request, gettext("Comment added."))
         return redirect("content_detail", pk=pk)

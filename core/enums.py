@@ -19,3 +19,7 @@ class LabeledEnum(str, Enum):
     @classmethod
     def choices(cls):
         return [(member.value, member.label) for member in cls]
+
+    @classmethod
+    def values(cls):
+        return [member.value for member in cls]

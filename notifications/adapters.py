@@ -93,6 +93,30 @@ class DjangoNotifier:
             transaction.on_commit(lambda n=notification: _send_email(n))
         return created
 
+    def notify_users(
+        self, *, users, kind, organization_id, content_id, title, actor_user_id, event_key, extra=None
+    ):
+        """Notify a given list of people (used for mentions, where the recipients are named in the text)."""
+        if kind not in KIND_MESSAGES:
+            raise ValueError(f"Unknown notification kind: {kind}")
+        params = {"title": title, **(extra or {})}
+        url = reverse("content_detail", args=[content_id])
+
+        created = []
+        for user in users:
+            if user.pk == actor_user_id:
+                continue
+            notification, was_created = Notification.objects.get_or_create(
+                recipient=user,
+                event_key=event_key,
+                defaults={"organization_id": organization_id, "kind": kind, "params": params, "url": url},
+            )
+            if was_created:
+                created.append(notification)
+        for notification in created:
+            transaction.on_commit(lambda n=notification: _send_email(n))
+        return created
+
 
 def _send_email(notification):
     """Email copy of a notification. A failed send is logged; the in-app notification stays."""

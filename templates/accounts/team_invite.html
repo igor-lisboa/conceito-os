@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Invite person" %} · Conceito OS{% endblock %}
+
+{% block content %}
+  <h1>{% trans "Invite person" %}</h1>
+  <p class="card">{% trans "We will email a link so they can create their own password." %}</p>
+  <form method="post" class="card">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">{% trans "Send invitation" %}</button>
+    <a href="{% url 'team_list' %}">{% trans "Cancel" %}</a>
+  </form>
+{% endblock %}

@@ -68,6 +68,9 @@ INSTALLED_APPS = [
     "production",
     "portal",
     "notifications",
+    "crm",
+    "reports",
+    "tasks",
     "core",
 ]
 
@@ -80,6 +83,8 @@ MIDDLEWARE = [
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "accounts.middleware.ActiveMembershipMiddleware",
+    "accounts.middleware.OrganizationTimezoneMiddleware",
+    "accounts.middleware.MFAEnforcementMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -121,6 +126,15 @@ DATABASES = {
 }
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Shared counters (sign-in attempt limits). The database cache is shared by every
+# process. Create its table once: python manage.py createcachetable
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.db.DatabaseCache",
+        "LOCATION": "django_cache",
+    }
+}
 
 # --- Auth ------------------------------------------------------------------
 
@@ -187,3 +201,27 @@ SITE_URL = os.environ.get("SITE_URL", "http://127.0.0.1:8080").rstrip("/")
 
 # How long a password reset link stays valid, in seconds (one day).
 PASSWORD_RESET_TIMEOUT = 60 * 60 * 24
+
+# Shown in the client portal's contact page.
+CONTACT_EMAIL = os.environ.get("CONTACT_EMAIL", "contato@conceito.com.br")
+
+# --- Logging ------------------------------------------------------------------
+# Everything goes to standard output: Vercel and Docker both collect it.
+# Failed emails, failed notifications and server errors are logged here (TD-14).
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "plain": {"format": "%(asctime)s %(levelname)s %(name)s: %(message)s"},
+    },
+    "handlers": {
+        "console": {"class": "logging.StreamHandler", "formatter": "plain"},
+    },
+    "root": {"handlers": ["console"], "level": "WARNING"},
+    "loggers": {
+        "accounts": {"handlers": ["console"], "level": "INFO", "propagate": False},
+        "notifications": {"handlers": ["console"], "level": "INFO", "propagate": False},
+        "django.request": {"handlers": ["console"], "level": "ERROR", "propagate": False},
+    },
+}

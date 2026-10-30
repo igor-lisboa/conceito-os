@@ -1,18 +1,17 @@
 from django.contrib.auth import views as auth_views
 from django.urls import path, reverse_lazy
 
-from .forms import EmailAuthenticationForm
+from . import mfa_views, views
 
 urlpatterns = [
-    path(
-        "login/",
-        auth_views.LoginView.as_view(
-            template_name="accounts/login.html",
-            authentication_form=EmailAuthenticationForm,
-        ),
-        name="login",
-    ),
+    path("login/", views.ThrottledLoginView.as_view(), name="login"),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
+    path("equipe/", views.TeamListView.as_view(), name="team_list"),
+    path("equipe/convidar/", views.TeamInviteView.as_view(), name="team_invite"),
+    path("equipe/<int:pk>/remover/", views.TeamRemoveView.as_view(), name="team_remove"),
+    path("organizacao/", views.OrganizationSettingsView.as_view(), name="organization_settings"),
+    path("mfa/configurar/", mfa_views.MFASetupView.as_view(), name="mfa_setup"),
+    path("mfa/verificar/", mfa_views.MFAVerifyView.as_view(), name="mfa_verify"),
     # Password recovery: the user asks for a link by email, then sets a new password.
     path(
         "password/reset/",

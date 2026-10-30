@@ -244,6 +244,9 @@ docker compose down -v     # stop and delete all local data (then run migrate ag
 The init script in `docker/mysql/init/` runs only when the volume is first
 created. If you change it, run `docker compose down -v` and start again.
 
+After the migrations, run `python manage.py createcachetable` once. It creates the
+table that counts failed sign-in attempts.
+
 ### First administrator
 
 The administrator is created with a command, not by hand. The email and password
@@ -399,8 +402,11 @@ These are known gaps, not bugs. They are tracked in the specs.
 - **Dates use UTC in forms.** The spec asks for each agency's timezone. The data is stored in UTC; the per-organization timezone is not applied to the screens yet.
 - **Client access is managed in the admin.** There is no screen yet for the owner to grant brand access.
 - **One organization per screen session.** A user in several organizations can be switched by setting the session key; there is no switcher in the UI yet.
-- **No MFA or invitations by email yet.** Password recovery and the welcome email work. Spec items AUTH-004 (MFA) and AUTH-011 (invitations) are pending.
-- **Only the first administrator is created by command.** New users are created in the Django admin for now; the welcome email is sent when they are saved.
+- **Two-step sign-in is optional.** Each person can turn it on under Security. Making it mandatory for owners waits for the decision recorded as D-17.
+- **Calendar and board do not drag.** Reschedule and change stages with the buttons on each piece.
+- **Alerts for failures go to the logs only.** Paging a person needs an external service.
+- **Welcome and invitation emails are in Portuguese.** The language is not stored per person yet.
+- **Sign-in attempt counters are per instance on Vercel.** The per-account limit still holds within a shared database cache; a shared store is debt (TD-12).
 - **Dark mode and tablet-specific layouts** are out of scope (see the design system spec).
 
 ---

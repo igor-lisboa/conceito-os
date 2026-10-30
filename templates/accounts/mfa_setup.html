@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Security" %} · Conceito OS{% endblock %}
+
+{% block content %}
+  <h1>{% trans "Two-step sign-in" %}</h1>
+  {% if device.confirmed %}
+    <p class="card">{% trans "Two-step sign-in is on. You will be asked for a code from your app after your password." %}</p>
+  {% else %}
+    <div class="card">
+      <p>{% trans "1. Install an authenticator app on your phone (Google Authenticator, Microsoft Authenticator or similar)." %}</p>
+      <p>{% trans "2. Add an account with this key, or open the link below on the phone:" %}</p>
+      <p><code>{{ device.secret }}</code></p>
+      <p><a href="{{ uri }}">{% trans "Open in my authenticator app" %}</a></p>
+      <p>{% trans "3. Type the 6-digit code the app shows now:" %}</p>
+      <form method="post" action="{% url 'mfa_setup' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">{% trans "Turn on" %}</button>
+      </form>
+    </div>
+  {% endif %}
+{% endblock %}

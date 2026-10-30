@@ -19,8 +19,8 @@ receive notifications. Everything beyond that is in the technical debt document.
 | ID | Decision | Status | Why | Where |
 | --- | --- | --- | --- | --- |
 | PD-01 | Phase 1 is an MVP that proves the core flow: produce, review, client approval, publish status. | Built | Smaller scope gets real use sooner; the spec's full vision is delivered in phases (VIS-006). | [roadmap](../specs/planning/roadmap.md) |
-| PD-02 | CRM, proposals and reports in Phase 1 are a **manual minimum**: records typed by people, no automation, no AI, no PDF generation. | Decided, not built | The product owner's answer to open decision D-01. Keeps the agency's pipeline in the tool without building the research and automation features yet. | [debt TD-01](technical-debt.md) |
-| PD-03 | Brand files are stored as **links** (Drive, Dropbox and the like). No file upload in Phase 1. | Decided, not built | Vercel has no persistent file storage. Uploads need an external storage service, which needs an account and keys. The product owner chose links for now. | [debt TD-02](technical-debt.md) |
+| PD-02 | CRM, proposals and reports in Phase 1 are a **manual minimum**: records typed by people, no automation, no AI, no PDF generation. | Built (manual minimum) | The product owner's answer to open decision D-01. Keeps the agency's pipeline in the tool without building the research and automation features yet. | [debt TD-01](technical-debt.md) |
+| PD-03 | Brand files are stored as **links** (Drive, Dropbox and the like). No file upload in Phase 1. | Built (links) | Vercel has no persistent file storage. Uploads need an external storage service, which needs an account and keys. The product owner chose links for now. | [debt TD-02](technical-debt.md) |
 | PD-04 | Notifications go to **the app and by email**. | Built | The product owner's answer. Email reaches people who do not open the app daily. | `notifications/` |
 | PD-05 | Publishing to Instagram and TikTok is **manual**: a person posts by hand and marks the piece as published. | Built | Meta and TikTok APIs need app review and approval (spec section 5). Manual publishing covers the MVP. | `production/domain/states.py` |
 | PD-06 | Tablet has no dedicated layout. The phone layout is the responsive layout. | Built | Approved in the spec (NAV-003). | `templates/`, `static/css/app.css` |
@@ -106,9 +106,9 @@ receive notifications. Everything beyond that is in the technical debt document.
 | PD-72 | Password recovery sends a link valid for 24 hours, usable once. An unknown email gets the same answer. | Built | Spec AUTH-002. Stops account discovery. | `accounts/urls.py`, templates |
 | PD-73 | A **welcome email** is sent when a user is created, written in pt-BR. Changing the language is one line. | Built | The team is Brazilian. The welcome is sent after commit and never breaks account creation. | `accounts/emails.py`, `accounts/signals.py` |
 | PD-74 | There is no MFA yet. | Decided, not built | Spec AUTH-004 is pending a risk decision per role (D-17). | [debt TD-11](technical-debt.md) |
-| PD-75 | There are no login attempt limits yet. | Decided, not built | Spec SEC-008. Needs a shared store for counts, which needs a decision on hosting. | [debt TD-12](technical-debt.md) |
+| PD-75 | Failed sign-in attempts are limited: 5 per account and 20 per address in 15 minutes. | Built (counts are per instance on Vercel, see TD-12) | Spec SEC-008. Needs a shared store for counts, which needs a decision on hosting. | [debt TD-12](technical-debt.md) |
 | PD-76 | The first administrator is created with a command, from environment variables. The password is never in the code. | Built | Spec ops practice; no default password in the repository. | `accounts/management/commands/create_initial_admin.py` |
-| PD-77 | Inviting people by email and removing their access are not built. Members are created in the Django admin for now. | Decided, not built | Spec AUTH-011 and AUTH-012. | [debt TD-03](technical-debt.md) |
+| PD-77 | Inviting people by email and removing their access are built. Invitations reuse the password-reset link (see PD-96). | Built | Spec AUTH-011 and AUTH-012. | [debt TD-03](technical-debt.md) |
 
 ---
 
@@ -119,7 +119,7 @@ receive notifications. Everything beyond that is in the technical debt document.
 | PD-80 | English is the default; Portuguese (Brazil) is available. Each browser chooses; the choice is kept in a cookie. | Built | The product owner asked for both. The cookie avoids a profile setting for the MVP. | `config/settings/base.py`, `templates/base.html` |
 | PD-81 | Translations are written by hand in `.po` files and compiled with a pure-Python script. The `.mo` files are committed. | Built | Windows does not ship GNU gettext. Vercel cannot compile at build time. | `scripts/compile_translations.py`, `locale/` |
 | PD-82 | A test fails if any catalog entry lacks a translation. | Built | Catches forgotten strings in the catalog. Strings missing from the catalog are a review item. | `core/tests/test_i18n.py` |
-| PD-83 | Dates are stored in UTC. The organization's timezone is stored but not yet applied on screen. | Partly built | Spec CAL-011. Applying the timezone is debt. | [debt TD-13](technical-debt.md) |
+| PD-83 | Dates are stored in UTC and shown and typed in the organization's time zone (set by the owner). | Built | Spec CAL-011. Applying the timezone is debt. | [debt TD-13](technical-debt.md) |
 
 ---
 
@@ -135,6 +135,34 @@ receive notifications. Everything beyond that is in the technical debt document.
 | PD-95 | Email sending is configured by `EMAIL_*` variables. Locally it points to Mailpit. | Built | Production uses the provider's SMTP settings. | `config/settings/base.py`, [deployment guide](deployment.md) |
 
 ---
+
+## Added in the final Phase 1 pass
+
+| ID | Decision | Status | Why | Where |
+| --- | --- | --- | --- | --- |
+| PD-96 | Invitations create the account with no password. The invited person sets it through the password-reset link, which expires in 24 hours and works once. | Built | No shared password is ever sent by email; reuses a flow that is already tested. | `accounts/team.py`, `accounts/signals.py` |
+| PD-97 | Removing someone deletes their membership and client access. The account and its history stay. Removal is effective on the next request. | Built | Access is checked on every request, so there is no session to clear. Spec PRM-007. | `accounts/team.py` |
+| PD-98 | Only owners manage the team and the organization settings. An owner cannot remove their own access, and the last owner cannot be removed. | Built | Prevents locking the organization out. | `accounts/permissions.py`, `accounts/team.py` |
+| PD-99 | Each organization has a time zone (a short list of Brazilian zones plus UTC). Pages and typed dates use it; storage stays UTC. Unknown zones fall back to UTC. | Built | Spec CAL-011. | `accounts/middleware.py`, `accounts/forms.py` |
+| PD-100 | The audit trail is readable by owners, filterable by action prefix. | Built | Spec AUTH-020. | `core/views.py` |
+| PD-101 | The link of a post published by hand is kept on the piece, optional, and must be a web address. | Built | Keeps proof of publication (INT-010). | `production/domain/content.py` |
+| PD-102 | Brand files are added as links with a kind (logo, font, template, reference, other). Only people who can edit briefings add them. | Built | PD-03. Spec CLI-007 is partly met. | `clients/models.py`, `clients/views.py` |
+| PD-103 | Leads have a stage and a next action. Proposals have an amount in BRL and a status. Neither is automated. Only owners and account managers see them. | Built | PD-02. | `crm/` |
+| PD-104 | The monthly report shows every expected metric for each network. A month with no value shows as N/D; nothing is estimated. Values are typed by hand, always marked as manual, and entering the same month again updates it. | Built | Spec MET-003 and MET-006. | `reports/` |
+| PD-105 | An archived client is hidden from lists and cannot receive new content, a link, or a team assignment. Archiving keeps all history. | Built | Spec CLI-005. | `clients/services.py` |
+
+## Phase 1 close
+
+| ID | Decision | Status | Why | Where |
+| --- | --- | --- | --- | --- |
+| PD-106 | Comments on a piece are visible to the team; the client sees only comments written by client users. Mentions use the person's email and notify only members of the organization. | Built | PRO-004, NTF-006, POR-003. Internal notes never reach the portal. | `production/comments.py`, `portal/views.py` |
+| PD-107 | Tasks belong to a client or to the agency. Tasks without a client are visible to owners and account managers only. | Built | TD-06 and the Phase 1 "tarefas" scope. | `tasks/` |
+| PD-108 | The calendar shows scheduled pieces by day, with a grid for wide screens and a list for phones. Duplicating a piece starts a new draft with its latest text. | Built | CAL-001, CAL-002, CAL-004. | `production/planning.py` |
+| PD-109 | The production board shows one column per stage. Stage changes still happen through the piece's own buttons, so every change is checked and audited. | Built | PRO-005. Drag and drop is debt. | `production/planning.py` |
+| PD-110 | Two-step sign-in with an authenticator app (TOTP, RFC 6238) is optional per account. Once turned on, a code is asked once per session, with the same attempt limits as sign-in. | Built (optional) | AUTH-004. Making it mandatory for owners waits for decision D-17. | `accounts/mfa.py`, `accounts/mfa_views.py`, `accounts/middleware.py` |
+| PD-111 | The client portal has calendar, results, files and contact. Each shows only the client's own brands. | Built | POR-002, TD-26. | `portal/sections.py` |
+| PD-112 | Logs go to standard output, which Vercel and Docker collect. Failed emails and failed notifications are logged, not raised. | Built | ARC-006, TD-14. Alerts that notify a person need an external service. | `config/settings/base.py` |
+| PD-113 | On phones, a bottom bar gives the main places. The top bar stays for wide screens. The skip link and the current-page marks help keyboard and screen-reader use. | Built | NAV-002, NFR-011. A full accessibility audit has not been done. | `templates/base.html` |
 
 ## Changed decisions (kept for history)
 

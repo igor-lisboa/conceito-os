@@ -1,11 +1,15 @@
 from django.urls import path
 
-from . import views
+from . import planning, views
 
 urlpatterns = [
     path("", views.ContentListView.as_view(), name="content_list"),
     path("novo/", views.ContentCreateView.as_view(), name="content_create"),
+    path("calendario/", planning.ContentCalendarView.as_view(), name="content_calendar"),
+    path("quadro/", planning.ContentBoardView.as_view(), name="content_board"),
     path("<int:pk>/", views.ContentDetailView.as_view(), name="content_detail"),
     path("<int:pk>/versao/", views.ContentVersionView.as_view(), name="content_version"),
     path("<int:pk>/acao/<str:action>/", views.ContentActionView.as_view(), name="content_action"),
+    path("<int:pk>/comentario/", views.ContentCommentView.as_view(), name="content_comment"),
+    path("<int:pk>/duplicar/", planning.ContentDuplicateView.as_view(), name="content_duplicate"),
 ]
