@@ -1,5 +1,7 @@
 """Who gets which notification, and that each one is written only once."""
 
+import uuid
+
 from django.core import mail
 from django.test import TestCase
 
@@ -8,6 +10,8 @@ from clients.models import Client, ClientAccess
 from core.testing import make_membership, make_organization, make_owner
 from notifications.adapters import DjangoNotifier
 from notifications.models import Notification
+
+CONTENT_ID = uuid.UUID("6f1c2a4e-9b3d-4e8f-8a7c-1d2e3f4a5b6c")
 
 
 class NotifierRecipientsTests(TestCase):
@@ -35,7 +39,7 @@ class NotifierRecipientsTests(TestCase):
             kind=kind,
             organization_id=self.agency.pk,
             client_id=client.pk,
-            content_id=1,
+            content_id=CONTENT_ID,
             title="Pão de queijo",
             owner_id=owner_id,
             actor_user_id=actor.user_id if actor else None,
@@ -78,7 +82,7 @@ class NotifierRecipientsTests(TestCase):
 
         notification = Notification.objects.get(recipient=self.client_user.user)
         self.assertEqual(notification.message, "“Pão de queijo” for Padaria is waiting for your approval.")
-        self.assertEqual(notification.url, "/portal/1/")
+        self.assertEqual(notification.url, f"/portal/{CONTENT_ID}/")
 
     def test_failure_reason_appears_in_the_message(self):
         self.notify("publish_failed", actor=self.creative, extra={"reason": "Token expirado"})
@@ -92,7 +96,7 @@ class NotifierRecipientsTests(TestCase):
 
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].to, [self.client_user.user.email])
-        self.assertIn("/portal/1/", mail.outbox[0].body)
+        self.assertIn(f"/portal/{CONTENT_ID}/", mail.outbox[0].body)
 
     def test_unknown_kind_is_refused(self):
         with self.assertRaises(ValueError):

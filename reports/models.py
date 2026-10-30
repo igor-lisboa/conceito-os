@@ -5,6 +5,7 @@ from django.db import models
 
 from core.choices import translated_choices
 from core.enums import LabeledEnum
+from core.models import UUIDModel
 
 
 class Platform(LabeledEnum):
@@ -27,7 +28,7 @@ EXPECTED_METRICS = {
 }
 
 
-class MetricEntry(models.Model):
+class MetricEntry(UUIDModel):
     organization = models.ForeignKey("accounts.Organization", on_delete=models.CASCADE, related_name="+")
     client = models.ForeignKey("clients.Client", on_delete=models.CASCADE, related_name="metric_entries")
     platform = models.CharField(max_length=20, choices=translated_choices(Platform))

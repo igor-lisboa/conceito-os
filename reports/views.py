@@ -1,4 +1,5 @@
 import datetime as dt
+import uuid
 
 from django import forms
 from django.contrib import messages
@@ -53,7 +54,11 @@ class ReportView(CapabilityRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         membership = self.request.membership
         clients = visible_clients(membership)
-        client = clients.filter(pk=self.request.GET.get("client")).first() or clients.first()
+        try:
+            chosen = uuid.UUID(self.request.GET.get("client", ""))
+        except ValueError:
+            chosen = None
+        client = (clients.filter(pk=chosen).first() if chosen else None) or clients.first()
         month = _parse_month(self.request.GET.get("month", "")) or dt.date.today().replace(day=1)
 
         rows = []

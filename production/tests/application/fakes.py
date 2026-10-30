@@ -2,6 +2,7 @@
 for the purposes of the application tests, and they keep no database state."""
 
 import contextlib
+import uuid
 from datetime import UTC, datetime
 
 from accounts.roles import Role
@@ -15,7 +16,6 @@ NOW = datetime(2026, 11, 1, 12, 0, tzinfo=UTC)
 class InMemoryContentRepository:
     def __init__(self):
         self.rows = {}
-        self._next_id = 1
         self.client_rules = {}  # (organization_id, client_id) -> approval required
         self.internal_members = set()  # (organization_id, user_id)
 
@@ -27,8 +27,7 @@ class InMemoryContentRepository:
 
     def save(self, content):
         if content.id is None:
-            content.id = self._next_id
-            self._next_id += 1
+            content.id = uuid.uuid4()
         self.rows[content.id] = content
 
     def client_approval_rule(self, organization_id, client_id):

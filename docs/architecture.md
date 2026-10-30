@@ -197,5 +197,6 @@ table would be slow. Writes always go through the application layer.
 - Audit events are written inside the same transaction as the change.
 - The Django admin is read-only for content and approvals. Changes go through the application so the rules always apply.
 - Enums are `LabeledEnum` from `core/enums.py` (pure Python). Use `translated_choices()` from `core/choices.py` for Django fields.
+- Every model inherits `UUIDModel` from `core/models.py`, so its primary key is a GUID. Do not declare a model with a plain `models.Model` for a business record. The test in `core/tests/test_identifiers.py` fails if you do.
 - Domain messages are English identifiers with named parameters: `DomainError("Cannot change from '{source}' to '{target}'.", source=..., target=...)`. The web edge translates them (`core/http.py`). Never import `gettext` into `production/domain/`.
 - Add a test with every new rule. Prefer a test that describes a user situation over a test that checks a getter.

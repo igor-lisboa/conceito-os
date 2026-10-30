@@ -10,12 +10,13 @@ from django.conf import settings
 from django.db import models
 
 from core.choices import translated_choices
+from core.models import UUIDModel
 
 from .domain.content import ApprovalDecision, ApprovalStage, Channel, ContentFormat
 from .domain.states import ContentState
 
 
-class ContentItem(models.Model):
+class ContentItem(UUIDModel):
     organization = models.ForeignKey("accounts.Organization", on_delete=models.CASCADE, related_name="+")
     client = models.ForeignKey("clients.Client", on_delete=models.CASCADE, related_name="content_items")
     owner = models.ForeignKey(
@@ -46,7 +47,7 @@ class ContentItem(models.Model):
         return self.title
 
 
-class ContentVersion(models.Model):
+class ContentVersion(UUIDModel):
     organization = models.ForeignKey("accounts.Organization", on_delete=models.CASCADE, related_name="+")
     content = models.ForeignKey(ContentItem, on_delete=models.CASCADE, related_name="versions")
     number = models.PositiveIntegerField()
@@ -67,7 +68,7 @@ class ContentVersion(models.Model):
         return f"{self.content} v{self.number}"
 
 
-class Approval(models.Model):
+class Approval(UUIDModel):
     organization = models.ForeignKey("accounts.Organization", on_delete=models.CASCADE, related_name="+")
     content = models.ForeignKey(ContentItem, on_delete=models.CASCADE, related_name="approvals")
     version = models.ForeignKey(ContentVersion, on_delete=models.CASCADE, related_name="approvals")
@@ -84,7 +85,7 @@ class Approval(models.Model):
         return f"{ApprovalStage(self.stage).label}: {ApprovalDecision(self.decision).label} (v{self.version.number})"
 
 
-class Comment(models.Model):
+class Comment(UUIDModel):
     organization = models.ForeignKey("accounts.Organization", on_delete=models.CASCADE, related_name="+")
     content = models.ForeignKey("production.ContentItem", on_delete=models.CASCADE, related_name="comments")
     author = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name="+")

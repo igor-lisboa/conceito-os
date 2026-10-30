@@ -4,6 +4,7 @@ from django.db import models
 
 from core.choices import translated_choices
 from core.enums import LabeledEnum
+from core.models import UUIDModel
 
 
 class LeadStage(LabeledEnum):
@@ -28,7 +29,7 @@ class ProposalStatus(LabeledEnum):
     REJECTED = ("rejected", "Rejected")
 
 
-class Lead(models.Model):
+class Lead(UUIDModel):
     organization = models.ForeignKey("accounts.Organization", on_delete=models.CASCADE, related_name="+")
     name = models.CharField(max_length=120)
     source = models.CharField(max_length=20, choices=translated_choices(LeadSource), default=LeadSource.OTHER.value)
@@ -47,7 +48,7 @@ class Lead(models.Model):
         return self.name
 
 
-class Proposal(models.Model):
+class Proposal(UUIDModel):
     organization = models.ForeignKey("accounts.Organization", on_delete=models.CASCADE, related_name="+")
     lead = models.ForeignKey(Lead, null=True, blank=True, on_delete=models.SET_NULL, related_name="proposals")
     client = models.ForeignKey(

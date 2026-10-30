@@ -2,9 +2,10 @@ from django.db import models
 
 from core.choices import translated_choices
 from core.enums import LabeledEnum
+from core.models import UUIDModel
 
 
-class Client(models.Model):
+class Client(UUIDModel):
     """A brand served by the agency (not the platform subscriber)."""
 
     organization = models.ForeignKey("accounts.Organization", on_delete=models.CASCADE, related_name="clients")
@@ -25,7 +26,7 @@ class Client(models.Model):
         return self.name
 
 
-class ClientAccess(models.Model):
+class ClientAccess(UUIDModel):
     """Lets one membership see one client. Owners see every client without these rows."""
 
     organization = models.ForeignKey("accounts.Organization", on_delete=models.CASCADE, related_name="+")
@@ -44,7 +45,7 @@ class ClientAccess(models.Model):
         return f"{self.membership} -> {self.client}"
 
 
-class ClientBriefing(models.Model):
+class ClientBriefing(UUIDModel):
     """The brand briefing: answers the strategy team needs before creating content."""
 
     organization = models.ForeignKey("accounts.Organization", on_delete=models.CASCADE, related_name="+")
@@ -68,7 +69,7 @@ class AssetKind(LabeledEnum):
     OTHER = ("other", "Other")
 
 
-class BrandAsset(models.Model):
+class BrandAsset(UUIDModel):
     """A link to a brand file kept elsewhere (Drive, Dropbox...). Files are not uploaded yet (PD-03)."""
 
     organization = models.ForeignKey("accounts.Organization", on_delete=models.CASCADE, related_name="+")

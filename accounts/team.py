@@ -63,7 +63,7 @@ def invite_member(membership, *, email, role, client_ids=()):
         actor=membership.user,
         action=MEMBER_INVITED,
         entity=invited,
-        metadata={"role": role, "clients": sorted(c.pk for c in clients)},
+        metadata={"role": role, "clients": sorted(str(c.pk) for c in clients)},
     )
     transaction.on_commit(lambda: send_invitation_email(user, organization.name))
     return invited

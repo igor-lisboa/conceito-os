@@ -4,8 +4,10 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 
+from core.models import UUIDModel
 
-class Task(models.Model):
+
+class Task(UUIDModel):
     organization = models.ForeignKey("accounts.Organization", on_delete=models.CASCADE, related_name="+")
     client = models.ForeignKey(
         "clients.Client", null=True, blank=True, on_delete=models.CASCADE, related_name="tasks"

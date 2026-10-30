@@ -1,8 +1,11 @@
+import uuid
+
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 from core.choices import translated_choices
+from core.models import UUIDModel
 
 from .roles import Role
 
@@ -12,6 +15,8 @@ class User(AbstractUser):
 
     Email is required and unique: people sign in with it and reset their password through it.
     """
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     email = models.EmailField("email address", unique=True)
 
@@ -25,7 +30,7 @@ class User(AbstractUser):
         super().save(*args, **kwargs)
 
 
-class Organization(models.Model):
+class Organization(UUIDModel):
     """A company using the platform (an agency). All business data belongs to one organization."""
 
     name = models.CharField(max_length=120)
@@ -36,7 +41,7 @@ class Organization(models.Model):
         return self.name
 
 
-class Membership(models.Model):
+class Membership(UUIDModel):
     """Links a user to an organization with one role inside it."""
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="memberships")
@@ -45,7 +50,7 @@ class Membership(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ["id"]
+        ordering = ["created_at"]
         constraints = [
             models.UniqueConstraint(fields=["user", "organization"], name="unique_membership_per_org"),
         ]
@@ -54,7 +59,7 @@ class Membership(models.Model):
         return f"{self.user} @ {self.organization} ({Role(self.role).label})"
 
 
-class MFADevice(models.Model):
+class MFADevice(UUIDModel):
     """An authenticator app linked to an account. Only a confirmed device is enforced at sign-in."""
 
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="mfa_device")

@@ -2,6 +2,8 @@ from django.conf import settings
 from django.db import models
 from django.utils.translation import gettext
 
+from core.models import UUIDModel
+
 # What each notification says. The text is an English msgid with named placeholders;
 # it is translated when shown, so the same notification reads in the viewer's language.
 KIND_MESSAGES = {
@@ -15,7 +17,7 @@ KIND_MESSAGES = {
 }
 
 
-class Notification(models.Model):
+class Notification(UUIDModel):
     organization = models.ForeignKey("accounts.Organization", on_delete=models.CASCADE, related_name="+")
     recipient = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="notifications"

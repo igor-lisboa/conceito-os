@@ -103,7 +103,7 @@ class Content:
     def create(cls, *, first_version, created_by_user_id, **fields):
         content = cls(**fields)
         content.versions.append(Version(number=1, data=first_version, created_by_user_id=created_by_user_id))
-        content._emit("content.created", {"title": content.title, "client_id": content.client_id})
+        content._emit("content.created", {"title": content.title, "client_id": str(content.client_id)})
         return content
 
     # --- read helpers ------------------------------------------------------

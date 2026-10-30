@@ -49,6 +49,7 @@ updated: 2026-10-30
 - **DAT-005** Versioned records (strategy, content, identity) are append-only per version.
 - **DAT-006** Relevant events record actor, timestamps, version, rationale and external ID.
 - **DAT-007** Soft delete/archive by default; hard deletion only through an audited flow (LGPD).
+- **DAT-010** Every record has a GUID (UUID) as its primary key, including people (users). Numbers are never used as record identifiers, so URLs and events cannot reveal how many records exist. Documentation codes (requirement IDs such as `CRM-001`, decision IDs `PD-NN`, debt IDs `TD-NN`) are names for people to read, not record keys. Evidence: `core/tests/test_identifiers.py`.
 - **DAT-008** Timestamps stored in UTC; display in the organization's timezone. PROPOSAL.
 - **DAT-009** Money stored as integer cents (or exact decimal) with currency. PROPOSAL.
 

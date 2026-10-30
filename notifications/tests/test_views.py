@@ -1,9 +1,13 @@
+import uuid
+
 from django.test import TestCase
 from django.urls import reverse
 
 from accounts.roles import Role
 from core.testing import make_membership, make_organization, make_owner
 from notifications.models import Notification
+
+CONTENT_ID = uuid.UUID("6f1c2a4e-9b3d-4e8f-8a7c-1d2e3f4a5b6c")
 
 
 class NotificationInboxTests(TestCase):
@@ -16,7 +20,7 @@ class NotificationInboxTests(TestCase):
             recipient=self.user,
             kind="internal_review",
             params={"title": "Post", "client": "Padaria"},
-            url="/conteudos/9/",
+            url=f"/conteudos/{CONTENT_ID}/",
             event_key="e1",
         )
 
@@ -35,7 +39,7 @@ class NotificationInboxTests(TestCase):
         self.client.force_login(self.user)
         response = self.client.get(reverse("notification_open", args=[self.note.pk]))
 
-        self.assertRedirects(response, "/conteudos/9/", fetch_redirect_response=False)
+        self.assertRedirects(response, f"/conteudos/{CONTENT_ID}/", fetch_redirect_response=False)
         self.note.refresh_from_db()
         self.assertFalse(self.note.is_unread)
 
