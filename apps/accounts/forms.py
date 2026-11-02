@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from apps.clients.queries import visible_clients
 from apps.core.choices import translated_choices
 
-from .models import Organization
+from .models import EMAIL_LANGUAGE_CHOICES, Organization, User
 from .roles import Role
 
 # Time zones offered in the settings screen. Brazil spans several; UTC is for tests and exports.
@@ -40,6 +40,19 @@ class InviteMemberForm(forms.Form):
     def __init__(self, *args, membership, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["clients"].queryset = visible_clients(membership)
+
+
+class AccountLanguageForm(forms.ModelForm):
+    language = forms.ChoiceField(
+        label=_("Email language"),
+        choices=[("", _("Not chosen (Portuguese)")), *EMAIL_LANGUAGE_CHOICES],
+        required=False,
+        help_text=_("Emails from Conceito OS are sent in this language."),
+    )
+
+    class Meta:
+        model = User
+        fields = ["language"]
 
 
 class OrganizationForm(forms.ModelForm):

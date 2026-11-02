@@ -115,6 +115,11 @@ input, select, textarea {
 }
 .errorlist { color: var(--color-danger); padding: 0; list-style: none; }
 
+/* Planned pieces (PRO-015): a dashed edge, so the state is not shown by colour alone. Text says "Planned" too. */
+.event { display: block; padding: 2px 4px; color: var(--color-text); text-decoration: none; }
+.event.planned { border-left: 3px dashed var(--color-link); }
+.event[draggable="true"] { cursor: grab; }
+
 .actions { display: flex; flex-wrap: wrap; gap: 8px; }
 .actions form { margin: 0; }
 

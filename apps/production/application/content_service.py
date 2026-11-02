@@ -87,6 +87,11 @@ class ContentService:
         require_capability(actor, Capability.EDIT_CONTENT)
         return self._change(actor, content_id, lambda c: c.move_to(ContentState(target)))
 
+    def reschedule(self, actor, content_id, *, when, reason):
+        """Change the planned date and record the reason (PRO-015, PRO-016)."""
+        require_capability(actor, Capability.EDIT_CONTENT)
+        return self._change(actor, content_id, lambda c: c.reschedule(when, reason=reason))
+
     # --- approvals ---------------------------------------------------------
 
     def decide_internal(self, actor, content_id, *, approve, comment=""):

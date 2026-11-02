@@ -2,8 +2,8 @@
 id: pro
 status: partially-implemented
 phase: MVP
-version: 1.1
-updated: 2026-10-30
+version: 1.2
+updated: 2026-11-02
 ---
 
 # Production, content and approval
@@ -24,10 +24,12 @@ updated: 2026-10-30
 - **PRO-012** Scope, copy and guideline (DNA) check before sending for approval (AI-assisted, human-approved; P2+).
 - **PRO-013** Editing a piece after it was approved invalidates that approval and returns it to review. PROPOSAL — follows from PRO-008.
 - **PRO-014** If the client's "client approval required" setting is off ([CLI-010](clients-briefing.md)), internal approval is sufficient, and the record says so.
+- **PRO-015** A piece that is not scheduled yet MAY have a planned date. Each change MUST record a reason, the old and the new date, in the audit log. Changing the date does not change the state. PROPOSAL: the planned date is an internal planning date; product owner to confirm (D-27).
+- **PRO-016** The planned date MUST NOT change once the piece reaches client review, nor while it is scheduled or published ([PD-46](../planning/risks-open-decisions.md)). PROPOSAL: the lock after client review is the safe default until D-26 and D-27 are decided.
 
 ## Data
 
-`content_items`, `content_versions`, `assets`, `approvals`, `tasks`, `comments`, `time_entries`.
+`content_items` (with `planned_for`, PRO-015), `content_versions`, `assets`, `approvals`, `tasks`, `comments`, `time_entries`.
 
 ## Screens
 
@@ -51,3 +53,4 @@ updated: 2026-10-30
 - Use cases and permissions: `apps/production/tests/application/test_content_service.py
 - Persistence round-trip: `apps/production/tests/adapters/test_django_repository.py
 - Screens: `apps/production/tests/test_views.py`, read side: `apps/production/tests/test_queries.py`
+- Planned date, reason and lock (PRO-015, PRO-016): `apps/production/tests/test_planned_date.py`

@@ -37,6 +37,7 @@
           {% endif %}
         {% endif %}
         <a href="{% url 'notification_list' %}">{% trans "Notifications" %}{% if unread_notification_count %} ({{ unread_notification_count }}){% endif %}</a>
+        <a href="{% url 'account' %}">{% trans "Account" %}</a>
         <a href="{% url 'mfa_setup' %}">{% trans "Security" %}</a>
       </nav>
     {% endif %}

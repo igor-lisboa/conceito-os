@@ -23,7 +23,7 @@ from apps.core.actors import actor_for
 from apps.core.http import run_action
 
 from .composition import build_content_service
-from .domain.content import VersionData
+from .domain.content import PLANNED_DATE_OPEN_STATES, VersionData
 from .domain.states import ContentState
 from .queries import visible_content
 
@@ -65,14 +65,28 @@ class ContentCalendarView(CapabilityRequiredMixin, TemplateView):
         # Local time boundaries, so "a day" means the organization's day.
         start = timezone.make_aware(dt.datetime.combine(month, dt.time.min))
         end = timezone.make_aware(dt.datetime.combine(_shift_month(month, 1), dt.time.min))
-        items = visible_content(actor).filter(scheduled_for__gte=start, scheduled_for__lt=end)
+        scheduled = visible_content(actor).filter(scheduled_for__gte=start, scheduled_for__lt=end)
+        # Planned pieces without a schedule yet (PRO-015). Published pieces keep their schedule, so they are excluded.
+        planned = visible_content(actor).filter(
+            planned_for__gte=start, planned_for__lt=end, scheduled_for__isnull=True
+        )
         if filters.is_valid() and filters.cleaned_data.get("client"):
-            items = items.filter(client=filters.cleaned_data["client"])
-        items = items.select_related("client").order_by("scheduled_for")
+            scheduled = scheduled.filter(client=filters.cleaned_data["client"])
+            planned = planned.filter(client=filters.cleaned_data["client"])
 
         by_day = defaultdict(list)
-        for item in items:
-            by_day[timezone.localdate(item.scheduled_for)].append(item)
+        for item in scheduled.select_related("client"):
+            item.display_at = item.scheduled_for
+            item.is_planned = False
+            item.can_move = False
+            by_day[timezone.localdate(item.display_at)].append(item)
+        for item in planned.select_related("client"):
+            item.display_at = item.planned_for
+            item.is_planned = True
+            item.can_move = item.state in PLANNED_DATE_OPEN_STATES
+            by_day[timezone.localdate(item.display_at)].append(item)
+        for day_items in by_day.values():
+            day_items.sort(key=lambda item: item.display_at)
 
         weeks = [
             [{"date": day, "items": by_day.get(day, []), "in_month": day.month == month.month} for day in week]

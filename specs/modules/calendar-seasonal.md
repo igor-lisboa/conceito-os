@@ -2,8 +2,8 @@
 id: cal
 status: draft
 phase: MVP (calendar) / P2 (seasonal and assisted generation)
-version: 1.1
-updated: 2026-10-30
+version: 1.2
+updated: 2026-11-02
 ---
 
 # Editorial calendar and seasonality
@@ -14,7 +14,7 @@ updated: 2026-10-30
 
 - **CAL-001** Month/week/list/Kanban views, filtered by client, network, campaign, state, owner and date; filters kept in the URL.
 - **CAL-002** On mobile: daily/weekly agenda and compact filters.
-- **CAL-003** Drag to change date MUST validate rules (e.g. can't move an approved piece without re-approval if the date is part of what was approved — PROPOSAL); the change updates the related task.
+- **CAL-003** Drag to change date MUST validate rules (e.g. can't move an approved piece without re-approval if the date is part of what was approved — PROPOSAL); the change updates the related task. Built for planned dates: drag opens a form that needs a reason, and pieces at or after client review and scheduled pieces cannot be dragged ([PRO-015](production-approval.md), [PRO-016](production-approval.md)). The task update is not built yet.
 - **CAL-004** Duplicate a piece and open the editor from the calendar.
 - **CAL-005** Each entry contains: goal, audience, pillar, format, hook, script/copy, CTA, date, media and status.
 - **CAL-006** 30/60/90-day planning per client, platform, format, owner and campaign.
@@ -48,4 +48,4 @@ updated: 2026-10-30
 
 ## Evidence
 
-—
+- Calendar views, planned pieces and drag (CAL-001, CAL-003): `apps/production/tests/test_planned_date.py`, `apps/production/tests/test_comments_and_planning.py`

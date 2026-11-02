@@ -54,6 +54,17 @@ class ContentActionForm(forms.Form):
     )
 
 
+class PlannedDateForm(forms.Form):
+    """A new planned date. The reason is required, because the change is recorded (PRO-015)."""
+
+    planned_for = forms.DateTimeField(
+        label=_("Planned date"),
+        input_formats=["%Y-%m-%dT%H:%M"],
+        widget=forms.DateTimeInput(attrs={"type": "datetime-local"}, format="%Y-%m-%dT%H:%M"),
+    )
+    reason = forms.CharField(label=_("Reason for the change"), widget=forms.Textarea(attrs={"rows": 2}))
+
+
 class ContentStateFilterForm(forms.Form):
     state = forms.ChoiceField(
         label=_("Stage"),

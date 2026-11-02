@@ -1,0 +1,17 @@
+{% load static i18n %}{% get_current_language as CURRENT_LANGUAGE %}<!doctype html>
+{# Standalone on purpose: a server error can happen before the request context exists, so this page does not extend base.html. #}
+<html lang="{{ CURRENT_LANGUAGE }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% trans "Something went wrong" %} · Conceito OS</title>
+  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+</head>
+<body>
+  <main id="conteudo">
+    <h1>{% trans "Something went wrong" %}</h1>
+    <p class="card">{% trans "An unexpected error happened. Try again in a few minutes." %}</p>
+    <p><a class="button" href="/">{% trans "Back to home" %}</a></p>
+  </main>
+</body>
+</html>

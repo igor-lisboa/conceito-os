@@ -2,8 +2,8 @@
 id: nfr
 status: draft
 phase: all
-version: 1.0
-updated: 2026-10-30
+version: 1.1
+updated: 2026-11-02
 ---
 
 # Non-functional requirements
@@ -13,7 +13,7 @@ New in the review. The source spec states several qualities without targets; thi
 ## Locale
 
 - **NFR-001** The UI is available in English (default) and Brazilian Portuguese (pt-BR). Each visitor chooses the language on every page; the choice is kept per browser. Business messages are translated at the web edge, never in the domain. Other languages are not planned (D-24).
-- **NFR-002** Every entry in the pt-BR catalog has a translation; an untranslated entry fails the test suite. Strings missing from the catalog are a review item, not a test failure. Evidence: `apps/core/tests/test_i18n.py`.
+- **NFR-002** Every entry in the pt-BR catalog has a translation; an untranslated entry fails the test suite. Strings missing from the catalog are a review item, not a test failure. Error pages (404, 403, 500) are translated the same way. Evidence: `apps/core/tests/test_i18n.py`, `apps/core/tests/test_error_pages.py`.
 - **NFR-002** Currency BRL; Brazilian date/number formats in the UI. PROPOSAL.
 - **NFR-003** Timezone per organization, default `America/Sao_Paulo`; publishing date/time per channel. PROPOSAL for the default.
 

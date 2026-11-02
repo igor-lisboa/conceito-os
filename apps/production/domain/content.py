@@ -73,6 +73,20 @@ class DomainEvent:
     data: dict
 
 
+# A planned date can change only while the client has not seen the piece (PRO-016).
+# Once it reaches client review, the date is locked until decision D-26 says otherwise.
+PLANNED_DATE_OPEN_STATES = {
+    ContentState.DRAFT,
+    ContentState.PLANNED,
+    ContentState.IN_PRODUCTION,
+    ContentState.INTERNAL_REVIEW,
+}
+
+
+def _iso(value):
+    return value.isoformat() if value else None
+
+
 def _require_text(text, message):
     if not text or not text.strip():
         raise DomainError(message)
@@ -91,6 +105,7 @@ class Content:
     versions: list = field(default_factory=list)
     approvals: list = field(default_factory=list)
     scheduled_for: object = None
+    planned_for: object = None
     published_at: object = None
     published_url: str = ""
     failure_reason: str = ""
@@ -170,6 +185,22 @@ class Content:
 
     def unschedule(self):
         self._change_state(ContentState.APPROVED, scheduled_for=None)
+
+    # --- planning ----------------------------------------------------------
+
+    def reschedule(self, when, *, reason):
+        """Change the planned date. Needs a reason, which is recorded. Does not change the state."""
+        if self.state not in PLANNED_DATE_OPEN_STATES:
+            raise DomainError("The planned date is locked once the piece reaches the client.")
+        if when is None:
+            raise DomainError("Enter the planned date.")
+        _require_text(reason, "Explain why the date changes.")
+        previous = self.planned_for
+        self.planned_for = when
+        self._emit(
+            "content.planned_date_changed",
+            {"from": _iso(previous), "to": _iso(when), "reason": reason.strip()},
+        )
 
     def mark_published(self, *, now, url=""):
         """The team posted the piece by hand. The link, when given, is kept as proof."""

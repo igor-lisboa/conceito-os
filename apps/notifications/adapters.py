@@ -12,6 +12,7 @@ from django.core.mail import send_mail
 from django.db import transaction
 from django.db.models import Q
 from django.urls import reverse
+from django.utils import translation
 
 from apps.accounts.models import Membership
 from apps.accounts.roles import Role
@@ -23,6 +24,9 @@ logger = logging.getLogger(__name__)
 
 CLIENT_KINDS = {"client_review"}
 REJECTION_KINDS = {"internal_rejected"}
+# Used when a person has not chosen an email language. PROPOSAL: matches the welcome and
+# invitation emails (pt-BR). Product owner to confirm (NTF-010).
+DEFAULT_EMAIL_LANGUAGE = "pt-br"
 
 
 def _recipient_memberships(kind, *, organization_id, client_id, owner_id, actor_user_id):
@@ -119,12 +123,18 @@ class DjangoNotifier:
 
 
 def _send_email(notification):
-    """Email copy of a notification. A failed send is logged; the in-app notification stays."""
-    if not notification.recipient.email:
+    """Email copy of a notification, in the recipient's chosen language (NTF-010).
+
+    A failed send is logged; the in-app notification stays.
+    """
+    recipient = notification.recipient
+    if not recipient.email:
         return
-    message = notification.message
-    body = f"{message}\n\n{settings.SITE_URL}{notification.url}\n\n-- Conceito OS"
+    with translation.override(recipient.language or DEFAULT_EMAIL_LANGUAGE):
+        message = notification.message
+        body = f"{message}\n\n{settings.SITE_URL}{notification.url}\n\n-- Conceito OS"
+        subject = f"Conceito OS: {message}"
     try:
-        send_mail(f"Conceito OS: {message}", body, settings.DEFAULT_FROM_EMAIL, [notification.recipient.email])
+        send_mail(subject, body, settings.DEFAULT_FROM_EMAIL, [recipient.email])
     except Exception:
         logger.exception("Could not email notification %s", notification.pk)

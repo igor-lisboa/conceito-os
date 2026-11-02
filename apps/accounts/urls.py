@@ -9,6 +9,7 @@ urlpatterns = [
     path("equipe/", views.TeamListView.as_view(), name="team_list"),
     path("equipe/convidar/", views.TeamInviteView.as_view(), name="team_invite"),
     path("equipe/<uuid:pk>/remover/", views.TeamRemoveView.as_view(), name="team_remove"),
+    path("conta/", views.AccountView.as_view(), name="account"),
     path("organizacao/", views.OrganizationSettingsView.as_view(), name="organization_settings"),
     path("mfa/configurar/", mfa_views.MFASetupView.as_view(), name="mfa_setup"),
     path("mfa/verificar/", mfa_views.MFAVerifyView.as_view(), name="mfa_verify"),

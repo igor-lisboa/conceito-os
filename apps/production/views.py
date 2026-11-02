@@ -19,9 +19,15 @@ from apps.core.http import run_action
 
 from .comments import add_comment
 from .composition import build_content_service
-from .domain.content import VersionData
+from .domain.content import PLANNED_DATE_OPEN_STATES, VersionData
 from .domain.states import ContentState
-from .forms import ContentActionForm, ContentForm, ContentStateFilterForm, ContentVersionForm
+from .forms import (
+    ContentActionForm,
+    ContentForm,
+    ContentStateFilterForm,
+    ContentVersionForm,
+    PlannedDateForm,
+)
 from .queries import visible_content
 
 
@@ -40,6 +46,7 @@ def _available_actions(actor, state):
         "unschedule": can_schedule and state == ContentState.SCHEDULED,
         "mark_published": can_schedule and state == ContentState.SCHEDULED,
         "mark_failed": can_schedule and state == ContentState.SCHEDULED,
+        "reschedule": can_edit and state in PLANNED_DATE_OPEN_STATES,
     }
 
 
@@ -118,6 +125,7 @@ class ContentDetailView(CapabilityRequiredMixin, DetailView):
             }
         )
         context["action_form"] = ContentActionForm()
+        context["planned_form"] = PlannedDateForm(initial={"planned_for": self.object.planned_for})
         context["comments"] = self.object.comments.select_related("author")
         context["actions"] = _available_actions(actor_for(self.request.membership), self.object.state)
         return context
@@ -175,6 +183,30 @@ class ContentActionView(CapabilityRequiredMixin, View):
                 request,
                 lambda: handler(build_content_service(), actor_for(request.membership), pk, form.cleaned_data),
                 success_message="Action recorded.",
+            )
+        return redirect("content_detail", pk=pk)
+
+
+class ContentRescheduleView(CapabilityRequiredMixin, View):
+    """Changes the planned date of a piece. Used by the form on the piece and by drag on the calendar (PRO-015)."""
+
+    required_capability = Capability.EDIT_CONTENT
+    http_method_names = ["post"]
+
+    def post(self, request, pk):
+        form = PlannedDateForm(request.POST)
+        if not form.is_valid():
+            messages.error(request, gettext("Check the date and the reason."))
+        else:
+            run_action(
+                request,
+                lambda: build_content_service().reschedule(
+                    actor_for(request.membership),
+                    pk,
+                    when=form.cleaned_data["planned_for"],
+                    reason=form.cleaned_data["reason"],
+                ),
+                success_message="Planned date changed.",
             )
         return redirect("content_detail", pk=pk)
 
