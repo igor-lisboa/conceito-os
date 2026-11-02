@@ -24,8 +24,8 @@ logger = logging.getLogger(__name__)
 
 CLIENT_KINDS = {"client_review"}
 REJECTION_KINDS = {"internal_rejected"}
-# Used when a person has not chosen an email language. PROPOSAL: matches the welcome and
-# invitation emails (pt-BR). Product owner to confirm (NTF-010).
+# Used when a person has not chosen an email language. Confirmed (NTF-010): matches the welcome and
+# invitation emails (pt-BR).
 DEFAULT_EMAIL_LANGUAGE = "pt-br"
 
 

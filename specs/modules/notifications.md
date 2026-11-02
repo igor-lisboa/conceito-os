@@ -2,7 +2,7 @@
 id: ntf
 status: partially-implemented
 phase: MVP (basic) / P3 (digests and intelligence alerts)
-version: 1.1
+version: 1.2
 updated: 2026-11-02
 ---
 
@@ -21,7 +21,7 @@ New in the review: consolidates notification requirements from UC-14, the MVP ac
 - **NTF-007** MVP events: task assigned, review requested, client approved/requested changes, due date approaching, publishing failed, integration expired.
 - **NTF-008** (P3) Critical intelligence alerts per event; daily/weekly digests for Updates and Trends.
 - **NTF-009** Notifications to end clients only go through the apps/portal/email and never include internal data.
-- **NTF-010** Each person chooses the language of the emails they receive on their own account page, in English or pt-BR, and the email is written in that language. When nothing was chosen, emails use pt-BR. PROPOSAL: the pt-BR default matches the welcome and invitation emails; product owner to confirm.
+- **NTF-010** Each person chooses the language of the emails they receive on their own account page, in English or pt-BR, and the email is written in that language. When nothing was chosen, emails use pt-BR. Confirmed: the pt-BR default matches the welcome and invitation emails.
 
 ## Data
 

@@ -13,14 +13,15 @@ from django.utils import translation
 
 logger = logging.getLogger(__name__)
 
-# The team is Brazilian, so the welcome email is written in pt-BR. Change this one line to switch.
+# The team is Brazilian, so the welcome email is written in pt-BR when the person has not chosen a
+# language yet (TD-S2, NTF-010). A new account has no choice yet, so it gets this default.
 WELCOME_EMAIL_LANGUAGE = "pt-br"
 
 
 def send_welcome_email(user):
     """Send the welcome message. Failures are logged, not raised: a broken mail server
     must not break creating the account."""
-    with translation.override(WELCOME_EMAIL_LANGUAGE):
+    with translation.override(user.language or WELCOME_EMAIL_LANGUAGE):
         context = {
             "user": user,
             "login_url": f"{settings.SITE_URL}{reverse('login')}",

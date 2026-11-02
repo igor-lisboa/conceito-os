@@ -75,7 +75,7 @@ Phase 1 code scope is complete except the items marked *partly* in the P1 table.
 | TD-15 | [done: name and time zone] **Organization settings screen:** name, timezone, default notification email. | AUTH-014 | Today these are set only in the admin. | S | TD-09 |
 | TD-29 | [done: comments and mentions] **Comments on a piece**, with mentions that notify the person. Today comments exist only on approvals. | PRO-004, NTF-006, 17.2 | Spec production item: discussion happens on the piece, not only in decisions. | M | Notifications (done) |
 | TD-43 | [done: link kept on the piece] **Record the published link** of a post, when the team publishes by hand. | INT-010 | Keeps proof of publication for reports and client questions. | S | None |
-| TD-36 | [code-level pass done 2026-11-02, see changelog; keyboard, screen reader and 200% zoom passes still open] **Accessibility check** of the screens against WCAG 2.2 AA, with a keyboard and a screen reader pass. | NFR-010, NFR-011, DSG-003 | The spec makes AA the target; only colour contrast has been checked so far. | S | None |
+| TD-36 | [done for WCAG 2.2 AA automated checks (axe-core, 32 page and width checks, 0 violations), keyboard focus on the board and calendar (every focus stop visible), and the 200% zoom check (640 px, no horizontal scroll). Open: a screen reader pass, which needs a person with a screen reader] **Accessibility check** of the screens against WCAG 2.2 AA, with a keyboard and a screen reader pass. | NFR-010, NFR-011, DSG-003 | The spec makes AA the target; only colour contrast has been checked so far. | S | None |
 | TD-14 | [done for logs. Alerts that page a person need an external service] **Logs and alerts** for failed emails, failed sign-ins and server errors. | ARC-006 | Today failures are logged to the console only. | S | TD-39 |
 | TD-26 | [done: calendar, results, files and contact] **Client portal:** the Home, Calendar, Results, Files and Contact sections. Only Approvals exists. | POR-002 | Phase 1 has the approvals portal; the other sections are part of the spec's portal. | M | TD-04, TD-02 |
 | TD-48 | [done for email: each person chooses the language of their emails on the account page, NTF-010; in-app text already follows the viewer] **Notifications and mail templates in the client's language** (today: the request's language). | NTF-005 partly, NTF-010 | Clients may be in a different language from the team. | S | None |
@@ -122,7 +122,6 @@ cost later.
 
 | ID | Shortcut | Risk | When to fix |
 | --- | --- | --- | --- |
-| TD-S2 | The welcome email is always in pt-BR, whatever the new user's browser language. | Minor. | When TD-48 is done |
 | TD-S4 | `visible_content` (read side) repeats the rule of `apps/production/domain/policy.py` in ORM form. A test keeps them in step. | Two places to change when the rule changes. | When the policy changes next |
 | TD-S5 | Login by username is still allowed next to login by email. | Two ways in; the username is not always private. | Keep until the team agrees; review with TD-11 |
 | TD-S6 | Publishing is marked by hand, with no link to the post. | Relies on people remembering to mark it. | With TD-43 and TD-20 |
@@ -164,6 +163,8 @@ cost later.
 | TD-48 (email language per person, NTF-010) | 2026-11-02 | `apps/notifications/tests/test_email_language.py`, `apps/accounts/tests/test_account_language.py` |
 | Calendar drag of planned dates (PRO-015, PRO-016) | 2026-11-02 | `apps/production/tests/test_planned_date.py` |
 | TD-S14 (board drag on manual moves, PRO-017) | 2026-11-02 | `apps/production/tests/test_board_drag.py` |
+| TD-S2 (welcome email follows the person's chosen language, pt-BR by default) | 2026-11-02 | `apps/production/tests/test_task_follows_planned_date.py` (`WelcomeEmailLanguageTests`) |
+| CAL-003 (open tasks follow the planned date) | 2026-11-02 | `apps/production/tests/test_task_follows_planned_date.py` |
 
 ---
 

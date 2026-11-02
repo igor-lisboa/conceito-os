@@ -2,7 +2,7 @@
 id: cal
 status: draft
 phase: MVP (calendar) / P2 (seasonal and assisted generation)
-version: 1.2
+version: 1.3
 updated: 2026-11-02
 ---
 
@@ -14,7 +14,7 @@ updated: 2026-11-02
 
 - **CAL-001** Month/week/list/Kanban views, filtered by client, network, campaign, state, owner and date; filters kept in the URL.
 - **CAL-002** On mobile: daily/weekly agenda and compact filters.
-- **CAL-003** Drag to change date MUST validate rules (e.g. can't move an approved piece without re-approval if the date is part of what was approved — PROPOSAL); the change updates the related task. Built for planned dates: drag opens a form that needs a reason, and pieces at or after client review and scheduled pieces cannot be dragged ([PRO-015](production-approval.md), [PRO-016](production-approval.md)). The task update is not built yet.
+- **CAL-003** Drag to change date MUST validate rules (e.g. can't move an approved piece without re-approval if the date is part of what was approved — PROPOSAL); the change updates the related task. Built for planned dates: drag opens a form that needs a reason, and pieces at or after client review and scheduled pieces cannot be dragged ([PRO-015](production-approval.md), [PRO-016](production-approval.md)). Tasks follow the piece (built): an open task of the piece that was due on the old planned day moves to the new day; other tasks keep their date. PROPOSAL, pending product owner confirmation.
 - **CAL-004** Duplicate a piece and open the editor from the calendar.
 - **CAL-005** Each entry contains: goal, audience, pillar, format, hook, script/copy, CTA, date, media and status.
 - **CAL-006** 30/60/90-day planning per client, platform, format, owner and campaign.
@@ -48,4 +48,5 @@ updated: 2026-11-02
 
 ## Evidence
 
+- Tasks follow the planned date (CAL-003): `apps/production/tests/test_task_follows_planned_date.py`
 - Calendar views, planned pieces and drag (CAL-001, CAL-003): `apps/production/tests/test_planned_date.py`, `apps/production/tests/test_comments_and_planning.py`

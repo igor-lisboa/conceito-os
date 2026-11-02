@@ -2,7 +2,7 @@
 id: nav
 status: draft
 phase: MVP
-version: 1.2
+version: 1.3
 updated: 2026-11-02
 ---
 
@@ -48,7 +48,7 @@ Separate, simple environment: Home, Calendar, Approvals, Results, Files, Contact
 - **NAV-011** Back preserves context; navigation keeps the selected client.
 - **NAV-012** No unnecessary horizontal scrolling on desktop or mobile.
 - **NAV-013** Forms, uploads, alerts and confirmations work by touch and keyboard.
-- **NAV-014** Filter bars on the board, content list and calendar are collapsed by default and open when a filter is set (D-29). PROPOSAL: decided by the team's delegate for the product owner to confirm; keeps phones free of a permanent filter block, and keeps the active filter visible.
+- **NAV-014** Filter bars on the board, content list and calendar are collapsed by default and open when a filter is set (D-29). Confirmed (D-29): keeps phones free of a permanent filter block, and keeps the active filter visible.
 
 ## Main flow
 

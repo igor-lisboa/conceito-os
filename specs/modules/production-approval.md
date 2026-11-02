@@ -2,7 +2,7 @@
 id: pro
 status: partially-implemented
 phase: MVP
-version: 1.3
+version: 1.4
 updated: 2026-11-02
 ---
 
@@ -24,9 +24,9 @@ updated: 2026-11-02
 - **PRO-012** Scope, copy and guideline (DNA) check before sending for approval (AI-assisted, human-approved; P2+).
 - **PRO-013** Editing a piece after it was approved invalidates that approval and returns it to review. PROPOSAL — follows from PRO-008.
 - **PRO-014** If the client's "client approval required" setting is off ([CLI-010](clients-briefing.md)), internal approval is sufficient, and the record says so.
-- **PRO-015** A piece that is not scheduled yet MAY have a planned date. Each change MUST record a reason, the old and the new date, in the audit log. Changing the date does not change the state. PROPOSAL: the planned date is an internal planning date; product owner to confirm (D-27).
-- **PRO-016** The planned date MUST NOT change once the piece reaches client review, nor while it is scheduled or published ([PD-46](../planning/risks-open-decisions.md)). PROPOSAL: the lock after client review is the safe default until D-26 and D-27 are decided.
-- **PRO-017** On the production board a card MAY be moved by drag only along the manual moves of PD-41 (draft → planned, planned → in production, changes requested → in production, in production → internal review). The drop sends the same action as the piece page, so the server applies the same rule. Approvals, rejections, scheduling and publishing stay on the piece page, because they need a comment, a date or a link. A card the person cannot edit is not draggable. PROPOSAL (D-28, decided by the team's delegate for the product owner to confirm).
+- **PRO-015** A piece that is not scheduled yet MAY have a planned date. Each change MUST record a reason, the old and the new date, in the audit log. Changing the date does not change the state. Confirmed (D-27): the planned date is an internal planning date.
+- **PRO-016** The planned date MUST NOT change once the piece reaches client review, nor while it is scheduled or published ([PD-46](../planning/risks-open-decisions.md)). Confirmed (D-26, D-27): the lock applies after client review.
+- **PRO-017** On the production board a card MAY be moved by drag only along the manual moves of PD-41 (draft → planned, planned → in production, changes requested → in production, in production → internal review). The drop sends the same action as the piece page, so the server applies the same rule. Approvals, rejections, scheduling and publishing stay on the piece page, because they need a comment, a date or a link. A card the person cannot edit is not draggable. Confirmed (D-28).
 
 ## Data
 

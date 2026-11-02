@@ -24,6 +24,14 @@ class ContentRepository(Protocol):
         """True if the user is a member of the organization and not a client end-user."""
 
 
+class TaskDates(Protocol):
+    def follow_planned_date(
+        self, organization_id: int, content_id: int, *, previous, current
+    ) -> int:
+        """Move the open tasks of this piece that were due on the old planned day to the new
+        one (CAL-003). Returns how many tasks moved."""
+
+
 class Notifier(Protocol):
     def notify(
         self,

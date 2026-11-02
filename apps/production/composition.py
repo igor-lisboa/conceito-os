@@ -9,6 +9,7 @@ from django.utils import timezone
 
 from apps.core.audit import DjangoAuditLog
 from apps.notifications.adapters import DjangoNotifier
+from apps.tasks.adapters import DjangoTaskDates
 
 from .adapters.django_repository import DjangoContentRepository
 from .application.content_service import ContentService
@@ -21,4 +22,5 @@ def build_content_service():
         clock=timezone.now,
         transaction=transaction.atomic,
         notifier=DjangoNotifier(),
+        tasks=DjangoTaskDates(),
     )

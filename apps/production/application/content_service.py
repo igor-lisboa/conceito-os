@@ -31,12 +31,13 @@ NOTIFICATION_KINDS = {
 
 
 class ContentService:
-    def __init__(self, *, repository, audit, clock, transaction, notifier=None):
+    def __init__(self, *, repository, audit, clock, transaction, notifier=None, tasks=None):
         self.repository = repository
         self.audit = audit
         self.clock = clock  # callable returning the current datetime
         self.transaction = transaction  # callable returning a context manager
         self.notifier = notifier  # optional: None disables notifications (used in some tests)
+        self.tasks = tasks  # optional: TaskDates port, moves the related tasks (CAL-003)
 
     # --- creating ----------------------------------------------------------
 
@@ -90,7 +91,13 @@ class ContentService:
     def reschedule(self, actor, content_id, *, when, reason):
         """Change the planned date and record the reason (PRO-015, PRO-016)."""
         require_capability(actor, Capability.EDIT_CONTENT)
-        return self._change(actor, content_id, lambda c: c.reschedule(when, reason=reason))
+        previous = self._load(actor, content_id).planned_for
+        content = self._change(actor, content_id, lambda c: c.reschedule(when, reason=reason))
+        if self.tasks is not None and previous is not None:
+            self.tasks.follow_planned_date(
+                content.organization_id, content.id, previous=previous, current=content.planned_for
+            )
+        return content
 
     # --- approvals ---------------------------------------------------------
 
