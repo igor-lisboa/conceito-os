@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.http import Http404
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext
 from django.views import View
 from django.views.generic import DetailView, FormView, ListView
@@ -184,6 +185,10 @@ class ContentActionView(CapabilityRequiredMixin, View):
                 lambda: handler(build_content_service(), actor_for(request.membership), pk, form.cleaned_data),
                 success_message="Action recorded.",
             )
+        # The board sends "next" when a card is dragged, so the person stays on the board.
+        next_url = request.POST.get("next", "")
+        if next_url and url_has_allowed_host_and_scheme(next_url, allowed_hosts={request.get_host()}):
+            return redirect(next_url)
         return redirect("content_detail", pk=pk)
 
 

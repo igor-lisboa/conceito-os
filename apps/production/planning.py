@@ -17,7 +17,7 @@ from django.views import View
 from django.views.generic import TemplateView
 
 from apps.accounts.mixins import CapabilityRequiredMixin
-from apps.accounts.permissions import Capability
+from apps.accounts.permissions import Capability, has_capability
 from apps.clients.queries import visible_clients
 from apps.core.actors import actor_for
 from apps.core.http import run_action
@@ -39,6 +39,16 @@ def _month_start(text):
 def _shift_month(day, months):
     index = day.year * 12 + (day.month - 1) + months
     return dt.date(index // 12, index % 12 + 1, 1)
+
+
+# Board drag (D-28): each allowed card move and the action the piece page uses for it.
+# It is exactly the set of manual moves (PD-41); a test keeps the two in step.
+BOARD_DRAG_ACTIONS = {
+    (ContentState.DRAFT, ContentState.PLANNED): "plan",
+    (ContentState.PLANNED, ContentState.IN_PRODUCTION): "start_production",
+    (ContentState.CHANGES_REQUESTED, ContentState.IN_PRODUCTION): "start_production",
+    (ContentState.IN_PRODUCTION, ContentState.INTERNAL_REVIEW): "send_internal_review",
+}
 
 
 class PlanningFilterForm(forms.Form):
@@ -124,7 +134,17 @@ class ContentBoardView(CapabilityRequiredMixin, TemplateView):
         if filters.is_valid() and filters.cleaned_data.get("client"):
             items = items.filter(client=filters.cleaned_data["client"])
         items = list(items)
+        # Dragging a card moves it only along the manual moves (D-28). The page sends the same
+        # action the piece page uses, so the server applies the same rule.
+        draggable_states = {source.value for source, _target in BOARD_DRAG_ACTIONS}
+        can_edit = has_capability(actor_for(membership), Capability.EDIT_CONTENT)
+        for item in items:
+            item.can_drag = can_edit and item.state in draggable_states
         context["filters"] = filters
+        context["drag_moves"] = [
+            {"source": source.value, "target": target.value, "action": action}
+            for (source, target), action in BOARD_DRAG_ACTIONS.items()
+        ]
         context["columns"] = [
             (state, [item for item in items if item.state == state.value]) for state in ContentState
         ]

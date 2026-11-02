@@ -6,17 +6,22 @@
 {% block content %}
   <h1>{% trans "Production board" %}</h1>
 
-  <form method="get" class="card actions">
-    {{ filters.client.label_tag }} {{ filters.client }}
-    <button class="button-secondary">{% trans "Filter" %}</button>
-  </form>
+  <details class="filters card"{% if request.GET.client %} open{% endif %}>
+    <summary>{% trans "Filters" %}</summary>
+    <form method="get" class="actions">
+      {{ filters.client.label_tag }} {{ filters.client }}
+      <button class="button-secondary">{% trans "Filter" %}</button>
+    </form>
+  </details>
 
-  <div class="board">
+  <div class="board" data-next="{{ request.get_full_path }}" data-action-template="{% url 'content_action' '00000000-0000-0000-0000-000000000000' 'placeholder' %}">
+    {% csrf_token %}
     {% for state, items in columns %}
-      <section class="column" aria-labelledby="col-{{ state.value }}">
+      <section class="column" data-state="{{ state.value }}" aria-labelledby="col-{{ state.value }}">
         <h2 id="col-{{ state.value }}">{{ state.label }} <small>({{ items|length }})</small></h2>
         {% for item in items %}
-          <a class="card-link" href="{% url 'content_detail' item.pk %}">
+          <a class="card-link" href="{% url 'content_detail' item.pk %}"
+             {% if item.can_drag %}draggable="true" data-content-id="{{ item.pk }}" data-state="{{ item.state }}" data-title="{{ item.title }}"{% endif %}>
             <span class="card">
               <strong>{{ item.title }}</strong><br>
               <small>{{ item.client.name }}</small>
@@ -28,5 +33,60 @@
       </section>
     {% endfor %}
   </div>
-  <p><small>{% trans "Move a piece with its buttons on the piece page. Each change is recorded." %}</small></p>
+  <p><small>{% trans "Drag a card to the next stage when the team can move it by hand. Approvals, scheduling and publishing are on the piece page. Each change is recorded." %}</small></p>
+
+  {{ drag_moves|json_script:"board-drag-moves" }}
+  <script>
+    (function () {
+      var board = document.querySelector('.board');
+      var dataNode = document.getElementById('board-drag-moves');
+      if (!board || !dataNode || !window.fetch) { return; }
+      var moves = JSON.parse(dataNode.textContent);
+      var template = board.dataset.actionTemplate;
+      var next = board.dataset.next;
+      var csrf = document.querySelector('input[name="csrfmiddlewaretoken"]');
+      var dragged = null;
+
+      function actionFor(source, target) {
+        for (var i = 0; i < moves.length; i++) {
+          if (moves[i].source === source && moves[i].target === target) { return moves[i].action; }
+        }
+        return null;
+      }
+
+      board.querySelectorAll('a[draggable="true"]').forEach(function (card) {
+        card.addEventListener('dragstart', function (event) {
+          dragged = card;
+          event.dataTransfer.setData('text/plain', card.dataset.contentId);
+        });
+        card.addEventListener('dragend', function () { dragged = null; });
+      });
+
+      board.querySelectorAll('.column[data-state]').forEach(function (column) {
+        column.addEventListener('dragover', function (event) {
+          if (dragged && actionFor(dragged.dataset.state, column.dataset.state)) {
+            event.preventDefault();
+          }
+        });
+        column.addEventListener('drop', function (event) {
+          var action = dragged && actionFor(dragged.dataset.state, column.dataset.state);
+          if (!action) { return; }
+          event.preventDefault();
+          var form = document.createElement('form');
+          form.method = 'post';
+          form.action = template.replace('00000000-0000-0000-0000-000000000000', dragged.dataset.contentId)
+                                .replace('placeholder', action);
+          [['csrfmiddlewaretoken', csrf.value], ['next', next]].forEach(function (pair) {
+            var field = document.createElement('input');
+            field.type = 'hidden';
+            field.name = pair[0];
+            field.value = pair[1];
+            form.appendChild(field);
+          });
+          document.body.appendChild(form);
+          form.submit();
+        });
+      });
+    })();
+  </script>
 {% endblock %}

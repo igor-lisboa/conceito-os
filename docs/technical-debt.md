@@ -66,9 +66,9 @@ Phase 1 code scope is complete except the items marked *partly* in the P1 table.
 | TD-01 | [done for the manual minimum: leads, proposals, monthly metrics with N/D. PDF and automation still open] **CRM, proposals and reports, manual minimum.** Leads with stage and next action; proposals typed by hand with status; a monthly report where people enter metric values by hand, and missing metrics show as `N/D`. No automation, no AI, no PDF. | PD-02, CRM-001, CRM-003, CRM-006, ONB-001, MET-001..003, MET-005 (manual part) | Agreed as part of Phase 1 (decision D-01). The largest gap in the agreed scope. | L | None |
 | TD-02 | [done: links with kinds] **Brand file library as links.** Each brand gets a list of links (logo, fonts, templates, references) with a title and a kind. | PD-03, CLI-007 | Agreed in Phase 1. No file upload until a storage service is chosen (TD-33). | S | None |
 | TD-04 | [done for month view, agenda, duplicate, and drag to change a planned date (PRO-015, PRO-016). Scheduled pieces cannot be dragged (PD-46)] **Calendar views:** month, week, and a daily agenda on phones; filter by client, channel, stage, and date; duplicate a piece from the calendar; change a date with validation. | CAL-001..004, CAL-006, CAL-011 | The calendar is how the team plans. Today there is only a filtered list. | M | Timezone (TD-09) |
-| TD-05 | [done for the board. Drag between columns is still open] **Kanban production board** (desktop columns; phone lists grouped by stage). | PRO-005, section 17.3 item 2 | Spec MVP item. Today the list filter covers the data but not the board. | M | None |
+| TD-05 | [done for the board, with drag along the four manual moves (PRO-017, D-28). Approvals and scheduling stay on the piece page] **Kanban production board** (desktop columns; phone lists grouped by stage). | PRO-005, section 17.3 item 2 | Spec MVP item. Today the list filter covers the data but not the board. | M | None |
 | TD-06 | [done] **Tasks:** create a task for a client or a piece, with an owner and a due date; mark done; list "mine". | Section 8 entity `tasks`, Phase 1 "tarefas" | Phase 1 scope; the team needs to track follow-ups. | M | None |
-| TD-07 | [done for the bottom bar. Filter drawers and the step-by-step editor are still open] **Phone navigation:** bottom bar (Home, Clients, Calendar, Tasks, More); filters in a drawer; the piece editor in steps (text, media, date, review). | NAV-002, 15.1, 18.1 | The spec treats phones as a first-class target, not a shrunk desktop. Today the layout is responsive CSS only. | M | TD-04, TD-05 |
+| TD-07 | [done for the bottom bar and the collapsible filters (NAV-014, D-29). The step-by-step piece editor moved to P2 as TD-51] **Phone navigation:** bottom bar (Home, Clients, Calendar, Tasks, More); filters in a collapsible panel; the piece editor in steps (text, media, date, review). | NAV-002, 15.1, 18.1 | The spec treats phones as a first-class target, not a shrunk desktop. Today the layout is responsive CSS only. | M | TD-04, TD-05 |
 | TD-08 | [done: owner audit screen] **Audit log screen** for the owner, filterable by person, action, and client. | AUTH-020, SEC-007 | The data is recorded; only the admin can read it today. | S | None |
 | TD-09 | [done: organization time zone on screens and typed dates] **Apply each organization's timezone** on every screen and in date inputs. | CAL-011, NFR-003 | Dates are stored in UTC and shown in UTC today. A Brazilian team reads them wrong. | S | None |
 | TD-11 | [done, optional per account. Mandatory for owners waits for decision D-17] **Multi-factor sign-in** for owners and administrators (for others, by risk decision). | AUTH-004, D-17 | Owners can publish and read finances; the spec asks for MFA by risk. | M | Decision D-17 |
@@ -91,6 +91,7 @@ Phase 1 code scope is complete except the items marked *partly* in the P1 table.
 | TD-20 | Social network connections: OAuth, token renewal, publishing through the APIs, fallback to manual. | INT-001..009, PD-05 | L |
 | TD-24 | Agency finance: contracts, instalments, costs, hours, margin and overdue alerts. | FIN-001..009, UC-12 | L |
 | TD-28 | Seasonal calendar with Brazilian dates and assisted 30-day planning. | CAL-007..010, UC-06 | M |
+| TD-51 | Piece editor in steps on phones (text, media, date, review), moved from P1 by D-29. | NAV-002, 18.1 | M |
 | TD-31 | Compare two versions of a piece side by side. | PRO-004 | S |
 | TD-35 | Formal design system: SVG logo, token validation, component states guide. | DSG-006, DSG-008 | M |
 | TD-37 | End-to-end browser tests of the main flows, and a check that the role matrix is complete. | section 12 | M |
@@ -132,7 +133,6 @@ cost later.
 | TD-S11 | The authenticator secret is stored in plain text in the database. | Anyone with read access to the database can copy the secret. | Before production (encrypt at rest) |
 | TD-S12 | The MFA setup screen shows the secret and a link, not a QR code. | Typing the key by hand is slower and easy to get wrong. | Next UI pass |
 | TD-S13 | Comments are not editable or deletable after posting. | A typo or a wrong mention stays. | Next pass |
-| TD-S14 | The board cannot change a stage by dragging. The calendar moves planned dates only, not scheduled pieces. | Stage moves take more clicks than they should. | With TD-05 drag |
 
 ---
 
@@ -163,6 +163,7 @@ cost later.
 | TD-S3 (Mailpit pinned to `v1.28.2`) | 2026-11-02 | `docker-compose.yml`; tag verified by pulling it; container healthy |
 | TD-48 (email language per person, NTF-010) | 2026-11-02 | `apps/notifications/tests/test_email_language.py`, `apps/accounts/tests/test_account_language.py` |
 | Calendar drag of planned dates (PRO-015, PRO-016) | 2026-11-02 | `apps/production/tests/test_planned_date.py` |
+| TD-S14 (board drag on manual moves, PRO-017) | 2026-11-02 | `apps/production/tests/test_board_drag.py` |
 
 ---
 

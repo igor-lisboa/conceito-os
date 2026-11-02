@@ -2,7 +2,7 @@
 id: pro
 status: partially-implemented
 phase: MVP
-version: 1.2
+version: 1.3
 updated: 2026-11-02
 ---
 
@@ -26,6 +26,7 @@ updated: 2026-11-02
 - **PRO-014** If the client's "client approval required" setting is off ([CLI-010](clients-briefing.md)), internal approval is sufficient, and the record says so.
 - **PRO-015** A piece that is not scheduled yet MAY have a planned date. Each change MUST record a reason, the old and the new date, in the audit log. Changing the date does not change the state. PROPOSAL: the planned date is an internal planning date; product owner to confirm (D-27).
 - **PRO-016** The planned date MUST NOT change once the piece reaches client review, nor while it is scheduled or published ([PD-46](../planning/risks-open-decisions.md)). PROPOSAL: the lock after client review is the safe default until D-26 and D-27 are decided.
+- **PRO-017** On the production board a card MAY be moved by drag only along the manual moves of PD-41 (draft → planned, planned → in production, changes requested → in production, in production → internal review). The drop sends the same action as the piece page, so the server applies the same rule. Approvals, rejections, scheduling and publishing stay on the piece page, because they need a comment, a date or a link. A card the person cannot edit is not draggable. PROPOSAL (D-28, decided by the team's delegate for the product owner to confirm).
 
 ## Data
 
@@ -54,3 +55,4 @@ updated: 2026-11-02
 - Persistence round-trip: `apps/production/tests/adapters/test_django_repository.py
 - Screens: `apps/production/tests/test_views.py`, read side: `apps/production/tests/test_queries.py`
 - Planned date, reason and lock (PRO-015, PRO-016): `apps/production/tests/test_planned_date.py`
+- Board drag along the manual moves (PRO-017): `apps/production/tests/test_board_drag.py`

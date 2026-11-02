@@ -12,11 +12,14 @@
     <a class="button button-secondary" href="?month={{ next_month }}">{% trans "Next" %} &rarr;</a>
   </nav>
 
-  <form method="get" class="card actions">
-    <input type="hidden" name="month" value="{{ month|date:'Y-m' }}">
-    {{ filters.client.label_tag }} {{ filters.client }}
-    <button class="button-secondary">{% trans "Filter" %}</button>
-  </form>
+  <details class="filters card"{% if request.GET.client %} open{% endif %}>
+    <summary>{% trans "Filters" %}</summary>
+    <form method="get" class="actions">
+      <input type="hidden" name="month" value="{{ month|date:'Y-m' }}">
+      {{ filters.client.label_tag }} {{ filters.client }}
+      <button class="button-secondary">{% trans "Filter" %}</button>
+    </form>
+  </details>
 
   <p><small>{% trans "Drag a planned piece to another day to change its planned date. You can also open the piece and change the date there with the keyboard." %}</small></p>
 

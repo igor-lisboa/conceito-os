@@ -1205,3 +1205,11 @@ msgstr "Arraste um conteúdo planejado para outro dia para mudar a data planejad
 
 msgid "Scheduled and planned content, month view"
 msgstr "Conteúdos agendados e planejados, visão mensal"
+
+# --- Board drag and collapsible filters (D-28, D-29) -------------------------
+
+msgid "Filters"
+msgstr "Filtros"
+
+msgid "Drag a card to the next stage when the team can move it by hand. Approvals, scheduling and publishing are on the piece page. Each change is recorded."
+msgstr "Arraste um cartão para a próxima etapa quando a equipe puder movê-lo manualmente. Aprovações, agendamento e publicação ficam na página do conteúdo. Cada mudança é registrada."
