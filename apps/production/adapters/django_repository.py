@@ -48,6 +48,7 @@ class DjangoContentRepository:
         row.content_format = content.content_format.value
         row.state = content.state.value
         row.client_approval_required = content.client_approval_required
+        row.planned_for = content.planned_for
         row.scheduled_for = content.scheduled_for
         row.published_at = content.published_at
         row.published_url = content.published_url
@@ -135,6 +136,7 @@ def _to_domain(row):
             )
             for approval in row.approvals.all()
         ],
+        planned_for=row.planned_for,
         scheduled_for=row.scheduled_for,
         published_at=row.published_at,
         published_url=row.published_url,

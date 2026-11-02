@@ -65,7 +65,7 @@ Phase 1 code scope is complete except the items marked *partly* in the P1 table.
 | --- | --- | --- | --- | --- | --- |
 | TD-01 | [done for the manual minimum: leads, proposals, monthly metrics with N/D. PDF and automation still open] **CRM, proposals and reports, manual minimum.** Leads with stage and next action; proposals typed by hand with status; a monthly report where people enter metric values by hand, and missing metrics show as `N/D`. No automation, no AI, no PDF. | PD-02, CRM-001, CRM-003, CRM-006, ONB-001, MET-001..003, MET-005 (manual part) | Agreed as part of Phase 1 (decision D-01). The largest gap in the agreed scope. | L | None |
 | TD-02 | [done: links with kinds] **Brand file library as links.** Each brand gets a list of links (logo, fonts, templates, references) with a title and a kind. | PD-03, CLI-007 | Agreed in Phase 1. No file upload until a storage service is chosen (TD-33). | S | None |
-| TD-04 | [done for month view, agenda and duplicate. Drag to reschedule and planned dates are still open] **Calendar views:** month, week, and a daily agenda on phones; filter by client, channel, stage, and date; duplicate a piece from the calendar; change a date with validation. | CAL-001..004, CAL-006, CAL-011 | The calendar is how the team plans. Today there is only a filtered list. | M | Timezone (TD-09) |
+| TD-04 | [done for month view, agenda, duplicate, and drag to change a planned date (PRO-015, PRO-016). Scheduled pieces cannot be dragged (PD-46)] **Calendar views:** month, week, and a daily agenda on phones; filter by client, channel, stage, and date; duplicate a piece from the calendar; change a date with validation. | CAL-001..004, CAL-006, CAL-011 | The calendar is how the team plans. Today there is only a filtered list. | M | Timezone (TD-09) |
 | TD-05 | [done for the board. Drag between columns is still open] **Kanban production board** (desktop columns; phone lists grouped by stage). | PRO-005, section 17.3 item 2 | Spec MVP item. Today the list filter covers the data but not the board. | M | None |
 | TD-06 | [done] **Tasks:** create a task for a client or a piece, with an owner and a due date; mark done; list "mine". | Section 8 entity `tasks`, Phase 1 "tarefas" | Phase 1 scope; the team needs to track follow-ups. | M | None |
 | TD-07 | [done for the bottom bar. Filter drawers and the step-by-step editor are still open] **Phone navigation:** bottom bar (Home, Clients, Calendar, Tasks, More); filters in a drawer; the piece editor in steps (text, media, date, review). | NAV-002, 15.1, 18.1 | The spec treats phones as a first-class target, not a shrunk desktop. Today the layout is responsive CSS only. | M | TD-04, TD-05 |
@@ -75,10 +75,10 @@ Phase 1 code scope is complete except the items marked *partly* in the P1 table.
 | TD-15 | [done: name and time zone] **Organization settings screen:** name, timezone, default notification email. | AUTH-014 | Today these are set only in the admin. | S | TD-09 |
 | TD-29 | [done: comments and mentions] **Comments on a piece**, with mentions that notify the person. Today comments exist only on approvals. | PRO-004, NTF-006, 17.2 | Spec production item: discussion happens on the piece, not only in decisions. | M | Notifications (done) |
 | TD-43 | [done: link kept on the piece] **Record the published link** of a post, when the team publishes by hand. | INT-010 | Keeps proof of publication for reports and client questions. | S | None |
-| TD-36 | **Accessibility check** of the screens against WCAG 2.2 AA, with a keyboard and a screen reader pass. | NFR-010, NFR-011, DSG-003 | The spec makes AA the target; only colour contrast has been checked so far. | S | None |
+| TD-36 | [code-level pass done 2026-11-02, see changelog; keyboard, screen reader and 200% zoom passes still open] **Accessibility check** of the screens against WCAG 2.2 AA, with a keyboard and a screen reader pass. | NFR-010, NFR-011, DSG-003 | The spec makes AA the target; only colour contrast has been checked so far. | S | None |
 | TD-14 | [done for logs. Alerts that page a person need an external service] **Logs and alerts** for failed emails, failed sign-ins and server errors. | ARC-006 | Today failures are logged to the console only. | S | TD-39 |
 | TD-26 | [done: calendar, results, files and contact] **Client portal:** the Home, Calendar, Results, Files and Contact sections. Only Approvals exists. | POR-002 | Phase 1 has the approvals portal; the other sections are part of the spec's portal. | M | TD-04, TD-02 |
-| TD-48 | **Notifications and mail templates in the client's language** (today: the request's language). | NTF-005 partly | Clients may be in a different language from the team. | S | None |
+| TD-48 | [done for email: each person chooses the language of their emails on the account page, NTF-010; in-app text already follows the viewer] **Notifications and mail templates in the client's language** (today: the request's language). | NTF-005 partly, NTF-010 | Clients may be in a different language from the team. | S | None |
 
 ## P2: Phase 2 (operations and strategy)
 
@@ -121,9 +121,7 @@ cost later.
 
 | ID | Shortcut | Risk | When to fix |
 | --- | --- | --- | --- |
-| TD-S1 | Some user-facing strings are only in English in the 404, 403 and 500 pages. | Portuguese users see English on error pages. | With TD-36 |
 | TD-S2 | The welcome email is always in pt-BR, whatever the new user's browser language. | Minor. | When TD-48 is done |
-| TD-S3 | Mailpit image is `latest`, not pinned. | An upgrade could change local behaviour without notice. | Now (one line in compose) |
 | TD-S4 | `visible_content` (read side) repeats the rule of `apps/production/domain/policy.py` in ORM form. A test keeps them in step. | Two places to change when the rule changes. | When the policy changes next |
 | TD-S5 | Login by username is still allowed next to login by email. | Two ways in; the username is not always private. | Keep until the team agrees; review with TD-11 |
 | TD-S6 | Publishing is marked by hand, with no link to the post. | Relies on people remembering to mark it. | With TD-43 and TD-20 |
@@ -134,7 +132,7 @@ cost later.
 | TD-S11 | The authenticator secret is stored in plain text in the database. | Anyone with read access to the database can copy the secret. | Before production (encrypt at rest) |
 | TD-S12 | The MFA setup screen shows the secret and a link, not a QR code. | Typing the key by hand is slower and easy to get wrong. | Next UI pass |
 | TD-S13 | Comments are not editable or deletable after posting. | A typo or a wrong mention stays. | Next pass |
-| TD-S14 | Calendar and board cannot change a date or stage by dragging. | Rescheduling takes more clicks than it should. | With TD-04/TD-05 drag |
+| TD-S14 | The board cannot change a stage by dragging. The calendar moves planned dates only, not scheduled pieces. | Stage moves take more clicks than they should. | With TD-05 drag |
 
 ---
 
@@ -160,6 +158,11 @@ cost later.
 | TD-14 (logs) | 2026-11-01 | `config/settings/base.py` |
 | TD-26 | 2026-11-01 | `apps/portal/tests/test_sections.py` |
 | TD-29 | 2026-11-01 | `apps/production/tests/test_comments_and_planning.py`, `apps/portal/tests/test_sections.py` |
+| TD-S1 (error pages) | 2026-11-02 | `apps/core/tests/test_error_pages.py`, `web/templates/403.html`, `web/templates/404.html`, `web/templates/500.html` |
+| pt-BR catalog encoding (34 double-encoded lines repaired) | 2026-11-02 | `apps/core/tests/test_i18n.py` (catalog test) |
+| TD-S3 (Mailpit pinned to `v1.28.2`) | 2026-11-02 | `docker-compose.yml`; tag verified by pulling it; container healthy |
+| TD-48 (email language per person, NTF-010) | 2026-11-02 | `apps/notifications/tests/test_email_language.py`, `apps/accounts/tests/test_account_language.py` |
+| Calendar drag of planned dates (PRO-015, PRO-016) | 2026-11-02 | `apps/production/tests/test_planned_date.py` |
 
 ---
 

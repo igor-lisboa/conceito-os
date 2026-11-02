@@ -908,10 +908,10 @@ msgid "Add an account with this key, or open the link below on the phone:"
 msgstr "Adicione uma conta com esta chave, ou abra o link abaixo no celular:"
 
 msgid "Type the 6-digit code the app shows now:"
-msgstr "Digite o cÃ³digo de 6 dÃ­gitos que o aplicativo mostra agora:"
+msgstr "Digite o código de 6 dígitos que o aplicativo mostra agora:"
 
 msgid "Add comment"
-msgstr "Adicionar comentÃ¡rio"
+msgstr "Adicionar comentário"
 
 msgid "Agenda"
 msgstr "Agenda"
@@ -923,19 +923,19 @@ msgid "Board"
 msgstr "Quadro"
 
 msgid "Calendar"
-msgstr "CalendÃ¡rio"
+msgstr "Calendário"
 
 msgid "Comments"
-msgstr "ComentÃ¡rios"
+msgstr "Comentários"
 
 msgid "Confirm"
 msgstr "Confirmar"
 
 msgid "Copy"
-msgstr "CÃ³pia"
+msgstr "Cópia"
 
 msgid "copy"
-msgstr "cÃ³pia"
+msgstr "cópia"
 
 msgid "Due"
 msgstr "Vence"
@@ -947,19 +947,19 @@ msgid "Empty"
 msgstr "Vazio"
 
 msgid "Enter your code"
-msgstr "Digite seu cÃ³digo"
+msgstr "Digite seu código"
 
 msgid "Files"
 msgstr "Arquivos"
 
 msgid "For questions about your content, write to"
-msgstr "Para dÃºvidas sobre o seu conteÃºdo, escreva para"
+msgstr "Para dúvidas sobre o seu conteúdo, escreva para"
 
 msgid "Main"
 msgstr "Principal"
 
 msgid "Mark as done"
-msgstr "Marcar como concluÃ­da"
+msgstr "Marcar como concluída"
 
 msgid "Months"
 msgstr "Meses"
@@ -967,29 +967,29 @@ msgstr "Meses"
 msgid ""
 "Move a piece with its buttons on the piece page. Each change is recorded."
 msgstr ""
-"Mova uma peÃ§a pelos botÃµes da prÃ³pria pÃ¡gina da peÃ§a. Cada mudanÃ§a "
+"Mova uma peça pelos botões da própria página da peça. Cada mudança "
 "fica registrada."
 
 msgid "New task"
 msgstr "Nova tarefa"
 
 msgid "Next"
-msgstr "PrÃ³ximo"
+msgstr "Próximo"
 
 msgid "No brands available for you yet."
-msgstr "Nenhuma marca disponÃ­vel para vocÃª ainda."
+msgstr "Nenhuma marca disponível para você ainda."
 
 msgid "No comments yet."
-msgstr "Nenhum comentÃ¡rio ainda."
+msgstr "Nenhum comentário ainda."
 
 msgid "No files shared with you yet."
-msgstr "Nenhum arquivo compartilhado com vocÃª ainda."
+msgstr "Nenhum arquivo compartilhado com você ainda."
 
 msgid "No tasks yet."
 msgstr "Nenhuma tarefa ainda."
 
 msgid "Nothing scheduled this month."
-msgstr "Nada agendado neste mÃªs."
+msgstr "Nada agendado neste mês."
 
 msgid "Nothing scheduled yet."
 msgstr "Nada agendado ainda."
@@ -1001,7 +1001,7 @@ msgid "Previous"
 msgstr "Anterior"
 
 msgid "Production board"
-msgstr "Quadro de produÃ§Ã£o"
+msgstr "Quadro de produção"
 
 msgid "Reopen"
 msgstr "Reabrir"
@@ -1013,13 +1013,13 @@ msgid "Save task"
 msgstr "Salvar tarefa"
 
 msgid "Scheduled content, month view"
-msgstr "ConteÃºdo agendado, visÃ£o do mÃªs"
+msgstr "Conteúdo agendado, visão do mês"
 
 msgid "Security"
-msgstr "SeguranÃ§a"
+msgstr "Segurança"
 
 msgid "Send comment"
-msgstr "Enviar comentÃ¡rio"
+msgstr "Enviar comentário"
 
 msgid "Show everyone's tasks"
 msgstr "Mostrar as tarefas de todos"
@@ -1028,7 +1028,7 @@ msgid "Show my tasks"
 msgstr "Mostrar minhas tarefas"
 
 msgid "Skip to content"
-msgstr "Pular para o conteÃºdo"
+msgstr "Pular para o conteúdo"
 
 msgid "Tasks"
 msgstr "Tarefas"
@@ -1037,20 +1037,20 @@ msgid "Turn on"
 msgstr "Ativar"
 
 msgid "Two-step sign-in"
-msgstr "VerificaÃ§Ã£o em duas etapas"
+msgstr "Verificação em duas etapas"
 
 msgid ""
 "Two-step sign-in is on. You will be asked for a code from your app after "
 "your password."
 msgstr ""
-"A verificaÃ§Ã£o em duas etapas estÃ¡ ativa. Depois da senha, vocÃª vai "
-"precisar de um cÃ³digo do seu aplicativo."
+"A verificação em duas etapas está ativa. Depois da senha, você vai "
+"precisar de um código do seu aplicativo."
 
 msgid "Write a comment (mention someone with @email)"
-msgstr "Escreva um comentÃ¡rio (mencione alguÃ©m com @e-mail)"
+msgstr "Escreva um comentário (mencione alguém com @e-mail)"
 
 msgid "Write a comment for the team"
-msgstr "Escreva um comentÃ¡rio para a equipe"
+msgstr "Escreva um comentário para a equipe"
 
 msgid "Task"
 msgstr "Tarefa"
@@ -1059,7 +1059,7 @@ msgid "Due date"
 msgstr "Data limite"
 
 msgid "Code from your app"
-msgstr "CÃ³digo do seu aplicativo"
+msgstr "Código do seu aplicativo"
 
 msgid "Mon"
 msgstr "Seg"
@@ -1077,36 +1077,36 @@ msgid "Fri"
 msgstr "Sex"
 
 msgid "Sat"
-msgstr "SÃ¡b"
+msgstr "Sáb"
 
 msgid "Sun"
 msgstr "Dom"
 
 msgid "Write a comment of up to 2000 characters."
-msgstr "Escreva um comentÃ¡rio de atÃ© 2000 caracteres."
+msgstr "Escreva um comentário de até 2000 caracteres."
 
 msgid "Comment added."
-msgstr "ComentÃ¡rio adicionado."
+msgstr "Comentário adicionado."
 
 msgid "Comment sent."
-msgstr "ComentÃ¡rio enviado."
+msgstr "Comentário enviado."
 
 msgid "Copy created as a draft."
-msgstr "CÃ³pia criada como rascunho."
+msgstr "Cópia criada como rascunho."
 
 msgid "Task added."
 msgstr "Tarefa adicionada."
 
 msgid "Two-step sign-in is on for your account."
-msgstr "A verificaÃ§Ã£o em duas etapas estÃ¡ ativa na sua conta."
+msgstr "A verificação em duas etapas está ativa na sua conta."
 
 msgid "That code is not right. Check the time on your phone and try again."
 msgstr ""
-"Este cÃ³digo nÃ£o estÃ¡ certo. Confira a hora do seu celular e tente de "
+"Este código não está certo. Confira a hora do seu celular e tente de "
 "novo."
 
 msgid "That code is not right."
-msgstr "Este cÃ³digo nÃ£o estÃ¡ certo."
+msgstr "Este código não está certo."
 
 msgid ""
 "1. Install an authenticator app on your phone (Google Authenticator, "
@@ -1121,3 +1121,87 @@ msgstr ""
 
 msgid "3. Type the 6-digit code the app shows now:"
 msgstr "3. Digite o código de 6 dígitos que o aplicativo mostra agora:"
+
+# --- Error pages (404, 403, 500) ---------------------------------------------
+
+msgid "Page not found"
+msgstr "Página não encontrada"
+
+msgid "This page does not exist, or you do not have access to it."
+msgstr "Esta página não existe, ou você não tem acesso a ela."
+
+msgid "Back to home"
+msgstr "Voltar ao início"
+
+msgid "Access denied"
+msgstr "Acesso negado"
+
+msgid "Your role does not allow this action. Ask an owner of the organization if you need access."
+msgstr "Seu perfil não permite esta ação. Peça a um proprietário da organização se precisar de acesso."
+
+msgid "Something went wrong"
+msgstr "Algo deu errado"
+
+msgid "An unexpected error happened. Try again in a few minutes."
+msgstr "Ocorreu um erro inesperado. Tente novamente em alguns minutos."
+
+# --- Account and email language (NTF-010) -----------------------------------
+
+msgid "Account"
+msgstr "Conta"
+
+msgid "Email language"
+msgstr "Idioma dos e-mails"
+
+msgid "Not chosen (Portuguese)"
+msgstr "Não escolhido (português)"
+
+msgid "Emails from Conceito OS are sent in this language."
+msgstr "Os e-mails do Conceito OS são enviados neste idioma."
+
+msgid "English"
+msgstr "Inglês"
+
+# --- Planned dates (PRO-015, PRO-016) ----------------------------------------
+
+msgid "The planned date is locked once the piece reaches the client."
+msgstr "A data planejada fica travada quando o conteúdo chega ao cliente."
+
+msgid "Enter the planned date."
+msgstr "Informe a data planejada."
+
+msgid "Explain why the date changes."
+msgstr "Explique por que a data muda."
+
+msgid "Check the date and the reason."
+msgstr "Confira a data e o motivo."
+
+msgid "Planned date changed."
+msgstr "Data planejada alterada."
+
+msgid "Change planned date"
+msgstr "Alterar data planejada"
+
+msgid "Reason for the change"
+msgstr "Motivo da alteração"
+
+msgid "Save date"
+msgstr "Salvar data"
+
+msgid "Planned:"
+msgstr "Planejado:"
+
+msgid "Planned date"
+msgstr "Data planejada"
+
+msgid "No planned date yet."
+msgstr "Ainda sem data planejada."
+
+msgid "The planned date is locked once the piece reaches the client, or after it is scheduled."
+msgstr "A data planejada fica travada quando o conteúdo chega ao cliente ou depois de agendado."
+
+msgid "Drag a planned piece to another day to change its planned date. You can also open the piece and change the date there with the keyboard."
+msgstr "Arraste um conteúdo planejado para outro dia para mudar a data planejada. Você também pode abrir o conteúdo e mudar a data por lá, com o teclado."
+
+msgid "Scheduled and planned content, month view"
+msgstr "Conteúdos agendados e planejados, visão mensal"

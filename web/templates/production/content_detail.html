@@ -79,6 +79,20 @@
   </section>
 
   <section class="card">
+    <h2>{% trans "Planned date" %}</h2>
+    {% if actions.reschedule %}
+      <form method="post" action="{% url 'content_reschedule' object.pk %}">
+        {% csrf_token %}
+        {{ planned_form.as_p }}
+        <button class="button-secondary">{% trans "Change planned date" %}</button>
+      </form>
+    {% else %}
+      <p>{% if object.planned_for %}{{ object.planned_for|date:"DATETIME_FORMAT" }}{% else %}{% trans "No planned date yet." %}{% endif %}</p>
+      <p><small>{% trans "The planned date is locked once the piece reaches the client, or after it is scheduled." %}</small></p>
+    {% endif %}
+  </section>
+
+  <section class="card">
     <h2>{% trans "New version" %}</h2>
     <form method="post" action="{% url 'content_version' object.pk %}">
       {% csrf_token %}

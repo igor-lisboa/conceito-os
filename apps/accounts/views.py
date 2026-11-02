@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import views as auth_views
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.utils.translation import gettext
@@ -11,7 +12,7 @@ from apps.accounts.permissions import Capability
 from apps.core.http import run_action
 
 from . import team, throttle
-from .forms import EmailAuthenticationForm, InviteMemberForm, OrganizationForm
+from .forms import AccountLanguageForm, EmailAuthenticationForm, InviteMemberForm, OrganizationForm
 from .models import Membership
 
 
@@ -94,6 +95,21 @@ class TeamRemoveView(CapabilityRequiredMixin, View):
             success_message="Access removed.",
         )
         return redirect("team_list")
+
+
+class AccountView(LoginRequiredMixin, UpdateView):
+    """Each person's own settings. Any role can change its own email language (NTF-010)."""
+
+    template_name = "accounts/account.html"
+    form_class = AccountLanguageForm
+    success_url = reverse_lazy("account")
+
+    def get_object(self, queryset=None):
+        return self.request.user
+
+    def form_valid(self, form):
+        messages.success(self.request, gettext("Settings saved."))
+        return super().form_valid(form)
 
 
 class OrganizationSettingsView(CapabilityRequiredMixin, UpdateView):

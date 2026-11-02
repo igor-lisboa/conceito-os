@@ -33,6 +33,8 @@ class ContentItem(UUIDModel):
     # Copied from the client when the piece is created, so later changes to the
     # client do not silently change the rules of content already in progress.
     client_approval_required = models.BooleanField(default=True)
+    # The date the team plans to publish. Editable until the client sees the piece (PRO-016).
+    planned_for = models.DateTimeField(null=True, blank=True)
     scheduled_for = models.DateTimeField(null=True, blank=True)
     published_at = models.DateTimeField(null=True, blank=True)
     published_url = models.URLField(max_length=500, blank=True)

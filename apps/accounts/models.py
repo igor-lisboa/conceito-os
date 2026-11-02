@@ -9,6 +9,8 @@ from apps.core.models import UUIDModel
 
 from .roles import Role
 
+EMAIL_LANGUAGE_CHOICES = [("en", "English"), ("pt-br", "Português (Brasil)")]
+
 
 class User(AbstractUser):
     """The login account. A person can belong to several organizations (see Membership).
@@ -19,6 +21,8 @@ class User(AbstractUser):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     email = models.EmailField("email address", unique=True)
+    # The language of the emails sent to this person (NTF-010). Blank = not chosen yet.
+    language = models.CharField(max_length=10, blank=True, choices=EMAIL_LANGUAGE_CHOICES)
 
     REQUIRED_FIELDS = ["email"]
 

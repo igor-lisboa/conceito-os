@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Access denied" %} · Conceito OS{% endblock %}
+
+{% block content %}
+  <h1>{% trans "Access denied" %}</h1>
+  <p class="card">{% trans "Your role does not allow this action. Ask an owner of the organization if you need access." %}</p>
+  <p><a class="button" href="{% url 'home' %}">{% trans "Back to home" %}</a></p>
+{% endblock %}

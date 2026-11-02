@@ -55,6 +55,7 @@ Claude does NOT decide items on this list without approval from Beatriz (product
 | D-24 | Languages beyond pt-BR | NFR | Decided 2026-11-01: English and pt-BR. Others not planned. |
 | D-25 | Capabilities actually available per account type in Meta/TikTok APIs (publishing, metrics) | INT, MET | Technical spike before P2 |
 | D-26 | Date change after client approval requires re-approval | CAL | Yes, if the date was shown at approval |
+| D-27 | Planned date (PRO-015, PRO-016): changes need a recorded reason; the date locks once the piece reaches client review, or is scheduled or published | PRO, CAL | Built as PROPOSAL: reason required, locked from client review. Product owner to confirm, and to decide whether D-26 re-approval applies before the lock |
 
 ## Decided
 
