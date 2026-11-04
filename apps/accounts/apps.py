@@ -6,4 +6,4 @@ class AccountsConfig(AppConfig):
 
     def ready(self):
         # Importing the module connects the signal receivers.
-        from . import signals  # noqa: F401
+        from . import checks, signals  # noqa: F401

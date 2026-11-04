@@ -12,8 +12,8 @@ This skill only verifies. It never deploys, never runs migrations on a productio
 1. **Environment variables.** Compare the names read by `config/settings/base.py` (`os.environ.get("...")`) with the keys of `.env.example`. Report variables missing from the example, and variables in the example that the settings do not read.
 
 2. **Production settings.** Run the deploy check with production-like values. Generate a throwaway key of 50+ characters in the same command, so no real secret is needed and nothing is printed:
-   `DJANGO_DEBUG=False DJANGO_SECRET_KEY="$(./.venv/Scripts/python.exe -c 'import secrets;print(secrets.token_urlsafe(50))')" DJANGO_ALLOWED_HOSTS=example.vercel.app ./.venv/Scripts/python.exe manage.py check --deploy --settings=config.settings.base`
-   Expected warnings: only the optional HSTS items (`security.W005`, `security.W021`). Anything else is a finding, including a short-key warning (`security.W009`), which means the key was too short.
+   `DJANGO_DEBUG=False DJANGO_SECRET_KEY="$(./.venv/Scripts/python.exe -c 'import secrets;print(secrets.token_urlsafe(50))')" MFA_ENCRYPTION_KEY="$(./.venv/Scripts/python.exe -c 'from cryptography.fernet import Fernet;print(Fernet.generate_key().decode())')" DJANGO_ALLOWED_HOSTS=example.vercel.app ./.venv/Scripts/python.exe manage.py check --deploy --settings=config.settings.base`
+   Expected warnings: only the optional HSTS items (`security.W005`, `security.W021`). Anything else is a finding, including a missing `MFA_ENCRYPTION_KEY` (`accounts.E001`), which the command above avoids by setting a throwaway one. A short-key warning (`security.W009`), which means the key was too short.
 
 3. **Vercel entry point.** Check `api/index.py` exposes `app`, and that it imports without error:
    `./.venv/Scripts/python.exe -c "import api.index as m; print(type(m.app).__name__)"` (with `DJANGO_SECRET_KEY` set to a placeholder). Check `vercel.json` routes everything to `api/index.py`.

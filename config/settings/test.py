@@ -11,6 +11,8 @@ import os
 from .base import *  # noqa: F401,F403
 
 SECRET_KEY = "test-only-secret-key"
+# Test-only key for the MFA secrets. Never used outside the test suite.
+MFA_ENCRYPTION_KEY = "1OdtVyP4W-5XAoFCefzo8FN2CMQoYg6Bos_BB8uqT_E="
 DEBUG = False
 ALLOWED_HOSTS = ["testserver", "localhost"]
 

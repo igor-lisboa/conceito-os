@@ -42,6 +42,9 @@ def env_list(name, default=""):
 # No default on purpose: if the variable is missing, Django refuses to start
 # instead of running with a known key.
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "")
+# Fernet key that encrypts the MFA secrets in the database (TD-S11). Required outside DEBUG.
+# Keep it apart from the database and the code; losing it locks MFA users out.
+MFA_ENCRYPTION_KEY = os.environ.get("MFA_ENCRYPTION_KEY", "")
 DEBUG = env_bool("DJANGO_DEBUG", default=False)
 ALLOWED_HOSTS = env_list("DJANGO_ALLOWED_HOSTS", default="localhost,127.0.0.1")
 CSRF_TRUSTED_ORIGINS = env_list("DJANGO_CSRF_TRUSTED_ORIGINS")

@@ -2,8 +2,8 @@
 id: auth
 status: partially-implemented
 phase: MVP
-version: 1.0
-updated: 2026-10-30
+version: 1.1
+updated: 2026-11-02
 ---
 
 # Authentication, organization and team administration
@@ -25,7 +25,7 @@ Owner/admin manages everything here. Other roles only manage their own session a
 - **AUTH-001** Sign in with email + password or an authorized identity provider; sign out.
 - **AUTH-002** Password recovery. Failed sign-in or recovery MUST NOT reveal whether an account exists. *Implemented 2026-11-01: email link valid for 24 hours, one use; same answer for unknown emails.*
 - **AUTH-003** Session protection (expiry, revocation on password change or access removal).
-- **AUTH-004** MFA available, required according to risk (which roles: D-17).
+- **AUTH-004** MFA available, required according to risk (which roles: D-17). *Implemented 2026-11-02 as an optional authenticator app per account; the secret is encrypted at rest with `MFA_ENCRYPTION_KEY` (TD-S11), and production refuses to start without the key. Required-by-role remains open (D-17).*
 - **AUTH-005** Accept an invitation and land on `/inicio` or the authorized portal, depending on role.
 
 ### Organization and team
@@ -72,3 +72,5 @@ Expired invitation; revoked user with an open session; email already a member; l
 - Roles and capability matrix: `apps/accounts/tests/test_permissions.py`
 - Active organization selection: `apps/accounts/tests/test_middleware.py`
 - Actor construction: `apps/core/tests/test_actors.py`
+- MFA (AUTH-004), optional per account: `apps/accounts/tests/test_mfa.py`
+- MFA secret encrypted at rest (TD-S11): `apps/accounts/tests/test_mfa_encryption.py`, production key check `apps/accounts/tests/test_mfa_key_check.py`

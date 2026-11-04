@@ -45,6 +45,7 @@ In **Project → Settings → Environment Variables** (Production), add:
 | Name | Value | Notes |
 | --- | --- | --- |
 | `DJANGO_SECRET_KEY` | a long random string | Generate: `python -c "import secrets; print(secrets.token_urlsafe(50))"` |
+| `MFA_ENCRYPTION_KEY` | a Fernet key | Encrypts the authenticator secrets. Generate: `python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"`. Keep it in the hosting settings and in a password manager; losing it locks MFA users out. |
 | `DJANGO_DEBUG` | `False` | Never `True` in production. |
 | `DJANGO_ALLOWED_HOSTS` | `your-project.vercel.app` | Add your custom domain too, comma separated. |
 | `DJANGO_CSRF_TRUSTED_ORIGINS` | `https://your-project.vercel.app` | Same host, with `https://`. |
@@ -66,6 +67,7 @@ set in your shell (never commit them):
 # Windows PowerShell
 .\.venv\Scripts\Activate.ps1
 $env:DJANGO_SECRET_KEY = "<same key as Vercel>"
+$env:MFA_ENCRYPTION_KEY = "<same key as Vercel>"
 $env:DJANGO_DEBUG = "False"
 $env:MYSQL_HOST = "<host>"
 $env:MYSQL_USER = "<user>"
@@ -76,7 +78,7 @@ python manage.py migrate
 ```bash
 # macOS / Linux / Git Bash
 source .venv/bin/activate
-export DJANGO_SECRET_KEY="<same key as Vercel>" DJANGO_DEBUG=False
+export DJANGO_SECRET_KEY="<same key as Vercel>" MFA_ENCRYPTION_KEY="<same key as Vercel>" DJANGO_DEBUG=False
 export MYSQL_HOST="<host>" MYSQL_USER="<user>" MYSQL_PASSWORD="<password>"
 python manage.py migrate
 ```
@@ -145,6 +147,7 @@ not stop an account from being created.
 | Symptom | Likely cause |
 | --- | --- |
 | `SECRET_KEY must not be empty` | `DJANGO_SECRET_KEY` is missing in Vercel. |
+| `MFA_ENCRYPTION_KEY is not set` | `MFA_ENCRYPTION_KEY` is missing in Vercel; add it, then redeploy. |
 | `DisallowedHost` | Add the domain to `DJANGO_ALLOWED_HOSTS`. |
 | CSRF error on forms | Add `https://<domain>` to `DJANGO_CSRF_TRUSTED_ORIGINS`. |
 | `OperationalError: Can't connect to MySQL` | Host, port or firewall; the database must accept Vercel's connections. |

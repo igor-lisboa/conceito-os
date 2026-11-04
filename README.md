@@ -325,6 +325,7 @@ All configuration comes from environment variables. See `config/settings/base.py
 | Variable | Required | Default | Purpose |
 | --- | --- | --- | --- |
 | `DJANGO_SECRET_KEY` | Yes | none | Signing key. Django refuses to start without it. |
+| `MFA_ENCRYPTION_KEY` | Yes in production | derived from the secret key locally | Fernet key that encrypts the authenticator secrets in the database. Losing it locks MFA users out. Generate: `python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"`. |
 | `DJANGO_DEBUG` | No | `False` | `True` only on your machine. |
 | `DJANGO_ALLOWED_HOSTS` | No | `localhost,127.0.0.1` | Comma-separated host names. |
 | `DJANGO_CSRF_TRUSTED_ORIGINS` | No | empty | Comma-separated `https://` origins for production. |

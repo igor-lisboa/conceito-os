@@ -7,6 +7,7 @@ from django.db import models
 from apps.core.choices import translated_choices
 from apps.core.models import UUIDModel
 
+from .fields import EncryptedSecretField
 from .roles import Role
 
 EMAIL_LANGUAGE_CHOICES = [("en", "English"), ("pt-br", "Português (Brasil)")]
@@ -67,8 +68,8 @@ class MFADevice(UUIDModel):
     """An authenticator app linked to an account. Only a confirmed device is enforced at sign-in."""
 
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="mfa_device")
-    # TODO(TD-S11): encrypt at rest before production (see docs/technical-debt.md).
-    secret = models.CharField(max_length=64)
+    # Encrypted at rest (TD-S11). The stored token is longer than the plain secret.
+    secret = EncryptedSecretField(max_length=255)
     confirmed = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
