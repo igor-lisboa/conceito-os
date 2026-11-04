@@ -129,7 +129,6 @@ cost later.
 | TD-S8 | Session cookies and password reset links use the Django defaults (sessions in the database). | Fine for now; no session limit per device yet. | With TD-11 |
 | TD-S9 | Sign-in attempt counters live in the database cache. On Vercel each request may be a different instance, so the limit is weaker than it looks. The per-account limit still holds within the cache. | Brute force can spread across instances. | With TD-12 (a shared store) |
 | TD-S10 | Monthly metrics are typed by hand. Nothing checks them against the network. | Wrong numbers can reach a report. | With TD-19 |
-| TD-S12 | The MFA setup screen shows the secret and a link, not a QR code. | Typing the key by hand is slower and easy to get wrong. | Next UI pass |
 | TD-S13 | Comments are not editable or deletable after posting. | A typo or a wrong mention stays. | Next pass |
 
 ---
@@ -163,6 +162,7 @@ cost later.
 | Calendar drag of planned dates (PRO-015, PRO-016) | 2026-11-02 | `apps/production/tests/test_planned_date.py` |
 | TD-S14 (board drag on manual moves, PRO-017) | 2026-11-02 | `apps/production/tests/test_board_drag.py` |
 | TD-S11 (MFA secret encrypted at rest, key in `MFA_ENCRYPTION_KEY`; production refuses to start without it) | 2026-11-02 | `apps/accounts/tests/test_mfa_encryption.py`, `apps/accounts/tests/test_mfa_key_check.py`; migration `apps/accounts/migrations/0004_encrypt_mfa_secret.py` |
+| TD-S12 (QR code on the MFA setup screen; the typed key stays as fallback) | 2026-11-02 | `apps/accounts/tests/test_mfa_qr.py`; `apps/accounts/mfa.py` (`provisioning_svg`) |
 | TD-S2 (welcome email follows the person's chosen language, pt-BR by default) | 2026-11-02 | `apps/production/tests/test_task_follows_planned_date.py` (`WelcomeEmailLanguageTests`) |
 | CAL-003 (open tasks follow the planned date) | 2026-11-02 | `apps/production/tests/test_task_follows_planned_date.py` |
 

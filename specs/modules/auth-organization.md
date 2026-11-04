@@ -2,7 +2,7 @@
 id: auth
 status: partially-implemented
 phase: MVP
-version: 1.1
+version: 1.2
 updated: 2026-11-02
 ---
 
@@ -72,5 +72,5 @@ Expired invitation; revoked user with an open session; email already a member; l
 - Roles and capability matrix: `apps/accounts/tests/test_permissions.py`
 - Active organization selection: `apps/accounts/tests/test_middleware.py`
 - Actor construction: `apps/core/tests/test_actors.py`
-- MFA (AUTH-004), optional per account: `apps/accounts/tests/test_mfa.py`
+- MFA (AUTH-004), optional per account: `apps/accounts/tests/test_mfa.py`; setup QR code (TD-S12): `apps/accounts/tests/test_mfa_qr.py`
 - MFA secret encrypted at rest (TD-S11): `apps/accounts/tests/test_mfa_encryption.py`, production key check `apps/accounts/tests/test_mfa_key_check.py`

@@ -1115,8 +1115,11 @@ msgstr ""
 "1. Instale um aplicativo autenticador no seu celular (Google Authenticator, "
 "Microsoft Authenticator ou similar)."
 
-msgid "2. Add an account with this key, or open the link below on the phone:"
-msgstr ""
+msgid "2. Scan this code with the app, or add an account with the key below, or open the link on the phone:"
+msgstr "2. Escaneie este código com o aplicativo, ou adicione uma conta com a chave abaixo, ou abra o link no celular:"
+
+msgid "QR code for your authenticator app"
+msgstr "QR code para o seu aplicativo autenticador"
 "2. Adicione uma conta com esta chave, ou abra o link abaixo no celular:"
 
 msgid "3. Type the 6-digit code the app shows now:"

@@ -38,6 +38,8 @@ class MFASetupView(LoginRequiredMixin, View):
             "form": CodeForm(),
             "uri": mfa.provisioning_uri(device.secret, request.user.email) if not device.confirmed else None,
         }
+        if context["uri"]:
+            context["qr_svg"] = mfa.provisioning_svg(context["uri"])
         return render(request, self.template_name, context)
 
     def post(self, request):

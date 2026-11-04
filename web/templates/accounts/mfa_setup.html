@@ -10,7 +10,8 @@
   {% else %}
     <div class="card">
       <p>{% trans "1. Install an authenticator app on your phone (Google Authenticator, Microsoft Authenticator or similar)." %}</p>
-      <p>{% trans "2. Add an account with this key, or open the link below on the phone:" %}</p>
+      <p>{% trans "2. Scan this code with the app, or add an account with the key below, or open the link on the phone:" %}</p>
+      {% if qr_svg %}<div class="mfa-qr" role="img" aria-label="{% trans "QR code for your authenticator app" %}">{{ qr_svg|safe }}</div>{% endif %}
       <p><code>{{ device.secret }}</code></p>
       <p><a href="{{ uri }}">{% trans "Open in my authenticator app" %}</a></p>
       <p>{% trans "3. Type the 6-digit code the app shows now:" %}</p>
