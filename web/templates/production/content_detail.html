@@ -11,6 +11,7 @@
   </p>
   {% if object.scheduled_for %}<p>{% trans "Scheduled for" %} {{ object.scheduled_for }}</p>{% endif %}
   {% if object.published_url %}<p><a href="{{ object.published_url }}">{% trans "Published post" %}</a></p>{% endif %}
+  {% if object.publish_method == "manual" %}<p>{% trans "Marked as published by hand" %}</p>{% endif %}
   {% if object.state == 'failed' %}
     <p class="message message-error">{% trans "Failure:" %} {{ object.failure_reason }}</p>
   {% endif %}
@@ -104,7 +105,19 @@
   <section class="card">
     <h2>{% trans "Comments" %}</h2>
     {% for comment in comments %}
-      <p class="card"><strong>{{ comment.author.email|default:"—" }}</strong> <small>{{ comment.created_at }}</small><br>{{ comment.body|linebreaksbr }}</p>
+      <div class="card">
+        <p><strong>{{ comment.author.email|default:"—" }}</strong> <small>{{ comment.created_at }}</small>{% if comment.edited_at %} <small>· {% trans "edited" %}</small>{% endif %}</p>
+        <p>{{ comment.body|linebreaksbr }}</p>
+        {% if comment.mine %}
+          <p>
+            <a href="{% url 'content_comment_edit' object.pk comment.pk %}">{% trans "Edit comment" %}</a>
+          </p>
+          <form method="post" action="{% url 'content_comment_delete' object.pk comment.pk %}">
+            {% csrf_token %}
+            <button>{% trans "Delete comment" %}</button>
+          </form>
+        {% endif %}
+      </div>
     {% empty %}
       <p>{% trans "No comments yet." %}</p>
     {% endfor %}

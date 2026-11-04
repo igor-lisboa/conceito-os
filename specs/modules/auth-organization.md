@@ -2,7 +2,7 @@
 id: auth
 status: partially-implemented
 phase: MVP
-version: 1.2
+version: 1.3
 updated: 2026-11-02
 ---
 
@@ -24,15 +24,15 @@ Owner/admin manages everything here. Other roles only manage their own session a
 
 - **AUTH-001** Sign in with email + password or an authorized identity provider; sign out.
 - **AUTH-002** Password recovery. Failed sign-in or recovery MUST NOT reveal whether an account exists. *Implemented 2026-11-01: email link valid for 24 hours, one use; same answer for unknown emails.*
-- **AUTH-003** Session protection (expiry, revocation on password change or access removal).
+- **AUTH-003** Session protection (expiry, revocation on password change or access removal). *Partly implemented 2026-11-02: a password change ends the other sessions (Django's session check), and removing access ends the person's sessions. Expiry rules and a per-device session list are open (TD-S8).*
 - **AUTH-004** MFA available, required according to risk (which roles: D-17). *Implemented 2026-11-02 as an optional authenticator app per account; the secret is encrypted at rest with `MFA_ENCRYPTION_KEY` (TD-S11), and production refuses to start without the key. Required-by-role remains open (D-17).*
-- **AUTH-005** Accept an invitation and land on `/inicio` or the authorized portal, depending on role.
+- **AUTH-005** Accept an invitation and land on `/home` or the authorized portal, depending on role.
 
 ### Organization and team
 
 - **AUTH-010** Create an organization with name, timezone and owner (UC-01). The first tenant's owner is Beatriz.
 - **AUTH-011** Invite members by email with a role, client scope and permission flags. Invitations expire.
-- **AUTH-012** Revoke a member's access immediately, including active sessions.
+- **AUTH-012** Revoke a member's access immediately, including active sessions. *Implemented 2026-11-02: removal ends every open session of that person (`apps/accounts/sessions.py`); the account and its history stay.*
 - **AUTH-013** One user MAY belong to more than one organization (memberships); the top bar lets them switch organization. PROPOSAL, implied by the "organization selector" in the source spec.
 - **AUTH-014** Organization settings: timezone, brand identity of the agency, notification defaults.
 
@@ -49,7 +49,7 @@ Owner/admin manages everything here. Other roles only manage their own session a
 
 ## Screens
 
-`/login`, `/recuperar-senha`, `/configuracoes` (team, roles, integrations, logs). See [screens](../ux/screens.md).
+`/login`, `/accounts/password/reset`, `/settings` (team, roles, integrations, logs). See [screens](../ux/screens.md).
 
 ## Exceptions
 
@@ -72,5 +72,6 @@ Expired invitation; revoked user with an open session; email already a member; l
 - Roles and capability matrix: `apps/accounts/tests/test_permissions.py`
 - Active organization selection: `apps/accounts/tests/test_middleware.py`
 - Actor construction: `apps/core/tests/test_actors.py`
+- Session revocation on removal and password change (AUTH-003, AUTH-012): `apps/accounts/tests/test_session_revocation.py`
 - MFA (AUTH-004), optional per account: `apps/accounts/tests/test_mfa.py`; setup QR code (TD-S12): `apps/accounts/tests/test_mfa_qr.py`
 - MFA secret encrypted at rest (TD-S11): `apps/accounts/tests/test_mfa_encryption.py`, production key check `apps/accounts/tests/test_mfa_key_check.py`

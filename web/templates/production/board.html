@@ -6,10 +6,10 @@
 {% block content %}
   <h1>{% trans "Production board" %}</h1>
 
-  <details class="filters card"{% if request.GET.client %} open{% endif %}>
+  <details class="filters card"{% if filters.active %} open{% endif %}>
     <summary>{% trans "Filters" %}</summary>
     <form method="get" class="actions">
-      {{ filters.client.label_tag }} {{ filters.client }}
+      {{ filters.as_p }}
       <button class="button-secondary">{% trans "Filter" %}</button>
     </form>
   </details>

@@ -3,7 +3,7 @@ id: int
 status: draft
 phase: P2
 version: 1.1
-updated: 2026-10-30
+updated: 2026-11-04
 ---
 
 # Integrations: Instagram and TikTok
@@ -27,7 +27,7 @@ updated: 2026-10-30
 - **INT-007** An expired integration shows a warning and guides reconnection without losing content.
 - **INT-008** APIs change; capabilities per account/type are detected and displayed, not assumed.
 - **INT-009** A network abstraction allows adding other networks later.
-- **INT-010** Manual fallback publishing: the user marks a piece as published manually, optionally with the post URL; the record states it was manual. PROPOSAL.
+- **INT-010** Manual fallback publishing: the user marks a piece as published manually, optionally with the post URL; the record states it was manual. PROPOSAL. *Partly implemented 2026-11-04: `publish_method` is recorded as `manual` on every publication and shown on the piece; the network publishing itself is TD-20.*
 
 ## Data
 

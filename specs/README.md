@@ -78,7 +78,7 @@ Source of truth for **Conceito OS** (Conceito Co). Derived from the product spec
 
 ## Conventions
 
-- **Language**: specs and code in English. Product UI copy is Brazilian Portuguese (pt-BR); UI terms quoted in specs may keep the pt-BR label in parentheses, e.g. *More* ("Mais"). User-facing URL routes stay in pt-BR (`/clientes`), as in the source specification.
+- **Language**: specs and code in English. Product UI copy is Brazilian Portuguese (pt-BR); UI terms quoted in specs may keep the pt-BR label in parentheses, e.g. *More* ("Mais"). User-facing URL routes are in English (`/clients`, `/content/12/`), the same in both UI languages. Changed from the pt-BR routes of the source specification on 2026-11-04 (see [CHANGELOG](CHANGELOG.md)).
 - **Requirement IDs**: `<PREFIX>-NNN`, stable. **Never reuse or renumber** an ID; mark removed ones as `[removed]`.
 - **Keywords**: **MUST**, **MUST NOT**, **SHOULD**, **MAY**.
 - **Status** per file: `draft` → `in-review` → `approved` → `partially-implemented` → `implemented`.

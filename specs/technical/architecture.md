@@ -3,7 +3,7 @@ id: arc
 status: partially-implemented
 phase: all
 version: 1.2
-updated: 2026-11-01
+updated: 2026-11-04
 ---
 
 # Technical architecture

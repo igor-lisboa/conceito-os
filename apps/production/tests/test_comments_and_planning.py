@@ -82,7 +82,7 @@ class CommentTests(ContentFixtureMixin, TestCase):
 
         note = Notification.objects.get(recipient=self.manager.user)
         self.assertEqual(note.kind, "mention")
-        self.assertEqual(note.url, f"/conteudos/{self.piece.pk}/")
+        self.assertEqual(note.url, f"/content/{self.piece.pk}/")
         self.assertEqual(len(mail.outbox), 1)
 
     def test_mention_of_someone_outside_the_organization_notifies_nobody(self):

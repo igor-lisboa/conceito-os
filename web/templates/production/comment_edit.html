@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Edit comment" %} · Conceito OS{% endblock %}
+
+{% block content %}
+  <h1>{% trans "Edit comment" %}</h1>
+  <p><a href="{% url 'content_detail' content.pk %}">{{ content.title }}</a></p>
+  <form method="post" action="{% url 'content_comment_edit' content.pk comment.pk %}" class="card">
+    {% csrf_token %}
+    <label for="comment-body">{% trans "Comment" %}</label>
+    <textarea name="body" id="comment-body" rows="4" maxlength="2000" required>{{ comment.body }}</textarea>
+    <button>{% trans "Save comment" %}</button>
+  </form>
+{% endblock %}

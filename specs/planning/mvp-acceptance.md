@@ -2,8 +2,8 @@
 id: acc
 status: draft
 phase: MVP
-version: 1.1
-updated: 2026-10-30
+version: 1.2
+updated: 2026-11-04
 ---
 
 # MVP acceptance criteria
@@ -14,7 +14,7 @@ Tick `[x]` only with evidence (test/PR) recorded in the corresponding module.
 | --- | --- |
 | [ ] Admin creates organization, user and client; isolation between organizations proven | [AUTH](../modules/auth-organization.md), [SEC](../technical/security-privacy.md) |
 | [ ] Briefing creates a structured record with files and history | [CLI](../modules/clients-briefing.md) |
-| [ ] Calendar creates and filters content by client, channel, state and date | [CAL](../modules/calendar-seasonal.md) |
+| [x] Calendar creates and filters content by client, channel, state and date (evidence: `apps/production/tests/test_planning_filters.py`, `test_planned_date.py`) | [CAL](../modules/calendar-seasonal.md) |
 | [ ] Kanban changes state with permission checks and an audit trail | [PRO](../modules/production-approval.md) |
 | [ ] Content has briefing, artwork/file, script, caption, CTA and versions | [PRO](../modules/production-approval.md) |
 | [ ] Client sees only their pieces, approves or requests changes, and comments | [POR](../modules/client-portal.md) |

@@ -33,7 +33,7 @@ Briefing → diagnosis (checklist + sources) → strategy (draft) → internal a
 
 ## Screens
 
-`/clientes/:id/estrategia`.
+`/clients/:id/strategy`.
 
 ## Acceptance criteria
 

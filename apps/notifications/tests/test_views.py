@@ -20,7 +20,7 @@ class NotificationInboxTests(TestCase):
             recipient=self.user,
             kind="internal_review",
             params={"title": "Post", "client": "Padaria"},
-            url=f"/conteudos/{CONTENT_ID}/",
+            url=f"/content/{CONTENT_ID}/",
             event_key="e1",
         )
 
@@ -39,7 +39,7 @@ class NotificationInboxTests(TestCase):
         self.client.force_login(self.user)
         response = self.client.get(reverse("notification_open", args=[self.note.pk]))
 
-        self.assertRedirects(response, f"/conteudos/{CONTENT_ID}/", fetch_redirect_response=False)
+        self.assertRedirects(response, f"/content/{CONTENT_ID}/", fetch_redirect_response=False)
         self.note.refresh_from_db()
         self.assertFalse(self.note.is_unread)
 

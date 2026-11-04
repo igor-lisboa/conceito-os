@@ -6,13 +6,13 @@ from . import mfa_views, views
 urlpatterns = [
     path("login/", views.ThrottledLoginView.as_view(), name="login"),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
-    path("equipe/", views.TeamListView.as_view(), name="team_list"),
-    path("equipe/convidar/", views.TeamInviteView.as_view(), name="team_invite"),
-    path("equipe/<uuid:pk>/remover/", views.TeamRemoveView.as_view(), name="team_remove"),
-    path("conta/", views.AccountView.as_view(), name="account"),
-    path("organizacao/", views.OrganizationSettingsView.as_view(), name="organization_settings"),
-    path("mfa/configurar/", mfa_views.MFASetupView.as_view(), name="mfa_setup"),
-    path("mfa/verificar/", mfa_views.MFAVerifyView.as_view(), name="mfa_verify"),
+    path("team/", views.TeamListView.as_view(), name="team_list"),
+    path("team/invite/", views.TeamInviteView.as_view(), name="team_invite"),
+    path("team/<uuid:pk>/remove/", views.TeamRemoveView.as_view(), name="team_remove"),
+    path("account/", views.AccountView.as_view(), name="account"),
+    path("organization/", views.OrganizationSettingsView.as_view(), name="organization_settings"),
+    path("mfa/setup/", mfa_views.MFASetupView.as_view(), name="mfa_setup"),
+    path("mfa/verify/", mfa_views.MFAVerifyView.as_view(), name="mfa_verify"),
     # Password recovery: the user asks for a link by email, then sets a new password.
     path(
         "password/reset/",

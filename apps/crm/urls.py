@@ -4,9 +4,9 @@ from . import views
 
 urlpatterns = [
     path("leads/", views.LeadBoardView.as_view(), name="lead_board"),
-    path("leads/novo/", views.LeadCreateView.as_view(), name="lead_create"),
-    path("leads/<uuid:pk>/etapa/", views.LeadStageView.as_view(), name="lead_stage"),
-    path("propostas/", views.ProposalListView.as_view(), name="proposal_list"),
-    path("propostas/nova/", views.ProposalCreateView.as_view(), name="proposal_create"),
-    path("propostas/<uuid:pk>/status/", views.ProposalStatusView.as_view(), name="proposal_status"),
+    path("leads/new/", views.LeadCreateView.as_view(), name="lead_create"),
+    path("leads/<uuid:pk>/stage/", views.LeadStageView.as_view(), name="lead_stage"),
+    path("proposals/", views.ProposalListView.as_view(), name="proposal_list"),
+    path("proposals/new/", views.ProposalCreateView.as_view(), name="proposal_create"),
+    path("proposals/<uuid:pk>/status/", views.ProposalStatusView.as_view(), name="proposal_status"),
 ]

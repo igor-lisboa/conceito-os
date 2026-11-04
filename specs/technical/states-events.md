@@ -3,7 +3,7 @@ id: evt
 status: draft
 phase: all
 version: 1.1
-updated: 2026-10-30
+updated: 2026-11-04
 ---
 
 # States and events
@@ -35,7 +35,7 @@ Every transition records actor, timestamp, version, rationale and external ID wh
 - `approved` is bound to a specific content version; editing it afterwards returns it to `internal_review` ([PRO-013](../modules/production-approval.md)).
 - `scheduled` requires `approved`, a valid connection and permission.
 - `failed` NEVER masquerades as `published`; controlled retry from `failed → scheduled`.
-- Manual publishing (until integrations exist): a person schedules the piece, then marks it `scheduled → published` after posting it by hand. No separate `publish_method` field exists yet ([INT-010](../modules/social-integrations.md) is pending).
+- Manual publishing (until integrations exist): a person schedules the piece, then marks it `scheduled → published` after posting it by hand. Each publication records `publish_method` (`manual` for now; existing published pieces are backfilled as `manual`) ([INT-010](../modules/social-integrations.md), PROPOSAL).
 
 ### Manual moves (implemented, `apps/production/domain/states.py`)
 

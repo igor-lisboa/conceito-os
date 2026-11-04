@@ -7,6 +7,8 @@ notified; an address that is not a member is ignored.
 
 import re
 
+from django.utils import timezone
+
 from apps.notifications.adapters import DjangoNotifier
 
 from .models import Comment
@@ -45,3 +47,21 @@ def add_comment(content, author, body):
             extra={"author": author.get_full_name() or author.email},
         )
     return comment
+
+
+def can_change_comment(comment, user):
+    """Only the author changes a comment (TD-S13, PROPOSAL pending the product owner)."""
+    return comment.author_id is not None and comment.author_id == user.pk
+
+
+def update_comment(comment, body):
+    """Replace the text and mark the comment as edited. Mentions are not notified again (PROPOSAL)."""
+    comment.body = body.strip()
+    comment.edited_at = timezone.now()
+    comment.save(update_fields=["body", "edited_at"])
+    return comment
+
+
+def delete_comment(comment):
+    """Remove the comment from the piece. Notifications already sent stay where they were sent."""
+    comment.delete()

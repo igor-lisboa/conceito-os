@@ -7,7 +7,7 @@ from django.db import models
 class UUIDModel(models.Model):
     """Base for every table: the primary key is a GUID (UUID), not a counting number.
 
-    Why: numbers in URLs (/conteudos/12/) reveal how many records exist and let people
+    Why: numbers in URLs (/content/12/) reveal how many records exist and let people
     guess neighbours. A GUID cannot be guessed, and it is the same on every database.
     """
 
@@ -15,6 +15,16 @@ class UUIDModel(models.Model):
 
     class Meta:
         abstract = True
+
+
+class AuditEventQuerySet(models.QuerySet):
+    """Bulk writes skip model save/delete, so they are refused here too (SEC-007)."""
+
+    def update(self, **kwargs):
+        raise RuntimeError("Audit events are append-only and cannot be changed.")
+
+    def delete(self):
+        raise RuntimeError("Audit events are append-only and cannot be deleted.")
 
 
 class AuditEvent(UUIDModel):
@@ -30,6 +40,8 @@ class AuditEvent(UUIDModel):
     entity_id = models.UUIDField()
     metadata = models.JSONField(default=dict, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    objects = AuditEventQuerySet.as_manager()
 
     class Meta:
         ordering = ["-created_at"]

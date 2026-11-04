@@ -28,7 +28,7 @@ Context A. Not to be confused with [SaaS billing](saas-billing.md).
 
 ## Screens
 
-`/financeiro`.
+`/finance`.
 
 ## Acceptance criteria
 

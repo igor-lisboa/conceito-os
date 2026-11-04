@@ -5,8 +5,9 @@ the result. Errors are translated by core/http.py.
 """
 
 from django.contrib import messages
+from django.core.exceptions import PermissionDenied
 from django.http import Http404
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext
@@ -18,7 +19,7 @@ from apps.accounts.permissions import Capability, has_capability
 from apps.core.actors import actor_for
 from apps.core.http import run_action
 
-from .comments import add_comment
+from .comments import add_comment, can_change_comment, delete_comment, update_comment
 from .composition import build_content_service
 from .domain.content import PLANNED_DATE_OPEN_STATES, VersionData
 from .domain.states import ContentState
@@ -127,7 +128,10 @@ class ContentDetailView(CapabilityRequiredMixin, DetailView):
         )
         context["action_form"] = ContentActionForm()
         context["planned_form"] = PlannedDateForm(initial={"planned_for": self.object.planned_for})
-        context["comments"] = self.object.comments.select_related("author")
+        comments = list(self.object.comments.select_related("author"))
+        for comment in comments:
+            comment.mine = comment.author_id == self.request.user.pk
+        context["comments"] = comments
         context["actions"] = _available_actions(actor_for(self.request.membership), self.object.state)
         return context
 
@@ -153,7 +157,7 @@ class ContentVersionView(CapabilityRequiredMixin, View):
         return redirect("content_detail", pk=pk)
 
 
-# Each action name maps to one service call. The URL is /conteudos/<pk>/acao/<name>/
+# Each action name maps to one service call. The URL is /content/<pk>/action/<name>/
 ACTION_HANDLERS = {
     "plan": lambda s, a, i, d: s.move_to(a, i, ContentState.PLANNED),
     "start_production": lambda s, a, i, d: s.move_to(a, i, ContentState.IN_PRODUCTION),
@@ -230,4 +234,51 @@ class ContentCommentView(CapabilityRequiredMixin, View):
         else:
             add_comment(content, request.user, body)
             messages.success(request, gettext("Comment added."))
+        return redirect("content_detail", pk=pk)
+
+
+class CommentEditMixin(CapabilityRequiredMixin):
+    """Finds a comment the person can see on a piece they can see (404), and checks authorship (403)."""
+
+    required_capability = Capability.ACCESS_INTERNAL
+
+    def get_comment(self, request, pk, comment_pk):
+        from .models import Comment
+
+        content = get_object_or_404(visible_content(actor_for(request.membership)), pk=pk)
+        comment = get_object_or_404(Comment, pk=comment_pk, content=content)
+        if not can_change_comment(comment, request.user):
+            raise PermissionDenied
+        return content, comment
+
+
+class ContentCommentEditView(CommentEditMixin, View):
+    """The author edits their own comment (TD-S13, PROPOSAL)."""
+
+    template_name = "production/comment_edit.html"
+
+    def get(self, request, pk, comment_pk):
+        content, comment = self.get_comment(request, pk, comment_pk)
+        return render(request, self.template_name, {"content": content, "comment": comment})
+
+    def post(self, request, pk, comment_pk):
+        content, comment = self.get_comment(request, pk, comment_pk)
+        body = request.POST.get("body", "").strip()
+        if not body or len(body) > 2000:
+            messages.error(request, gettext("Write a comment of up to 2000 characters."))
+            return render(request, self.template_name, {"content": content, "comment": comment}, status=400)
+        update_comment(comment, body)
+        messages.success(request, gettext("Comment updated."))
+        return redirect("content_detail", pk=pk)
+
+
+class ContentCommentDeleteView(CommentEditMixin, View):
+    """The author removes their own comment (TD-S13, PROPOSAL). POST only."""
+
+    http_method_names = ["post"]
+
+    def post(self, request, pk, comment_pk):
+        _content, comment = self.get_comment(request, pk, comment_pk)
+        delete_comment(comment)
+        messages.success(request, gettext("Comment removed."))
         return redirect("content_detail", pk=pk)

@@ -106,7 +106,7 @@ apps/production/
 
 Example: an account manager approves a piece internally.
 
-1. **URL** `POST /conteudos/12/acao/approve_internal/` reaches `ContentActionView` (web layer).
+1. **URL** `POST /content/12/action/approve_internal/` reaches `ContentActionView` (web layer).
 2. The view checks the user is logged in and has `ACCESS_INTERNAL` (`CapabilityRequiredMixin`).
 3. The view builds an `Actor` from the logged-in membership (`apps/core/actors.py`). The actor is a plain object: user id, organization, role, the client ids it may see.
 4. The view calls `ContentService.decide_internal(actor, 12, approve=True, comment="")`.

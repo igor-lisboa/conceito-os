@@ -94,4 +94,4 @@ def has_capability(subject, capability):
 def require_capability(subject, capability):
     """Raise Forbidden when the subject's role lacks the capability."""
     if not has_capability(subject, capability):
-        raise Forbidden(f"Sem permissão: {capability}")
+        raise Forbidden(f"No permission: {capability}")

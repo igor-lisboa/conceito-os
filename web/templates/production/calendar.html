@@ -12,11 +12,11 @@
     <a class="button button-secondary" href="?month={{ next_month }}">{% trans "Next" %} &rarr;</a>
   </nav>
 
-  <details class="filters card"{% if request.GET.client %} open{% endif %}>
+  <details class="filters card"{% if filters.active %} open{% endif %}>
     <summary>{% trans "Filters" %}</summary>
     <form method="get" class="actions">
       <input type="hidden" name="month" value="{{ month|date:'Y-m' }}">
-      {{ filters.client.label_tag }} {{ filters.client }}
+      {{ filters.as_p }}
       <button class="button-secondary">{% trans "Filter" %}</button>
     </form>
   </details>

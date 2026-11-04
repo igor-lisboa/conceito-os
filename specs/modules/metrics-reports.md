@@ -3,7 +3,7 @@ id: met
 status: draft
 phase: MVP (manual entry) / P2 (imports and reports) — see D-01
 version: 1.1
-updated: 2026-10-30
+updated: 2026-11-01
 ---
 
 # Metrics and reports
@@ -23,7 +23,7 @@ updated: 2026-10-30
 
 ## MVP vs P2 (pending D-01)
 
-The source MVP includes a "report with manual entry or clearly labeled demo data" while `/metricas` and `/relatorios` are P2. PROPOSAL: MVP = manual metric entry + simple report with sources and `N/D`; P2 = API imports, charts, interpretive report.
+The source MVP includes a "report with manual entry or clearly labeled demo data" while `/metrics` and `/reports` are P2. PROPOSAL: MVP = manual metric entry + simple report with sources and `N/D`; P2 = API imports, charts, interpretive report.
 
 ## Data
 
@@ -31,7 +31,7 @@ The source MVP includes a "report with manual entry or clearly labeled demo data
 
 ## Screens
 
-`/metricas`, `/relatorios`.
+`/metrics`, `/reports`.
 
 ## Acceptance criteria
 

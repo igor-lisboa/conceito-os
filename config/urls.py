@@ -5,12 +5,12 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("i18n/", include("django.conf.urls.i18n")),  # language switch endpoint
     path("accounts/", include("apps.accounts.urls")),
-    path("clientes/", include("apps.clients.urls")),
-    path("conteudos/", include("apps.production.urls")),
+    path("clients/", include("apps.clients.urls")),
+    path("content/", include("apps.production.urls")),
     path("portal/", include("apps.portal.urls")),
-    path("notificacoes/", include("apps.notifications.urls")),
-    path("comercial/", include("apps.crm.urls")),
-    path("relatorios/", include("apps.reports.urls")),
-    path("tarefas/", include("apps.tasks.urls")),
+    path("notifications/", include("apps.notifications.urls")),
+    path("crm/", include("apps.crm.urls")),
+    path("reports/", include("apps.reports.urls")),
+    path("tasks/", include("apps.tasks.urls")),
     path("", include("apps.core.urls")),
 ]

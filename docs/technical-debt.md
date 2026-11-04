@@ -124,12 +124,11 @@ cost later.
 | --- | --- | --- | --- |
 | TD-S4 | `visible_content` (read side) repeats the rule of `apps/production/domain/policy.py` in ORM form. A test keeps them in step. | Two places to change when the rule changes. | When the policy changes next |
 | TD-S5 | Login by username is still allowed next to login by email. | Two ways in; the username is not always private. | Keep until the team agrees; review with TD-11 |
-| TD-S6 | Publishing is marked by hand, with no link to the post. | Relies on people remembering to mark it. | With TD-43 and TD-20 |
+| TD-S6 | Publishing is marked by hand. The link is kept (TD-43) and the method is recorded as `manual` (2026-11-04). | Relies on people remembering to mark it. | With TD-20 |
 | TD-S7 | The database has no `WHERE`-level row security; tenant isolation is in application code, tested. | A future bug in a query could leak data. | Consider with TD-37 |
 | TD-S8 | Session cookies and password reset links use the Django defaults (sessions in the database). | Fine for now; no session limit per device yet. | With TD-11 |
 | TD-S9 | Sign-in attempt counters live in the database cache. On Vercel each request may be a different instance, so the limit is weaker than it looks. The per-account limit still holds within the cache. | Brute force can spread across instances. | With TD-12 (a shared store) |
 | TD-S10 | Monthly metrics are typed by hand. Nothing checks them against the network. | Wrong numbers can reach a report. | With TD-19 |
-| TD-S13 | Comments are not editable or deletable after posting. | A typo or a wrong mention stays. | Next pass |
 
 ---
 
@@ -163,6 +162,9 @@ cost later.
 | TD-S14 (board drag on manual moves, PRO-017) | 2026-11-02 | `apps/production/tests/test_board_drag.py` |
 | TD-S11 (MFA secret encrypted at rest, key in `MFA_ENCRYPTION_KEY`; production refuses to start without it) | 2026-11-02 | `apps/accounts/tests/test_mfa_encryption.py`, `apps/accounts/tests/test_mfa_key_check.py`; migration `apps/accounts/migrations/0004_encrypt_mfa_secret.py` |
 | TD-S12 (QR code on the MFA setup screen; the typed key stays as fallback) | 2026-11-02 | `apps/accounts/tests/test_mfa_qr.py`; `apps/accounts/mfa.py` (`provisioning_svg`) |
+| TD-S13 (comments editable and deletable by their author, PROPOSAL D-30) | 2026-11-02 | `apps/production/tests/test_comment_edit_delete.py`; migration `apps/production/migrations/0003_comment_edited_at.py` |
+| Session gap in AUTH-012 (removal left open sessions signed in; found in review) | 2026-11-02 | `apps/accounts/tests/test_session_revocation.py`; `apps/accounts/sessions.py` |
+| Calendar and board filters by channel, owner and state (CAL-001, NAV-014) | 2026-11-04 | `apps/production/tests/test_planning_filters.py`; campaign filter still open (no campaign entity) |
 | TD-S2 (welcome email follows the person's chosen language, pt-BR by default) | 2026-11-02 | `apps/production/tests/test_task_follows_planned_date.py` (`WelcomeEmailLanguageTests`) |
 | CAL-003 (open tasks follow the planned date) | 2026-11-02 | `apps/production/tests/test_task_follows_planned_date.py` |
 

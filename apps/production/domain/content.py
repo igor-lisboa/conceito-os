@@ -17,6 +17,8 @@ from apps.core.exceptions import DomainError
 
 from .states import ContentState, ensure_manual_move, ensure_transition, state_after_edit
 
+PUBLISH_METHOD_MANUAL = "manual"
+
 
 class Channel(LabeledEnum):
     INSTAGRAM = ("instagram", "Instagram")
@@ -108,6 +110,7 @@ class Content:
     planned_for: object = None
     published_at: object = None
     published_url: str = ""
+    publish_method: str = ""
     failure_reason: str = ""
     id: int | None = None  # set by the repository when the piece is first saved
     _events: list = field(default_factory=list, repr=False)
@@ -202,9 +205,19 @@ class Content:
             {"from": _iso(previous), "to": _iso(when), "reason": reason.strip()},
         )
 
-    def mark_published(self, *, now, url=""):
-        """The team posted the piece by hand. The link, when given, is kept as proof."""
-        self._change_state(ContentState.PUBLISHED, published_at=now, published_url=url.strip())
+    def mark_published(self, *, now, url="", method=PUBLISH_METHOD_MANUAL):
+        """The team posted the piece. The link, when given, is kept as proof; the method says how (INT-010).
+
+        Only the manual method exists until the network integrations do (INT-010, PROPOSAL).
+        """
+        if method != PUBLISH_METHOD_MANUAL:
+            raise DomainError(f"Unknown publish method: {method}")
+        self._change_state(
+            ContentState.PUBLISHED,
+            published_at=now,
+            published_url=url.strip(),
+            publish_method=method,
+        )
 
     def mark_failed(self, reason):
         """A failure stays visible as failed. It is never recorded as published."""

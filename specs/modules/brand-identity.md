@@ -41,7 +41,7 @@ PROPOSAL: `brand_identity_versions` (or versions within `brand_dna`) — to be s
 
 ## Screens
 
-`/clientes/:id/identidade` (audit, change briefing, moodboards, before/after comparator, approval).
+`/clients/:id/identity` (audit, change briefing, moodboards, before/after comparator, approval).
 
 ## Open decisions
 

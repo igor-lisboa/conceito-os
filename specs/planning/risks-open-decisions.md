@@ -2,8 +2,8 @@
 id: rsk
 status: draft
 phase: all
-version: 1.1
-updated: 2026-10-30
+version: 1.2
+updated: 2026-11-04
 ---
 
 # Risks and open decisions
@@ -57,6 +57,7 @@ Claude does NOT decide items on this list without approval from Beatriz (product
 | D-26 | Date change after client approval requires re-approval | CAL | Confirmed by the product owner (2026-11-02): the planned date stays locked from client review, so no re-approval flow is needed; the publishing date is set after approval through unschedule and schedule, which the approval already covers. |
 | D-27 | Planned date (PRO-015, PRO-016): changes need a recorded reason; the date locks once the piece reaches client review, or is scheduled or published | PRO, CAL | Confirmed by the product owner (2026-11-02): reason always required; lock from client review, scheduled and published. |
 | D-28 | Board drag: which moves a card may take by drag (PRO-017) | PRO | Confirmed by the product owner (2026-11-02): only the four manual moves of PD-41. Approvals, rejections, scheduling and publishing stay on the piece page because they need a comment, date or link. |
+| D-30 | Who may edit or delete a comment (PRO-004): author only, or also owners and managers; and whether an edit notifies newly mentioned people | PRO | Built as PROPOSAL: author only, edits marked as edited, no new notifications on edit. Recommendation: keep author only, because it matches a comment being the author's own note; owners/managers can still act through the team. Pending product owner. |
 | D-29 | Phone layout: filters as a drawer, and the piece editor in steps (NAV-002, NAV-014) | NAV, PRO | Confirmed by the product owner (2026-11-02): filters are a collapsed panel that opens when a filter is set; the step-by-step editor moves to P2, because the single page works on phones. |
 
 ## Decided
@@ -67,4 +68,5 @@ Claude does NOT decide items on this list without approval from Beatriz (product
 | — | Backend framework | 2026-11-01 | Django 5.2 LTS (product owner). See [docs/architecture.md](../../docs/architecture.md). |
 | — | Architecture of the content context | 2026-11-01 | Hexagonal + DDD tactical patterns in `production`; simple services in `clients` and `accounts`. |
 | — | Hosting | 2026-11-01 | Vercel Python runtime; migrations run from the developer machine. |
+| — | URL routes in English | 2026-11-04 | Requested by Igor Lisboa; replaces the pt-BR routes of the source spec (`/clientes` becomes `/clients`). Route names in code were already English. Pending confirmation by Beatriz (product owner). |
 | — | Frontend | 2026-11-01 | Server-rendered templates for now; SPA deferred. |

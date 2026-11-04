@@ -52,6 +52,7 @@ class DjangoContentRepository:
         row.scheduled_for = content.scheduled_for
         row.published_at = content.published_at
         row.published_url = content.published_url
+        row.publish_method = content.publish_method
         row.failure_reason = content.failure_reason
         row.save()
         content.id = row.id
@@ -140,5 +141,6 @@ def _to_domain(row):
         scheduled_for=row.scheduled_for,
         published_at=row.published_at,
         published_url=row.published_url,
+        publish_method=row.publish_method,
         failure_reason=row.failure_reason,
     )

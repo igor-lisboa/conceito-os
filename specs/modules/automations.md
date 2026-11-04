@@ -13,7 +13,7 @@ updated: 2026-10-30
 - **AUT-001** Every automation has a trigger, an action and, where stated, a human safeguard.
 - **AUT-002** Executions record actor, timestamps, version, rationale and external ID; states in [states-events](../technical/states-events.md#automated-execution).
 - **AUT-003** Idempotent jobs with controlled retries, dead-letter queue and observability.
-- **AUT-004** `/automacoes` screen: rules, triggers, frequency, permissions and logs.
+- **AUT-004** `/automations` screen: rules, triggers, frequency, permissions and logs.
 - **AUT-005** An automation never publishes, does external prospecting outreach nor issues contracts without human approval.
 
 Some triggers below (e.g. AUT-016 publishing failure) are needed before P3; those individual flows are delivered with their modules, and P3 adds the user-configurable automation layer.

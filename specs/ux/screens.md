@@ -3,59 +3,59 @@ id: scr
 status: draft
 phase: all
 version: 1.1
-updated: 2026-10-30
+updated: 2026-11-04
 ---
 
 # Screen inventory and behavior
 
 **Convention (SCR-001):** every page implements empty, loading, success, recoverable-error and forbidden states. Actions that change sensitive data are audited. Filters live in the URL when possible. Breadcrumbs on desktop. Back preserves context. On mobile: step-by-step flows and reduced menus. Cards without a real action are not enough.
 
-Routes are user-facing and stay in pt-BR, as in the source spec.
+Routes are user-facing and are in English. The source spec used pt-BR paths; they were changed on 2026-11-04 (see [CHANGELOG](../CHANGELOG.md)). Names below are the target paths.
 
 ## Inventory
 
 | Route | Main elements and actions | Phase |
 | --- | --- | --- |
-| `/login`, `/recuperar-senha` | Sign in, password reset, session protection, accept invitation; failure never reveals whether an account exists | MVP |
-| `/inicio` | KPIs, pending items, due dates, shortcuts; a card opens a filtered list | MVP |
-| `/clientes` | List, filters, search, add, archive with confirmation | MVP |
-| `/clientes/:id/resumo` | Brand, owners, plan, status, links, invite authorized users | MVP |
-| `/clientes/:id/briefing` | Sectioned form, attachments, versions, gaps | MVP |
-| `/clientes/:id/identidade` | Visual audit, change briefing, moodboards, proposals, before/after comparator, approval | P2 |
-| `/clientes/:id/estrategia` | Goals, positioning, DNA, pillars, competitors, approvals | P2 |
-| `/calendario` | Month/week/list, channels, clients, status; drag date with validation | MVP |
-| `/conteudos/:id` | Preview, caption, hashtags, CTA, date, revisions, autosave | MVP |
-| `/producao` | Kanban with owners, due dates, files, comments, time logging | MVP |
-| `/aprovacoes` | Review queue, decisions, versions, history | MVP |
+| `/login`, `/accounts/password/reset` | Sign in, password reset, session protection, accept invitation; failure never reveals whether an account exists | MVP |
+| `/home` | KPIs, pending items, due dates, shortcuts; a card opens a filtered list | MVP |
+| `/clients` | List, filters, search, add, archive with confirmation | MVP |
+| `/clients/:id/summary` | Brand, owners, plan, status, links, invite authorized users | MVP |
+| `/clients/:id/briefing` | Sectioned form, attachments, versions, gaps | MVP |
+| `/clients/:id/identity` | Visual audit, change briefing, moodboards, proposals, before/after comparator, approval | P2 |
+| `/clients/:id/strategy` | Goals, positioning, DNA, pillars, competitors, approvals | P2 |
+| `/calendar` | Month/week/list, channels, clients, status; drag date with validation | MVP |
+| `/content/:id` | Preview, caption, hashtags, CTA, date, revisions, autosave | MVP |
+| `/production` | Kanban with owners, due dates, files, comments, time logging | MVP |
+| `/approvals` | Review queue, decisions, versions, history | MVP |
 | `/crm` | Kanban funnel, source, next actions, filters | MVP basic / P2 (D-01) |
 | `/crm/leads/:id` | Commercial diagnosis, history, approach, proposal | MVP basic / P2 (D-01) |
-| `/propostas` | Templates, packages, PDF, versions, acceptance | MVP basic / P2 (D-01) |
-| `/contratos` | Templates, filling, history, link to client | P2 |
+| `/proposals` | Templates, packages, PDF, versions, acceptance | MVP basic / P2 (D-01) |
+| `/contracts` | Templates, filling, history, link to client | P2 |
 | `/onboarding` | Checklist templates, pending items, triggers | P2 |
-| `/sazonal` | Dates, segments, selection and preparation | P2 |
-| `/metricas` | Network, period, series, source, export, connect account | MVP manual / P2 (D-01) |
-| `/relatorios` | Preview, reviewable text, export, history | MVP simple / P2 (D-01) |
-| `/financeiro` | Contracts, expenses, hours, margin, alerts | P2 |
-| `/biblioteca` | Files and templates per brand, search, permissions | P2 |
-| `/inteligencia/dna` | Strategic memory, sources, decisions | P2 |
-| `/inteligencia/lab` | Hypotheses, experiments, indicators, learnings | P3 |
-| `/inteligencia/radar` | Competitors and opportunities with sources | P3 |
-| `/inteligencia/pulse` | Client health, results, capacity, profitability | P3 |
-| `/inteligencia/trends` | Trends by country/network, evidence, fit, ideas | P3 |
-| `/inteligencia/updates` | Official updates, filters, impact, alerts | P3 |
-| `/automacoes` | Rules, triggers, frequency, permissions, logs | P3 |
-| `/configuracoes` | Team, roles, integrations, plans, identity, logs, webhooks | MVP / P2 |
+| `/seasonal` | Dates, segments, selection and preparation | P2 |
+| `/metrics` | Network, period, series, source, export, connect account | MVP manual / P2 (D-01) |
+| `/reports` | Preview, reviewable text, export, history | MVP simple / P2 (D-01) |
+| `/finance` | Contracts, expenses, hours, margin, alerts | P2 |
+| `/library` | Files and templates per brand, search, permissions | P2 |
+| `/intelligence/dna` | Strategic memory, sources, decisions | P2 |
+| `/intelligence/lab` | Hypotheses, experiments, indicators, learnings | P3 |
+| `/intelligence/radar` | Competitors and opportunities with sources | P3 |
+| `/intelligence/pulse` | Client health, results, capacity, profitability | P3 |
+| `/intelligence/trends` | Trends by country/network, evidence, fit, ideas | P3 |
+| `/intelligence/updates` | Official updates, filters, impact, alerts | P3 |
+| `/automations` | Rules, triggers, frequency, permissions, logs | P3 |
+| `/settings` | Team, roles, integrations, plans, identity, logs, webhooks | MVP / P2 |
 | `/portal` | Client space: approvals, calendar, reports | MVP (approval) / P2 (rest) |
 | SaaS billing (route TBD) | Active, paying, trial, delinquent, suspended, MRR, invoices; resend charge, authorized exception | P4 |
 | Restricted access (route TBD) | Subscription status, invoice, pay, update method, export; returns after webhook confirms | P4 |
 
-Note: the client library lives both as the client's Files tab (MVP, [CLI-007](../modules/clients-briefing.md)) and as the cross-client `/biblioteca` (P2).
+Note: the client library lives both as the client's Files tab (MVP, [CLI-007](../modules/clients-briefing.md)) and as the cross-client `/library` (P2).
 
 ## Behavior and destination per screen
 
 | Screen | Actions | Destination / output |
 | --- | --- | --- |
-| Login | Sign in, recover password, accept invitation, sign out | `/inicio` or authorized portal |
+| Login | Sign in, recover password, accept invitation, sign out | `/home` or authorized portal |
 | Dashboard | Filter by period, open indicators, prioritize pending items | Filtered module list |
 | CRM | Create, qualify, record contact, create opportunity and proposal | Lead → record → proposal → onboarding |
 | Clients | Search, filter, create, archive | Client page with tabs |

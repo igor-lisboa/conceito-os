@@ -9,6 +9,7 @@ import datetime as dt
 from collections import defaultdict
 
 from django import forms
+from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404, redirect
 from django.utils import timezone
 from django.utils.translation import gettext
@@ -17,13 +18,15 @@ from django.views import View
 from django.views.generic import TemplateView
 
 from apps.accounts.mixins import CapabilityRequiredMixin
+from apps.accounts.models import Membership
 from apps.accounts.permissions import Capability, has_capability
 from apps.clients.queries import visible_clients
 from apps.core.actors import actor_for
+from apps.core.choices import translated_choices
 from apps.core.http import run_action
 
 from .composition import build_content_service
-from .domain.content import PLANNED_DATE_OPEN_STATES, VersionData
+from .domain.content import PLANNED_DATE_OPEN_STATES, Channel, VersionData
 from .domain.states import ContentState
 from .queries import visible_content
 
@@ -52,11 +55,44 @@ BOARD_DRAG_ACTIONS = {
 
 
 class PlanningFilterForm(forms.Form):
-    client = forms.ModelChoiceField(label=_("Client"), queryset=None, required=False)
+    """Filters for the calendar and the board (CAL-001). The URL keeps them; an empty field is no filter."""
 
-    def __init__(self, *args, membership, **kwargs):
+    client = forms.ModelChoiceField(label=_("Client"), queryset=None, required=False)
+    channel = forms.ChoiceField(label=_("Channel"), choices=[], required=False)
+    owner = forms.ModelChoiceField(label=_("Owner"), queryset=None, required=False)
+    state = forms.ChoiceField(label=_("State"), choices=[], required=False)
+
+    def __init__(self, *args, membership, show_state=False, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["client"].queryset = visible_clients(membership)
+        self.fields["channel"].choices = [("", _("All"))] + translated_choices(Channel)
+        # Owners are people of this organization only (tenant isolation).
+        self.fields["owner"].queryset = get_user_model().objects.filter(
+            id__in=Membership.objects.filter(organization=membership.organization).values("user_id")
+        )
+        if show_state:
+            self.fields["state"].choices = [("", _("All"))] + translated_choices(ContentState)
+        else:
+            del self.fields["state"]
+
+    @property
+    def active(self):
+        """True when any filter is set, so the filter panel opens (NAV-014)."""
+        return any(self.data.get(name) for name in self.fields)
+
+    def apply(self, queryset):
+        if not self.is_valid():
+            return queryset
+        values = self.cleaned_data
+        if values.get("client"):
+            queryset = queryset.filter(client=values["client"])
+        if values.get("channel"):
+            queryset = queryset.filter(channel=values["channel"])
+        if values.get("owner"):
+            queryset = queryset.filter(owner=values["owner"])
+        if values.get("state"):
+            queryset = queryset.filter(state=values["state"])
+        return queryset
 
 
 class ContentCalendarView(CapabilityRequiredMixin, TemplateView):
@@ -69,7 +105,7 @@ class ContentCalendarView(CapabilityRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         membership = self.request.membership
         actor = actor_for(membership)
-        filters = PlanningFilterForm(self.request.GET or None, membership=membership)
+        filters = PlanningFilterForm(self.request.GET or None, membership=membership, show_state=True)
         month = _month_start(self.request.GET.get("month", "")) or timezone.localdate().replace(day=1)
 
         # Local time boundaries, so "a day" means the organization's day.
@@ -80,9 +116,8 @@ class ContentCalendarView(CapabilityRequiredMixin, TemplateView):
         planned = visible_content(actor).filter(
             planned_for__gte=start, planned_for__lt=end, scheduled_for__isnull=True
         )
-        if filters.is_valid() and filters.cleaned_data.get("client"):
-            scheduled = scheduled.filter(client=filters.cleaned_data["client"])
-            planned = planned.filter(client=filters.cleaned_data["client"])
+        scheduled = filters.apply(scheduled)
+        planned = filters.apply(planned)
 
         by_day = defaultdict(list)
         for item in scheduled.select_related("client"):
@@ -130,9 +165,7 @@ class ContentBoardView(CapabilityRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         membership = self.request.membership
         filters = PlanningFilterForm(self.request.GET or None, membership=membership)
-        items = visible_content(actor_for(membership)).select_related("client")
-        if filters.is_valid() and filters.cleaned_data.get("client"):
-            items = items.filter(client=filters.cleaned_data["client"])
+        items = filters.apply(visible_content(actor_for(membership)).select_related("client"))
         items = list(items)
         # Dragging a card moves it only along the manual moves (D-28). The page sends the same
         # action the piece page uses, so the server applies the same rule.

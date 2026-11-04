@@ -1216,3 +1216,30 @@ msgstr "Filtros"
 
 msgid "Drag a card to the next stage when the team can move it by hand. Approvals, scheduling and publishing are on the piece page. Each change is recorded."
 msgstr "Arraste um cartão para a próxima etapa quando a equipe puder movê-lo manualmente. Aprovações, agendamento e publicação ficam na página do conteúdo. Cada mudança é registrada."
+
+msgid "edited"
+msgstr "editado"
+
+msgid "Edit comment"
+msgstr "Editar comentário"
+
+msgid "Delete comment"
+msgstr "Excluir comentário"
+
+msgid "Save comment"
+msgstr "Salvar comentário"
+
+msgid "Comment updated."
+msgstr "Comentário atualizado."
+
+msgid "Comment removed."
+msgstr "Comentário removido."
+
+msgid "All"
+msgstr "Todos"
+
+msgid "Owner"
+msgstr "Responsável"
+
+msgid "State"
+msgstr "Etapa"

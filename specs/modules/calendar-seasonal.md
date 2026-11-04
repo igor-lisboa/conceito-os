@@ -2,8 +2,8 @@
 id: cal
 status: draft
 phase: MVP (calendar) / P2 (seasonal and assisted generation)
-version: 1.3
-updated: 2026-11-02
+version: 1.4
+updated: 2026-11-04
 ---
 
 # Editorial calendar and seasonality
@@ -12,7 +12,7 @@ updated: 2026-11-02
 
 ### Calendar (MVP)
 
-- **CAL-001** Month/week/list/Kanban views, filtered by client, network, campaign, state, owner and date; filters kept in the URL.
+- **CAL-001** Month/week/list/Kanban views, filtered by client, network, campaign, state, owner and date; filters kept in the URL. *Partly implemented 2026-11-04: the calendar and the board filter by client, channel (network), owner and date (month); the calendar also by state. Campaign filter open: there is no campaign entity yet.*
 - **CAL-002** On mobile: daily/weekly agenda and compact filters.
 - **CAL-003** Drag to change date MUST validate rules (e.g. can't move an approved piece without re-approval if the date is part of what was approved — PROPOSAL); the change updates the related task. Built for planned dates: drag opens a form that needs a reason, and pieces at or after client review and scheduled pieces cannot be dragged ([PRO-015](production-approval.md), [PRO-016](production-approval.md)). Tasks follow the piece (built): an open task of the piece that was due on the old planned day moves to the new day; other tasks keep their date. PROPOSAL, pending product owner confirmation.
 - **CAL-004** Duplicate a piece and open the editor from the calendar.
@@ -33,7 +33,7 @@ updated: 2026-11-02
 
 ## Screens
 
-`/calendario`, `/sazonal`.
+`/calendar`, `/seasonal`.
 
 ## Acceptance criteria
 
@@ -48,5 +48,6 @@ updated: 2026-11-02
 
 ## Evidence
 
+- Filters by client, channel, owner and state on the calendar and board (CAL-001): `apps/production/tests/test_planning_filters.py`
 - Tasks follow the planned date (CAL-003): `apps/production/tests/test_task_follows_planned_date.py`
 - Calendar views, planned pieces and drag (CAL-001, CAL-003): `apps/production/tests/test_planned_date.py`, `apps/production/tests/test_comments_and_planning.py`

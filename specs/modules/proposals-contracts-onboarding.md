@@ -43,7 +43,7 @@ PROPOSAL: MVP = proposal from a simple template + PDF + acceptance record + onbo
 
 ## Screens
 
-`/propostas`, `/contratos`, `/onboarding`, `/clientes/:id/briefing`.
+`/proposals`, `/contracts`, `/onboarding`, `/clients/:id/briefing`.
 
 ## Exceptions
 

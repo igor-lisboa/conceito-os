@@ -53,7 +53,7 @@ class BoardDragScreenTests(TestCase):
     def test_the_drop_uses_the_same_action_as_the_piece_page(self):
         response = self.client.get(reverse("content_board"))
 
-        self.assertContains(response, "/acao/placeholder/")
+        self.assertContains(response, "/action/placeholder/")
         self.assertContains(response, 'name="csrfmiddlewaretoken"')
 
     def test_a_drop_moves_the_card_and_returns_to_the_board(self):

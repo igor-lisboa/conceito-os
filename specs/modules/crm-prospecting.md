@@ -3,7 +3,7 @@ id: crm
 status: draft
 phase: MVP basic / P2 (see D-01)
 version: 1.1
-updated: 2026-10-30
+updated: 2026-11-01
 ---
 
 # CRM and prospecting

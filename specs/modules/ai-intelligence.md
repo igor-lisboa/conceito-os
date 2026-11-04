@@ -56,7 +56,7 @@ updated: 2026-10-30
 
 ## Screens
 
-`/inteligencia/dna|lab|radar|pulse|trends|updates`.
+`/intelligence/dna|lab|radar|pulse|trends|updates`.
 
 ## Open decisions
 

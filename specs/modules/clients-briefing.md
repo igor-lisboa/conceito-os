@@ -3,7 +3,7 @@ id: cli
 status: partially-implemented
 phase: MVP
 version: 1.1
-updated: 2026-10-30
+updated: 2026-11-01
 ---
 
 # Clients, brands and briefing
@@ -31,7 +31,7 @@ A structured record and history for each client (brand), isolated per organizati
 
 ## Screens
 
-`/clientes`, `/clientes/:id/resumo`, `/clientes/:id/briefing`, `/biblioteca`.
+`/clients`, `/clients/:id/summary`, `/clients/:id/briefing`, `/library`.
 
 ## Exceptions
 

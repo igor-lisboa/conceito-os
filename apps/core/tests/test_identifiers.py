@@ -25,7 +25,7 @@ class PrimaryKeyTests(TestCase):
         owner = make_owner(agency)
         self.client.force_login(owner.user)
 
-        response = self.client.get("/clientes/12/")
+        response = self.client.get("/clients/12/")
 
         self.assertEqual(response.status_code, 404)
 

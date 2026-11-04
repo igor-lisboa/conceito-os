@@ -28,6 +28,7 @@ from apps.core.exceptions import DomainError
 from .models import Membership
 from .permissions import Capability, require_capability
 from .roles import Role
+from .sessions import end_user_sessions
 
 User = get_user_model()
 logger = logging.getLogger(__name__)
@@ -90,6 +91,8 @@ def remove_member(membership, target):
     )
     ClientAccess.objects.filter(membership=target).delete()
     target.delete()
+    # The person's open browsers stop working at once (AUTH-012). Their account stays.
+    end_user_sessions(target.user)
 
 
 def _owner_count(organization):

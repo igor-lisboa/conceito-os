@@ -38,6 +38,8 @@ class ContentItem(UUIDModel):
     scheduled_for = models.DateTimeField(null=True, blank=True)
     published_at = models.DateTimeField(null=True, blank=True)
     published_url = models.URLField(max_length=500, blank=True)
+    # How the piece was published. Only "manual" until the network integrations exist (INT-010).
+    publish_method = models.CharField(max_length=20, blank=True)
     failure_reason = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -93,6 +95,8 @@ class Comment(UUIDModel):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name="+")
     body = models.TextField(max_length=2000)
     created_at = models.DateTimeField(auto_now_add=True)
+    # Set when the author edits the comment, so readers can see it changed (TD-S13, PROPOSAL).
+    edited_at = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         ordering = ["created_at", "id"]
