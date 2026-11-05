@@ -1,8 +1,10 @@
 """Limit failed sign-in attempts, per account and per network address.
 
-Counts live in Django's cache. Locally that is the database cache (createcachetable);
-on Vercel each instance has its own memory, so the limit is per instance until a shared
-cache is chosen (see docs/technical-debt.md, TD-12). The per-account limit still holds.
+Counts live in Django's cache, which is the database cache (createcachetable). The
+database is shared by every serverless instance, so the limits hold across instances.
+Counting is read-then-write, not atomic, so parallel attempts can be counted slightly
+low; the limits are approximate under heavy parallel attempts (see
+docs/technical-debt.md, TD-12 and TD-S9). The table must exist in the production database.
 """
 
 import hashlib

@@ -106,7 +106,7 @@ receive notifications. Everything beyond that is in the technical debt document.
 | PD-72 | Password recovery sends a link valid for 24 hours, usable once. An unknown email gets the same answer. | Built | Spec AUTH-002. Stops account discovery. | `apps/accounts/urls.py`, templates |
 | PD-73 | A **welcome email** is sent when a user is created, written in pt-BR. Changing the language is one line. | Built | The team is Brazilian. The welcome is sent after commit and never breaks account creation. | `apps/accounts/emails.py`, `apps/accounts/signals.py` |
 | PD-74 | There is no MFA yet. | Decided, not built | Spec AUTH-004 is pending a risk decision per role (D-17). | [debt TD-11](technical-debt.md) |
-| PD-75 | Failed sign-in attempts are limited: 5 per account and 20 per address in 15 minutes. | Built (counts are per instance on Vercel, see TD-12) | Spec SEC-008. Needs a shared store for counts, which needs a decision on hosting. | [debt TD-12](technical-debt.md) |
+| PD-75 | Failed sign-in attempts are limited: 5 per account and 20 per address in 15 minutes. | Built (counts live in the shared database cache; approximate under parallel attempts, see TD-S9) | Spec SEC-008. An atomic shared store would make the counts exact (TD-S9). | [debt TD-12](technical-debt.md) |
 | PD-76 | The first administrator is created with a command, from environment variables. The password is never in the code. | Built | Spec ops practice; no default password in the repository. | `apps/accounts/management/commands/create_initial_admin.py` |
 | PD-77 | Inviting people by email and removing their access are built. Invitations reuse the password-reset link (see PD-96). | Built | Spec AUTH-011 and AUTH-012. | [debt TD-03](technical-debt.md) |
 

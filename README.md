@@ -414,7 +414,7 @@ These are known gaps, not bugs. They are tracked in the specs.
 - **Calendar and board do not drag.** Reschedule and change stages with the buttons on each piece.
 - **Alerts for failures go to the logs only.** Paging a person needs an external service.
 - **Welcome and invitation emails are in Portuguese.** The language is not stored per person yet.
-- **Sign-in attempt counters are per instance on Vercel.** The per-account limit still holds within a shared database cache; a shared store is debt (TD-12).
+- **Sign-in attempt limits are approximate under parallel attempts.** Counters live in the database cache, shared by all instances (its table must exist: `createcachetable`). A dedicated atomic store is debt (TD-S9).
 - **Dark mode and tablet-specific layouts** are out of scope (see the design system spec).
 
 ---

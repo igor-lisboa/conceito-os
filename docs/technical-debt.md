@@ -51,7 +51,7 @@ Phase 1 code scope is complete except the items marked *partly* in the P1 table.
 | ID | Debt | Spec reference | Why it matters | Size | Depends on |
 | --- | --- | --- | --- | --- | --- |
 | TD-03 | [done: invitations, removal, team screens] Invite team members by email, set their role and client access, and remove their access (immediately effective). Today members are created in the Django admin. | AUTH-011, AUTH-012, CLI-004, PRM-007 | Without it, adding people needs a developer. Removing access is a security requirement. | M | Email (done), team screens |
-| TD-12 | [done, per instance on Vercel; see TD-12 note] Limit repeated failed sign-in attempts per account and per address. | SEC-008 | The login page is public on the internet. The counts must be shared between serverless instances, so the choice depends on the hosting setup. | S | Hosting setup |
+| TD-12 | [done: counts in the database cache, shared by all instances; exact counting open, see TD-S9] Limit repeated failed sign-in attempts per account and per address. | SEC-008 | The login page is public on the internet. The counts must be shared between serverless instances, so the choice depends on the hosting setup. | S | Hosting setup |
 | TD-13 | Backups of the production database, with a restore test that is run and recorded. | ARC-005, NFR-040 | Losing agency content would be irreversible. | S | Production database provider |
 | TD-39 | Deploy to Vercel and check it end to end against a real MySQL server, with real SMTP. | PD-14, deployment guide | Only the local Docker setup has been exercised. | S | TD-13, TD-45 |
 | TD-40 | Rotate the administrator password for production, and set every production secret only in the hosting settings. | PD-76, PD-94 | The local development password must not be used in production. | S | TD-39 |
@@ -127,7 +127,7 @@ cost later.
 | TD-S6 | Publishing is marked by hand. The link is kept (TD-43) and the method is recorded as `manual` (2026-11-04). | Relies on people remembering to mark it. | With TD-20 |
 | TD-S7 | The database has no `WHERE`-level row security; tenant isolation is in application code, tested. | A future bug in a query could leak data. | Consider with TD-37 |
 | TD-S8 | Session cookies and password reset links use the Django defaults (sessions in the database). | Fine for now; no session limit per device yet. | With TD-11 |
-| TD-S9 | Sign-in attempt counters live in the database cache. On Vercel each request may be a different instance, so the limit is weaker than it looks. The per-account limit still holds within the cache. | Brute force can spread across instances. | With TD-12 (a shared store) |
+| TD-S9 | Sign-in attempt counters live in the database cache, which every instance shares. The count is read, then written, without a lock, so parallel attempts can be counted slightly low. The table must exist in the production database (`createcachetable`). | Under a burst of parallel attempts, the limit can be exceeded by a few tries. | When exact counts matter: a store with atomic increments |
 | TD-S10 | Monthly metrics are typed by hand. Nothing checks them against the network. | Wrong numbers can reach a report. | With TD-19 |
 
 ---
@@ -141,7 +141,7 @@ cost later.
 | TD-03 | 2026-11-01 | `apps/accounts/tests/test_team.py` |
 | TD-08 | 2026-11-01 | `apps/core/tests/test_audit_view.py` |
 | TD-09 | 2026-11-01 | `apps/accounts/tests/test_throttle_and_timezone.py` |
-| TD-12 (per instance) | 2026-11-01 | `apps/accounts/tests/test_throttle_and_timezone.py` |
+| TD-12 (shared database cache; approximate under parallel attempts, TD-S9) | 2026-11-01 | `apps/accounts/tests/test_throttle_and_timezone.py` |
 | TD-15 | 2026-11-01 | `apps/accounts/tests/test_throttle_and_timezone.py` |
 | TD-43 | 2026-11-01 | `apps/production/tests/test_published_link.py` |
 | Notifications (NTF-001..004, 006 partly) | 2026-11-01 | `apps/notifications/tests/`, `apps/production/tests/application/test_notifications_events.py` |
