@@ -136,6 +136,58 @@ class ContentDetailView(CapabilityRequiredMixin, DetailView):
         return context
 
 
+COMPARED_FIELDS = ("caption", "cta", "script", "media_url")
+
+
+class ContentCompareView(CapabilityRequiredMixin, View):
+    """Two versions of a piece side by side, read-only (TD-31, PRO-004 PROPOSAL).
+
+    ?from=<number>&to=<number>; by default the last two versions. Versions are read
+    through the piece, so a version of another piece cannot be opened.
+    """
+
+    required_capability = Capability.ACCESS_INTERNAL
+    template_name = "production/content_compare.html"
+
+    def get(self, request, pk):
+        content = get_object_or_404(visible_content(actor_for(request.membership)), pk=pk)
+        versions = list(content.versions.order_by("number"))
+        context = {"content": content, "versions": versions, "rows": []}
+        if len(versions) < 2:
+            return render(request, self.template_name, context)
+
+        by_number = {version.number: version for version in versions}
+        left = self._version(request.GET.get("from"), by_number, versions[-2])
+        right = self._version(request.GET.get("to"), by_number, versions[-1])
+        labels = {
+            "caption": gettext("Caption"),
+            "cta": gettext("Call to action (CTA)"),
+            "script": gettext("Script"),
+            "media_url": gettext("Media link"),
+        }
+        context["left"] = left
+        context["right"] = right
+        context["rows"] = [
+            {
+                "label": labels[field],
+                "left": getattr(left, field),
+                "right": getattr(right, field),
+                "changed": getattr(left, field) != getattr(right, field),
+            }
+            for field in COMPARED_FIELDS
+        ]
+        return render(request, self.template_name, context)
+
+    @staticmethod
+    def _version(raw, by_number, default):
+        if raw in (None, ""):
+            return default
+        try:
+            return by_number[int(raw)]
+        except (ValueError, KeyError):
+            raise Http404 from None
+
+
 class ContentVersionView(CapabilityRequiredMixin, View):
     """Receives the form that saves a new version of a piece."""
 

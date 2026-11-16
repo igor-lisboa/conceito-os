@@ -1243,3 +1243,39 @@ msgstr "Responsável"
 
 msgid "State"
 msgstr "Etapa"
+
+#: apps/production/views.py web/templates/production/content_detail.html web/templates/production/content_compare.html
+msgid "Compare versions"
+msgstr "Comparar versões"
+
+#: web/templates/production/content_compare.html
+msgid "A comparison needs at least two versions. This piece has one."
+msgstr "Uma comparação precisa de pelo menos duas versões. Este conteúdo tem apenas uma."
+
+#: web/templates/production/content_compare.html
+msgid "Earlier version"
+msgstr "Versão anterior"
+
+#: web/templates/production/content_compare.html
+msgid "Later version"
+msgstr "Versão posterior"
+
+#: web/templates/production/content_compare.html
+msgid "Compare"
+msgstr "Comparar"
+
+#: web/templates/production/content_compare.html
+msgid "Differences are marked in the Status column"
+msgstr "As diferenças aparecem na coluna Status"
+
+#: web/templates/production/content_compare.html
+msgid "Field"
+msgstr "Campo"
+
+#: web/templates/production/content_compare.html
+msgid "Changed"
+msgstr "Alterado"
+
+#: web/templates/production/content_compare.html
+msgid "Same"
+msgstr "Igual"

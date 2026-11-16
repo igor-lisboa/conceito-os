@@ -92,7 +92,6 @@ Phase 1 code scope is complete except the items marked *partly* in the P1 table.
 | TD-24 | Agency finance: contracts, instalments, costs, hours, margin and overdue alerts. | FIN-001..009, UC-12 | L |
 | TD-28 | Seasonal calendar with Brazilian dates and assisted 30-day planning. | CAL-007..010, UC-06 | M |
 | TD-51 | Piece editor in steps on phones (text, media, date, review), moved from P1 by D-29. | NAV-002, 18.1 | M |
-| TD-31 | Compare two versions of a piece side by side. | PRO-004 | S |
 | TD-35 | Formal design system: SVG logo, token validation, component states guide. | DSG-006, DSG-008 | M |
 | TD-37 | End-to-end browser tests of the main flows, and a check that the role matrix is complete. | section 12 | M |
 | TD-38 | Performance targets and a load test. | NFR-030..032 | S |
@@ -162,6 +161,7 @@ cost later.
 | TD-S14 (board drag on manual moves, PRO-017) | 2026-11-02 | `apps/production/tests/test_board_drag.py` |
 | TD-S11 (MFA secret encrypted at rest, key in `MFA_ENCRYPTION_KEY`; production refuses to start without it) | 2026-11-02 | `apps/accounts/tests/test_mfa_encryption.py`, `apps/accounts/tests/test_mfa_key_check.py`; migration `apps/accounts/migrations/0004_encrypt_mfa_secret.py` |
 | TD-S12 (QR code on the MFA setup screen; the typed key stays as fallback) | 2026-11-02 | `apps/accounts/tests/test_mfa_qr.py`; `apps/accounts/mfa.py` (`provisioning_svg`) |
+| TD-31 (compare two versions side by side, read-only, PRO-004 PROPOSAL) | 2026-11-16 | `apps/production/tests/test_version_compare.py`; `apps/production/views.py` (`ContentCompareView`); `web/templates/production/content_compare.html` |
 | TD-S13 (comments editable and deletable by their author, PROPOSAL D-30) | 2026-11-02 | `apps/production/tests/test_comment_edit_delete.py`; migration `apps/production/migrations/0003_comment_edited_at.py` |
 | Session gap in AUTH-012 (removal left open sessions signed in; found in review) | 2026-11-02 | `apps/accounts/tests/test_session_revocation.py`; `apps/accounts/sessions.py` |
 | Calendar and board filters by channel, owner and state (CAL-001, NAV-014) | 2026-11-04 | `apps/production/tests/test_planning_filters.py`; campaign filter still open (no campaign entity) |

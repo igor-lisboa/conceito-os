@@ -9,6 +9,7 @@ urlpatterns = [
     path("board/", planning.ContentBoardView.as_view(), name="content_board"),
     path("<uuid:pk>/", views.ContentDetailView.as_view(), name="content_detail"),
     path("<uuid:pk>/version/", views.ContentVersionView.as_view(), name="content_version"),
+    path("<uuid:pk>/compare/", views.ContentCompareView.as_view(), name="content_compare"),
     path("<uuid:pk>/action/<str:action>/", views.ContentActionView.as_view(), name="content_action"),
     path("<uuid:pk>/planned-date/", views.ContentRescheduleView.as_view(), name="content_reschedule"),
     path("<uuid:pk>/comment/", views.ContentCommentView.as_view(), name="content_comment"),

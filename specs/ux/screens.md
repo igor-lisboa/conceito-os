@@ -2,8 +2,8 @@
 id: scr
 status: draft
 phase: all
-version: 1.1
-updated: 2026-11-04
+version: 1.2
+updated: 2026-11-16
 ---
 
 # Screen inventory and behavior
@@ -25,6 +25,7 @@ Routes are user-facing and are in English. The source spec used pt-BR paths; the
 | `/clients/:id/strategy` | Goals, positioning, DNA, pillars, competitors, approvals | P2 |
 | `/calendar` | Month/week/list, channels, clients, status; drag date with validation | MVP |
 | `/content/:id` | Preview, caption, hashtags, CTA, date, revisions, autosave | MVP |
+| `/content/:id/compare/` | Two versions side by side, read-only (PRO-004 PROPOSAL, TD-31) | P2 |
 | `/production` | Kanban with owners, due dates, files, comments, time logging | MVP |
 | `/approvals` | Review queue, decisions, versions, history | MVP |
 | `/crm` | Kanban funnel, source, next actions, filters | MVP basic / P2 (D-01) |
