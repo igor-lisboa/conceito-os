@@ -2,7 +2,7 @@
 id: scr
 status: draft
 phase: all
-version: 1.2
+version: 1.3
 updated: 2026-11-16
 ---
 
@@ -16,8 +16,10 @@ Routes are user-facing and are in English. The source spec used pt-BR paths; the
 
 | Route | Main elements and actions | Phase |
 | --- | --- | --- |
+| `/` | Public introduction, clearly illustrative product preview, feature list and separate existing-user / prospective-client entry paths (NAV-015) | MVP |
+| `/contact/` | Required inquiry fields, validation errors preserving answers, prepared mailto draft, direct email and answer fallback (NAV-016) | MVP |
 | `/login`, `/accounts/password/reset` | Sign in, password reset, session protection, accept invitation; failure never reveals whether an account exists | MVP |
-| `/home` | KPIs, pending items, due dates, shortcuts; a card opens a filtered list | MVP |
+| `/dashboard/` | Authenticated dashboard (`home` route name); clients redirect to the portal; KPIs, pending items and shortcuts | MVP |
 | `/clients` | List, filters, search, add, archive with confirmation | MVP |
 | `/clients/:id/summary` | Brand, owners, plan, status, links, invite authorized users | MVP |
 | `/clients/:id/briefing` | Sectioned form, attachments, versions, gaps | MVP |
@@ -53,6 +55,15 @@ Routes are user-facing and are in English. The source spec used pt-BR paths; the
 Note: the client library lives both as the client's Files tab (MVP, [CLI-007](../modules/clients-briefing.md)) and as the cross-client `/library` (P2).
 
 ## Behavior and destination per screen
+
+### Public entry (SCR-030)
+
+The landing, login entry and inquiry-to-email flow follow NAV-015 and NAV-016 in
+[navigation-responsive.md](navigation-responsive.md). The public pages use the
+shared theme and language controls; account data stays inside the authenticated
+workspace. Form errors keep the answers visible, and the completed inquiry shows
+a mailto action plus a direct-address/answer fallback. Evidence:
+`apps/core/tests/test_public_site.py`.
 
 | Screen | Actions | Destination / output |
 | --- | --- | --- |

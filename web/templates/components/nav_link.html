@@ -1,0 +1,1 @@
+<a class="nav-link{% if item.active %} active{% endif %}" href="{{ item.url }}"{% if item.active %} aria-current="page"{% endif %}>{% include 'components/icon.html' with name=item.icon %}<span>{{ item.label }}</span>{% if item.active %}<span class="active-dot" aria-hidden="true"></span>{% endif %}</a>

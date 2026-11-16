@@ -92,7 +92,9 @@ class MFAFlowTests(TestCase):
 
         response = self.client.get(reverse("home"))
 
-        self.assertRedirects(response, reverse("mfa_verify") + "?next=/", fetch_redirect_response=False)
+        self.assertRedirects(
+            response, reverse("mfa_verify") + "?next=" + reverse("home"), fetch_redirect_response=False
+        )
 
     def test_entering_the_right_code_opens_the_session(self):
         device = self.enable()

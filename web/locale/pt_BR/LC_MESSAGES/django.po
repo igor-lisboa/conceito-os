@@ -1396,3 +1396,429 @@ msgstr "Informe o link da publicação."
 
 msgid "Dark mode"
 msgstr "Modo escuro"
+
+msgid "A little about you"
+msgstr "Um pouco sobre você"
+
+msgid ""
+"A little context helps us understand your brand and what you need. Fill in "
+"the details and continue in your email app."
+msgstr ""
+"Um pouco de contexto ajuda a entender sua marca e o que você precisa. "
+"Preencha os dados e continue no seu aplicativo de email."
+
+msgid "A little more flow. A lot more concept."
+msgstr "Mais fluidez. Muito mais conceito."
+
+msgid "A plan you can see"
+msgstr "Um planejamento que você vê"
+
+msgid "A shared process."
+msgstr "Um processo em sintonia."
+
+msgid "A simpler approval."
+msgstr "Uma aprovação mais simples."
+
+msgid "Account menu"
+msgstr "Menu da conta"
+
+msgid "Administration"
+msgstr "Administração"
+
+msgid "All fields are required."
+msgstr "Todos os campos são obrigatórios."
+
+msgid "And the next idea can move forward."
+msgstr "E a próxima ideia já pode seguir."
+
+msgid "Approval"
+msgstr "Aprovação"
+
+msgid "Approvals without the noise"
+msgstr "Aprovações sem ruído"
+
+msgid "Back to Conceito OS"
+msgstr "Voltar ao Conceito OS"
+
+msgid "Brand stories"
+msgstr "Histórias da marca"
+
+msgid ""
+"Bring drafts, versions and feedback together. Follow each piece from the "
+"first idea to review and delivery."
+msgstr ""
+"Reúna rascunhos, versões e feedbacks. Acompanhe cada conteúdo da primeira "
+"ideia à revisão e à entrega."
+
+msgid "Bring the context"
+msgstr "Comece pelo contexto"
+
+msgid "Choose how you would like to join Conceito OS."
+msgstr "Escolha como você quer fazer parte do Conceito OS."
+
+msgid "Clear approvals"
+msgstr "Aprovações claras"
+
+msgid "Client review"
+msgstr "Revisão do cliente"
+
+msgid "Client space"
+msgstr "Espaço do cliente"
+
+msgid ""
+"Clients, content, approvals and your team. Together in one place, so good "
+"ideas have space to happen."
+msgstr ""
+"Clientes, conteúdos, aprovações e sua equipe. Tudo no mesmo lugar, para as "
+"boas ideias terem espaço para acontecer."
+
+msgid "Close menu"
+msgstr "Fechar menu"
+
+msgid "Company or brand"
+msgstr "Empresa ou marca"
+
+msgid "Conceito OS for my team"
+msgstr "Conceito OS para minha equipe"
+
+msgid ""
+"Connect the calendar, production board and tasks to understand what comes "
+"next and who is responsible."
+msgstr ""
+"Conecte calendário, quadro de produção e tarefas para saber o que vem a "
+"seguir e quem cuida de cada etapa."
+
+msgid "Connected teams"
+msgstr "Equipes conectadas"
+
+msgid "Content planning and production"
+msgstr "Planejamento e produção de conteúdo"
+
+msgid "Content with a clear path"
+msgstr "Conteúdo com um caminho claro"
+
+msgid ""
+"Continue in your email app, review the draft and send it when you're ready. "
+"No email has been sent yet."
+msgstr ""
+"Continue no seu aplicativo de email, revise o rascunho e envie quando "
+"quiser. Nenhum email foi enviado ainda."
+
+msgid "Creative team"
+msgstr "Equipe criativa"
+
+msgid "Discover Conceito OS"
+msgstr "Conheça o Conceito OS"
+
+msgid "EVERYTHING IN ITS PLACE"
+msgstr "CADA COISA EM SEU LUGAR"
+
+msgid "Every brand, in context"
+msgstr "Cada marca, seu contexto"
+
+msgid "Explore the features"
+msgstr "Explore os recursos"
+
+msgid "Features"
+msgstr "Funcionalidades"
+
+msgid "Find your place"
+msgstr "Encontre seu espaço"
+
+msgid "Follow up"
+msgstr "Acompanhe"
+
+msgid ""
+"For the people creating, the people organizing and the clients following "
+"along."
+msgstr ""
+"Para quem cria, para quem organiza e para os clientes que acompanham cada "
+"etapa."
+
+msgid "From briefing to delivery."
+msgstr "Do briefing à entrega."
+
+msgid ""
+"From the first idea to the next approval. Bring your clients, content and "
+"team together with Conceito OS."
+msgstr ""
+"Da primeira ideia à próxima aprovação. Conecte clientes, conteúdos e equipe "
+"com o Conceito OS."
+
+msgid "GOOD PROJECTS START WITH A CONVERSATION"
+msgstr "BONS PROJETOS COMEÇAM COM UMA CONVERSA"
+
+msgid ""
+"Give clients their own space to review content, leave feedback and approve "
+"the right version."
+msgstr ""
+"Ofereça aos clientes um espaço próprio para revisar conteúdos, deixar "
+"feedbacks e aprovar a versão certa."
+
+msgid "Good to have"
+msgstr "Que bom ter"
+
+msgid "How can we help?"
+msgstr "Como podemos ajudar?"
+
+msgid "How it works"
+msgstr "Como funciona"
+
+msgid "I already have access"
+msgstr "Já tenho acesso"
+
+msgid "I want to become a client"
+msgstr "Quero ser cliente"
+
+msgid ""
+"I'd like to talk about my brand, a project or using Conceito OS with my "
+"team."
+msgstr ""
+"Quero conversar sobre minha marca, um projeto ou usar o Conceito OS com "
+"minha equipe."
+
+msgid ""
+"I'm part of a team or a client with an invitation. Take me to my workspace."
+msgstr ""
+"Faço parte de uma equipe ou sou cliente com convite. Quero acessar meu "
+"espaço."
+
+msgid "Idea"
+msgstr "Ideia"
+
+msgid "Ideas in motion"
+msgstr "Ideias em movimento"
+
+msgid "If your email app doesn't open, send your project details to:"
+msgstr ""
+"Se o aplicativo de email não abrir, envie os detalhes do seu projeto para:"
+
+msgid "Illustrative example"
+msgstr "Exemplo ilustrativo"
+
+msgid "Illustrative preview of the platform"
+msgstr "Prévia ilustrativa da plataforma"
+
+msgid "In review"
+msgstr "Em revisão"
+
+msgid ""
+"Keep client briefings, brand references and files within reach of the people"
+" working on each account."
+msgstr ""
+"Mantenha briefings, referências da marca e arquivos ao alcance de quem "
+"trabalha em cada conta."
+
+msgid ""
+"Keep manually recorded monthly metrics and reports together to support the "
+"next conversation with your client."
+msgstr ""
+"Reúna métricas mensais registradas manualmente e relatórios para apoiar a "
+"próxima conversa com seu cliente."
+
+msgid "LESS FRICTION, FROM THE START"
+msgstr "MAIS LEVEZA, DESDE O COMEÇO"
+
+msgid "Less noise."
+msgstr "Menos ruído."
+
+msgid ""
+"Less time looking for information. More clarity to plan, collaborate and "
+"deliver work with intention."
+msgstr ""
+"Menos tempo procurando informações. Mais clareza para planejar, colaborar e "
+"entregar um trabalho com intenção."
+
+msgid "Let the work move"
+msgstr "Deixe o trabalho fluir"
+
+msgid "Let's talk"
+msgstr "Vamos conversar"
+
+msgid "Let's talk about your project"
+msgstr "Vamos conversar sobre seu projeto"
+
+msgid "Light mode"
+msgstr "Modo claro"
+
+msgid "Made by Conceito Co. Designed around the creative process."
+msgstr "Criado pela Conceito Co. Pensado para o processo criativo."
+
+msgid "Made for creative routines."
+msgstr "Feito para rotinas criativas."
+
+msgid "More"
+msgstr "Mais"
+
+msgid "More room to create"
+msgstr "Mais espaço para criar"
+
+msgid "More room to create."
+msgstr "Mais espaço para criar."
+
+msgid "New around here?"
+msgstr "Chegando agora?"
+
+msgid "ONE PLACE. THE WHOLE PROCESS."
+msgstr "UM SÓ LUGAR. TODO O PROCESSO."
+
+msgid "Open menu"
+msgstr "Abrir menu"
+
+msgid "Open my email app"
+msgstr "Abrir meu aplicativo de email"
+
+msgid "Open workspace"
+msgstr "Acessar painel"
+
+msgid ""
+"Organize team access by role and client, with notifications and a history of"
+" important actions."
+msgstr ""
+"Organize os acessos por função e cliente, com notificações e um histórico "
+"das ações importantes."
+
+msgid "Organized routines"
+msgstr "Rotinas organizadas"
+
+msgid "Plan content, assign tasks and keep feedback close to each piece."
+msgstr ""
+"Planeje conteúdos, distribua tarefas e mantenha os feedbacks junto de cada "
+"peça."
+
+msgid "Planning"
+msgstr "Planejamento"
+
+msgid "Prepare my email"
+msgstr "Preparar meu email"
+
+msgid "Production"
+msgstr "Produção"
+
+msgid "Quick navigation"
+msgstr "Navegação rápida"
+
+msgid "Results in perspective"
+msgstr "Resultados em perspectiva"
+
+msgid "Review versions, collect approvals and follow the next steps together."
+msgstr ""
+"Revise versões, reúna aprovações e acompanhe os próximos passos em conjunto."
+
+msgid "Room for every role."
+msgstr "Espaço para cada pessoa."
+
+msgid "Select an option"
+msgstr "Selecione uma opção"
+
+msgid "Shall we make it flow?"
+msgstr "Vamos fazer fluir?"
+
+msgid "Sign in to my account"
+msgstr "Entrar na minha conta"
+
+msgid "Social media management"
+msgstr "Gestão de redes sociais"
+
+msgid "Something else"
+msgstr "Outro assunto"
+
+msgid "Start again"
+msgstr "Preencher novamente"
+
+msgid "Start with the client, the briefing and the people involved."
+msgstr "Comece pelo cliente, pelo briefing e pelas pessoas envolvidas."
+
+msgid "Stay on the same page"
+msgstr "Mantenha todos em sintonia"
+
+msgid "THE OPERATING SPACE FOR YOUR CREATIVITY"
+msgstr "O ESPAÇO DE TRABALHO DA SUA CRIATIVIDADE"
+
+msgid "Tell us a little about your project"
+msgstr "Conte um pouco sobre seu projeto"
+
+msgid "Tell us about your project"
+msgstr "Conte sobre seu projeto"
+
+msgid "Tell us what"
+msgstr "Conte o que"
+
+msgid "The next chapter"
+msgstr "O próximo capítulo"
+
+msgid "The right space for everyone"
+msgstr "O espaço certo para cada pessoa"
+
+msgid "Use your email and password to access your workspace."
+msgstr "Use seu email e sua senha para acessar seu espaço."
+
+msgid "View my answers"
+msgstr "Ver minhas respostas"
+
+msgid "Workspace"
+msgstr "Área de trabalho"
+
+msgid "Workspace navigation"
+msgstr "Navegação da área de trabalho"
+
+msgid "YOUR CREATIVE ROUTINE, TOGETHER"
+msgstr "SUA ROTINA CRIATIVA, EM SINTONIA"
+
+msgid "YOUR NEXT STEP STARTS HERE"
+msgstr "SEU PRÓXIMO PASSO COMEÇA AQUI"
+
+msgid ""
+"Your answers are used only to prepare this email. This form does not create "
+"an account."
+msgstr ""
+"Suas respostas servem apenas para preparar este email. O formulário não cria"
+" uma conta."
+
+msgid ""
+"Your answers prepare an email draft. You can review everything before "
+"sending it to our team."
+msgstr ""
+"Suas respostas preparam um rascunho de email. Você pode revisar tudo antes "
+"de enviar para nossa equipe."
+
+msgid ""
+"Your clients, your team and your next idea. Pick up where you left off."
+msgstr ""
+"Seus clientes, sua equipe e sua próxima ideia. Continue de onde parou."
+
+msgid "Your email"
+msgstr "Seu email"
+
+msgid "Your introduction is ready."
+msgstr "Sua apresentação está pronta."
+
+msgid "Your name"
+msgstr "Seu nome"
+
+msgid "Your routine, with"
+msgstr "Sua rotina, com"
+
+msgid "Your workspace"
+msgstr "Seu espaço de trabalho"
+
+msgid "a little more flow."
+msgstr "um pouco mais de fluidez."
+
+msgid "a new"
+msgstr "um novo"
+
+msgid "perspective."
+msgstr "olhar."
+
+msgid "you have in mind."
+msgstr "você tem em mente."
+
+msgid "you here."
+msgstr "você por aqui."
+
+msgid "your workspace"
+msgstr "seu espaço de trabalho"
+
+msgid "Choose a client and month to view the recorded results."
+msgstr "Escolha um cliente e um mês para consultar os resultados registrados."

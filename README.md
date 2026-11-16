@@ -167,6 +167,12 @@ python manage.py runserver
 
 Open <http://127.0.0.1:8080/accounts/login/>.
 
+The public introduction is at `/`, with separate paths for existing users and
+prospective clients. The workspace dashboard is at `/dashboard/`. The public
+`/contact/` form prepares an email draft addressed to `CONTACT_EMAIL`; the visitor
+reviews and sends it from their own email app. It does not create an account or
+send email from the server.
+
 We use port **8080** locally. On some Windows machines port 8000 is blocked
 (`Error: You don't have permission to access that port.`) because another program
 holds it. To pick a different port, run for example `python manage.py runserver 8090`.
@@ -389,7 +395,8 @@ These are known gaps, not bugs. They are tracked in the specs.
 - **Calendar and board do not drag.** Reschedule and change stages with the buttons on each piece.
 - **Alerts for failures go to the logs only.** Paging a person needs an external service.
 - **Welcome and invitation emails are in Portuguese.** The language is not stored per person yet.
-- **Dark mode and tablet-specific layouts** are out of scope (see the design system spec).
+- **Dark mode** follows the system setting and can be changed with the header icon.
+  There is no dedicated tablet layout (see the design system spec).
 
 ---
 

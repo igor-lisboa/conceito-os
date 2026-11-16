@@ -4,12 +4,15 @@
 {% block title %}{% trans "Sign in" %} · Conceito OS{% endblock %}
 
 {% block content %}
-  <h1>{% trans "Sign in" %}</h1>
-  <form method="post" class="card">
+  <div class="auth-layout"><div class="auth-intro"><p class="eyebrow">{% trans "YOUR CREATIVE ROUTINE, TOGETHER" %}</p><h1>{% trans "Good to have" %}<br><em>{% trans "you here." %}</em></h1><p>{% trans "Your clients, your team and your next idea. Pick up where you left off." %}</p><a class="text-link" href="{% url 'landing' %}">← {% trans "Discover Conceito OS" %}</a></div>
+  <form method="post" class="card auth-card">
+    <h2>{% trans "Sign in" %}</h2>
+    <p class="form-help">{% trans "Use your email and password to access your workspace." %}</p>
     {% csrf_token %}
     {{ form.as_p }}
     <input type="hidden" name="next" value="{{ next }}">
-    <button type="submit">{% trans "Sign in" %}</button>
-    <a href="{% url 'password_reset' %}">{% trans "Forgot your password?" %}</a>
-  </form>
+    <button type="submit" class="button-primary">{% trans "Sign in" %}{% include 'components/icon.html' with name='arrow' %}</button>
+    <a class="password-link" href="{% url 'password_reset' %}">{% trans "Forgot your password?" %}</a>
+    <p class="auth-contact">{% trans "New around here?" %} <a href="{% url 'contact' %}">{% trans "Let's talk" %}</a></p>
+  </form></div>
 {% endblock %}

@@ -21,6 +21,11 @@ TEXT_PAIRS = [
     ("link", "surface"),
     ("danger", "background"),
     ("danger", "surface"),
+    ("muted", "background"),
+    ("muted", "surface"),
+    ("muted", "soft"),
+    ("link", "soft"),
+    ("on-strong", "strong"),
 ]
 
 
@@ -41,7 +46,7 @@ def contrast(a, b):
 
 
 def tokens(block):
-    return dict(re.findall(r"--color-([a-z]+):\s*(#[0-9a-fA-F]{6});", block))
+    return dict(re.findall(r"--color-([a-z-]+):\s*(#[0-9a-fA-F]{6});", block))
 
 
 def block_after(css, selector):
@@ -66,6 +71,12 @@ class ThemeContrastTests(SimpleTestCase):
 
     def test_dark_theme_meets_aa(self):
         self.check(tokens(block_after(self.css, ':root[data-theme="dark"]')), "dark")
+
+    def test_input_borders_have_non_text_contrast_in_both_themes(self):
+        for selector in (":root {", ':root[data-theme="dark"]'):
+            palette = tokens(block_after(self.css, selector))
+            for surface in ("surface", "background"):
+                self.assertGreaterEqual(contrast(palette["input-border"], palette[surface]), 3)
 
     def test_the_dark_theme_is_used_when_the_system_asks_for_it(self):
         self.assertIn('@media (prefers-color-scheme: dark)', self.css)

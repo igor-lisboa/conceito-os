@@ -120,6 +120,7 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
                 "apps.notifications.context_processors.unread_notifications",
+                "apps.core.navigation.navigation",
             ],
         },
     },

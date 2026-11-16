@@ -4,18 +4,22 @@
 {% block title %}{% trans "Monthly report" %} · Conceito OS{% endblock %}
 
 {% block content %}
-  <h1>{% trans "Monthly report" %}</h1>
+  <div class="page-heading"><h1>{% trans "Monthly report" %}</h1><p>{% trans "Choose a client and month to view the recorded results." %}</p></div>
 
-  <form method="get" class="card actions">
+  <form method="get" class="card report-filters">
+    <div class="filter-field">
     <label for="client-select">{% trans "Client" %}</label>
     <select name="client" id="client-select">
       {% for item in clients %}
         <option value="{{ item.pk }}"{% if client and item.pk == client.pk %} selected{% endif %}>{{ item.name }}</option>
       {% endfor %}
     </select>
+    </div>
+    <div class="filter-field">
     <label for="month-input">{% trans "Month" %}</label>
     <input type="month" name="month" id="month-input" value="{{ month|date:'Y-m' }}">
-    <button class="button-secondary">{% trans "Show" %}</button>
+    </div>
+    <button class="button-primary">{% trans "Show" %}{% include 'components/icon.html' with name='arrow' %}</button>
   </form>
 
   {% if client %}
@@ -34,6 +38,6 @@
     <p><small>{% trans "N/D means no value was entered for this month. No number is estimated." %}</small></p>
     {% if can_enter %}<p><a class="button" href="{% url 'metric_entry' %}">{% trans "Enter a value" %}</a></p>{% endif %}
   {% else %}
-    <p class="card">{% trans "No clients available for you yet." %}</p>
+    <div class="card empty-state">{% include 'components/icon.html' with name='chart' %}<h2>{% trans "No clients available for you yet." %}</h2></div>
   {% endif %}
 {% endblock %}

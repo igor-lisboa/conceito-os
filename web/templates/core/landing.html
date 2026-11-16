@@ -1,0 +1,47 @@
+{% extends 'base.html' %}{% load i18n %}
+{% block title %}{% trans "More room to create" %} · Conceito OS{% endblock %}
+{% block main_class %}landing{% endblock %}
+{% block content %}
+  <section class="hero">
+    <div class="hero-copy"><p class="eyebrow"><span class="small-spark">{% include 'components/icon.html' with name='spark' %}</span>{% trans "THE OPERATING SPACE FOR YOUR CREATIVITY" %}</p>
+      <h1>{% trans "Less noise." %}<br><em>{% trans "More room to create." %}</em></h1>
+      <p class="hero-description">{% trans "Clients, content, approvals and your team. Together in one place, so good ideas have space to happen." %}</p>
+      <div class="hero-actions"><a class="button button-primary" href="#get-started">{% trans "Find your place" %}{% include 'components/icon.html' with name='arrow' %}</a><a class="text-link" href="#features">{% trans "Explore the features" %}<span aria-hidden="true">↗</span></a></div>
+      <p class="hero-note">{% trans "Made by Conceito Co. Designed around the creative process." %}</p>
+    </div>
+    <div class="hero-visual" aria-label="{% trans 'Illustrative preview of the platform' %}">
+      <span class="visual-orbit" aria-hidden="true"></span>
+      <div class="preview-window">
+        <div class="preview-titlebar"><span class="window-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>conceito os / {% trans "your workspace" %}</span>{% include 'components/icon.html' with name='spark' %}</div>
+        <div class="preview-body"><div class="preview-sidebar" aria-hidden="true"><span class="preview-logo">c.</span>{% include 'components/icon.html' with name='home' %}{% include 'components/icon.html' with name='layers' %}{% include 'components/icon.html' with name='calendar' %}{% include 'components/icon.html' with name='users' %}</div>
+          <div class="preview-content"><div class="preview-heading"><div><p>{% trans "EVERYTHING IN ITS PLACE" %}</p><h2>{% trans "Ideas in motion" %}<span aria-hidden="true">✳</span></h2></div><span class="demo-label">{% trans "Illustrative example" %}</span></div>
+            <div class="preview-stats"><div>{% include 'components/icon.html' with name='layers' %}<span>{% trans "Plan" %}</span></div><div>{% include 'components/icon.html' with name='check' %}<span>{% trans "Approve" %}</span></div><div>{% include 'components/icon.html' with name='chart' %}<span>{% trans "Follow up" %}</span></div></div>
+            <div class="mini-board"><div class="mini-column"><p><i></i>{% trans "In production" %}</p><div class="mini-card"><div class="mini-art art-lilac"><span>make<br><em>it flow.</em></span><span aria-hidden="true">✳</span></div><strong>{% trans "Brand stories" %}</strong><span class="mini-meta">Instagram · {% trans "Carousel" %}</span><div class="mini-card-footer"><span class="mini-avatar">C</span><span>{% trans "Creative team" %}</span></div></div></div>
+              <div class="mini-column"><p><i></i>{% trans "In review" %}</p><div class="mini-card"><div class="mini-art art-pink"><span>{% trans "a new" %}<br><em>{% trans "perspective." %}</em></span><span class="art-circle" aria-hidden="true"></span></div><strong>{% trans "The next chapter" %}</strong><span class="mini-meta">Instagram · Feed</span><div class="mini-card-footer"><span class="mini-avatar pink-avatar">B</span><span>{% trans "Client review" %}</span></div></div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="floating-approval">{% include 'components/icon.html' with name='check' %}<span><strong>{% trans "A simpler approval." %}</strong><small>{% trans "And the next idea can move forward." %}</small></span></div>
+    </div>
+  </section>
+
+  <div class="feature-ribbon"><span>{% trans "From briefing to delivery." %}</span><span>{% include 'components/icon.html' with name='users' %}{% trans "Connected teams" %}</span><span>{% include 'components/icon.html' with name='calendar' %}{% trans "Organized routines" %}</span><span>{% include 'components/icon.html' with name='check' %}{% trans "Clear approvals" %}</span></div>
+
+  <section class="features-section" id="features"><div class="section-heading"><div><p class="eyebrow">{% trans "ONE PLACE. THE WHOLE PROCESS." %}</p><h2>{% trans "Your routine, with" %}<br><em>{% trans "a little more flow." %}</em></h2></div><p>{% trans "Less time looking for information. More clarity to plan, collaborate and deliver work with intention." %}</p></div>
+    <div class="feature-grid">
+      <article class="feature-card feature-highlight"><span class="feature-icon">{% include 'components/icon.html' with name='layers' %}</span><span class="feature-number">01</span><h3>{% trans "Content with a clear path" %}</h3><p>{% trans "Bring drafts, versions and feedback together. Follow each piece from the first idea to review and delivery." %}</p><div class="process-pills"><span>{% trans "Idea" %}</span><span aria-hidden="true">→</span><span>{% trans "Production" %}</span><span aria-hidden="true">→</span><span>{% trans "Approval" %}</span></div></article>
+      <article class="feature-card"><span class="feature-icon">{% include 'components/icon.html' with name='users' %}</span><span class="feature-number">02</span><h3>{% trans "Every brand, in context" %}</h3><p>{% trans "Keep client briefings, brand references and files within reach of the people working on each account." %}</p></article>
+      <article class="feature-card"><span class="feature-icon">{% include 'components/icon.html' with name='calendar' %}</span><span class="feature-number">03</span><h3>{% trans "A plan you can see" %}</h3><p>{% trans "Connect the calendar, production board and tasks to understand what comes next and who is responsible." %}</p></article>
+      <article class="feature-card"><span class="feature-icon">{% include 'components/icon.html' with name='check' %}</span><span class="feature-number">04</span><h3>{% trans "Approvals without the noise" %}</h3><p>{% trans "Give clients their own space to review content, leave feedback and approve the right version." %}</p></article>
+      <article class="feature-card"><span class="feature-icon">{% include 'components/icon.html' with name='chart' %}</span><span class="feature-number">05</span><h3>{% trans "Results in perspective" %}</h3><p>{% trans "Keep manually recorded monthly metrics and reports together to support the next conversation with your client." %}</p></article>
+      <article class="feature-card"><span class="feature-icon">{% include 'components/icon.html' with name='shield' %}</span><span class="feature-number">06</span><h3>{% trans "The right space for everyone" %}</h3><p>{% trans "Organize team access by role and client, with notifications and a history of important actions." %}</p></article>
+    </div>
+  </section>
+
+  <section class="how-section" id="how-it-works"><div><p class="eyebrow">{% trans "LESS FRICTION, FROM THE START" %}</p><h2>{% trans "A shared process." %}<br><em>{% trans "Room for every role." %}</em></h2><p>{% trans "For the people creating, the people organizing and the clients following along." %}</p></div><ol class="how-steps"><li><span>01</span><div><h3>{% trans "Bring the context" %}</h3><p>{% trans "Start with the client, the briefing and the people involved." %}</p></div></li><li><span>02</span><div><h3>{% trans "Let the work move" %}</h3><p>{% trans "Plan content, assign tasks and keep feedback close to each piece." %}</p></div></li><li><span>03</span><div><h3>{% trans "Stay on the same page" %}</h3><p>{% trans "Review versions, collect approvals and follow the next steps together." %}</p></div></li></ol></section>
+
+  <section class="start-section" id="get-started"><p class="eyebrow">{% trans "YOUR NEXT STEP STARTS HERE" %}</p><h2>{% trans "Shall we make it flow?" %}</h2><p>{% trans "Choose how you would like to join Conceito OS." %}</p><div class="entry-options">
+    <a class="entry-card" href="{% if user.is_authenticated %}{% url 'home' %}{% else %}{% url 'login' %}{% endif %}"><span class="feature-icon">{% include 'components/icon.html' with name='user' %}</span><div><h3>{% trans "I already have access" %}</h3><p>{% trans "I'm part of a team or a client with an invitation. Take me to my workspace." %}</p><span class="entry-action">{% trans "Sign in to my account" %}{% include 'components/icon.html' with name='arrow' %}</span></div></a>
+    <a class="entry-card" href="{% url 'contact' %}"><span class="feature-icon">{% include 'components/icon.html' with name='spark' %}</span><div><h3>{% trans "I want to become a client" %}</h3><p>{% trans "I'd like to talk about my brand, a project or using Conceito OS with my team." %}</p><span class="entry-action">{% trans "Tell us about your project" %}{% include 'components/icon.html' with name='arrow' %}</span></div></a>
+  </div></section>
+{% endblock %}

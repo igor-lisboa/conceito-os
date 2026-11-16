@@ -3,122 +3,72 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#c9b8e9">
+  <meta name="description" content="{% trans 'From the first idea to the next approval. Bring your clients, content and team together with Conceito OS.' %}">
   <title>{% block title %}Conceito OS{% endblock %}</title>
   <link rel="stylesheet" href="{% static 'css/app.css' %}">
   <script>
-    // Apply the saved light or dark choice before the page paints, so there is no flash.
-    // No choice saved = follow the system setting (the CSS does that).
     try {
       var saved = localStorage.getItem("conceito-theme");
       if (saved === "light" || saved === "dark") document.documentElement.setAttribute("data-theme", saved);
     } catch (e) {}
   </script>
+  <script src="{% static 'js/app.js' %}" defer></script>
+  {% block extra_head %}{% endblock %}
 </head>
-<body>
+<body class="{% if user.is_authenticated and request.membership and not public_page %}workspace{% else %}public-site{% endif %}">
+  {% include 'components/icons.html' %}
   <a class="skip-link" href="#conteudo">{% trans "Skip to content" %}</a>
-
-  <header class="topbar">
-    <a class="brand" href="{% url 'home' %}">Conceito OS</a>
-    {% if user.is_authenticated %}
-      <nav class="main-nav" aria-label="{% trans 'Main' %}">
-        {% if request.membership.role == 'client' %}
-          <a href="{% url 'portal_list' %}">{% trans "Approvals" %}</a>
-          <a href="{% url 'portal_calendar' %}">{% trans "Calendar" %}</a>
-          <a href="{% url 'portal_results' %}">{% trans "Results" %}</a>
-          <a href="{% url 'portal_files' %}">{% trans "Files" %}</a>
-          <a href="{% url 'portal_contact' %}">{% trans "Contact" %}</a>
-        {% elif request.membership %}
-          <a href="{% url 'home' %}">{% trans "Home" %}</a>
-          <a href="{% url 'client_list' %}">{% trans "Clients" %}</a>
-          <a href="{% url 'content_list' %}">{% trans "Content" %}</a>
-          <a href="{% url 'content_calendar' %}">{% trans "Calendar" %}</a>
-          <a href="{% url 'content_board' %}">{% trans "Board" %}</a>
-          <a href="{% url 'task_list' %}">{% trans "Tasks" %}</a>
-          <a href="{% url 'report' %}">{% trans "Reports" %}</a>
-          {% if request.membership.role == 'owner' or request.membership.role == 'account_manager' %}
-            <a href="{% url 'lead_board' %}">{% trans "Sales" %}</a>
-          {% endif %}
-          {% if request.membership.role == 'owner' %}
-            <a href="{% url 'team_list' %}">{% trans "Team" %}</a>
-            <a href="{% url 'organization_settings' %}">{% trans "Settings" %}</a>
-            <a href="{% url 'audit_log' %}">{% trans "Audit log" %}</a>
-          {% endif %}
-        {% endif %}
-        <a href="{% url 'notification_list' %}">{% trans "Notifications" %}{% if unread_notification_count %} ({{ unread_notification_count }}){% endif %}</a>
-        <a href="{% url 'account' %}">{% trans "Account" %}</a>
-        <a href="{% url 'mfa_setup' %}">{% trans "Security" %}</a>
+  {% if user.is_authenticated and request.membership and not public_page %}
+    <aside class="sidebar" id="workspace-menu" aria-label="{% trans 'Workspace navigation' %}">
+      <div class="sidebar-heading">
+        {% include 'components/brand.html' with destination='home' %}
+        <button class="icon-button sidebar-close" type="button" data-menu-close aria-label="{% trans 'Close menu' %}">{% include 'components/icon.html' with name='close' %}</button>
+      </div>
+      <div class="organization-label"><span class="organization-avatar">{{ request.membership.organization.name|first|upper }}</span><span>{{ request.membership.organization.name }}<small>{% if request.membership.role == 'client' %}{% trans "Client space" %}{% else %}{% trans "Your workspace" %}{% endif %}</small></span></div>
+      <nav class="side-nav" aria-label="{% trans 'Main' %}">
+        {% for group in navigation_groups %}<div class="nav-group"><p class="nav-group-label">{{ group.label }}</p>{% for item in group.items %}{% include 'components/nav_link.html' %}{% endfor %}</div>{% endfor %}
       </nav>
+      <a class="sidebar-about" href="{% url 'landing' %}">{% include 'components/icon.html' with name='spark' %}<span>{% trans "Discover Conceito OS" %}</span>{% include 'components/icon.html' with name='arrow' %}</a>
+    </aside>
+    <button class="menu-overlay" type="button" data-menu-close aria-label="{% trans 'Close menu' %}" hidden></button>
+  {% endif %}
+  <header class="topbar">
+    {% if user.is_authenticated and request.membership and not public_page %}
+      <button class="icon-button mobile-menu-toggle" type="button" data-menu-toggle aria-controls="workspace-menu" aria-expanded="false" aria-label="{% trans 'Open menu' %}">{% include 'components/icon.html' with name='menu' %}</button>
+      <div class="workspace-context"><span>Conceito OS</span><span class="context-divider">/</span><strong>{{ current_section }}</strong></div>
+    {% else %}
+      {% include 'components/brand.html' with destination='landing' %}
+      <nav class="public-nav" aria-label="{% trans 'Main' %}"><a href="{% url 'landing' %}#features">{% trans "Features" %}</a><a href="{% url 'landing' %}#how-it-works">{% trans "How it works" %}</a></nav>
     {% endif %}
-
-    <button type="button" class="theme-toggle" id="theme-toggle" aria-pressed="false">{% trans "Dark mode" %}</button>
-
-    <form method="post" action="{% url 'set_language' %}" class="inline lang-switch">
-      {% csrf_token %}
-      <input type="hidden" name="next" value="{{ request.get_full_path }}">
-      <label for="lang-select" class="visually-hidden">{% trans "Language" %}</label>
-      <select name="language" id="lang-select" onchange="this.form.submit()">
-        {% get_available_languages as AVAILABLE_LANGUAGES %}
-        {% get_current_language as CURRENT_LANGUAGE_CODE %}
-        {% for code, name in AVAILABLE_LANGUAGES %}
-          <option value="{{ code }}"{% if code == CURRENT_LANGUAGE_CODE %} selected{% endif %}>{{ name }}</option>
-        {% endfor %}
-      </select>
-      <noscript><button type="submit" class="button-secondary">{% trans "Change" %}</button></noscript>
-    </form>
-
-    {% if user.is_authenticated %}
-      <form method="post" action="{% url 'logout' %}" class="inline">
-        {% csrf_token %}
-        <button type="submit" class="link-button">{% trans "Log out" %}</button>
-      </form>
-    {% endif %}
+    <div class="header-actions">
+      <button type="button" class="icon-button theme-toggle" id="theme-toggle" aria-pressed="false" aria-label="{% trans 'Dark mode' %}" title="{% trans 'Dark mode' %}" data-dark-label="{% trans 'Dark mode' %}" data-light-label="{% trans 'Light mode' %}"><span class="theme-moon">{% include 'components/icon.html' with name='moon' %}</span><span class="theme-sun">{% include 'components/icon.html' with name='sun' %}</span></button>
+      {% if user.is_authenticated and not public_page %}
+        <a class="icon-button notification-button{% if request.resolver_match.url_name == 'notification_list' %} active{% endif %}" href="{% url 'notification_list' %}" aria-label="{% trans 'Notifications' %}{% if unread_notification_count %} ({{ unread_notification_count }}){% endif %}" title="{% trans 'Notifications' %}">{% include 'components/icon.html' with name='bell' %}{% if unread_notification_count %}<span class="notification-dot"></span>{% endif %}</a>
+        <details class="account-menu dropdown">
+          <summary aria-label="{% trans 'Account menu' %}"><span class="user-avatar">{{ user.get_full_name|default:user.username|first|upper }}</span><span class="account-name">{{ user.get_full_name|default:user.username }}</span>{% include 'components/icon.html' with name='chevron' %}</summary>
+          <div class="dropdown-panel"><div class="account-identity"><strong>{{ user.get_full_name|default:user.username }}</strong><small>{{ user.email }}</small></div>
+            <a href="{% url 'account' %}">{% include 'components/icon.html' with name='user' %}{% trans "Account" %}</a>
+            <a href="{% url 'mfa_setup' %}">{% include 'components/icon.html' with name='shield' %}{% trans "Security" %}</a>
+            {% include 'components/language_switch.html' %}
+            <form method="post" action="{% url 'logout' %}" class="logout-form">{% csrf_token %}<button type="submit">{% include 'components/icon.html' with name='logout' %}{% trans "Log out" %}</button></form>
+          </div>
+        </details>
+      {% else %}
+        <details class="dropdown language-menu"><summary aria-label="{% trans 'Language' %}" title="{% trans 'Language' %}">{% include 'components/icon.html' with name='globe' %}</summary><div class="dropdown-panel">{% include 'components/language_switch.html' %}</div></details>
+        <a class="button button-small header-signin" href="{% if user.is_authenticated %}{% url 'home' %}{% else %}{% url 'login' %}{% endif %}">{% if user.is_authenticated %}{% trans "Open workspace" %}{% else %}{% trans "Sign in" %}{% endif %}{% include 'components/icon.html' with name='arrow' %}</a>
+      {% endif %}
+    </div>
   </header>
-
-  <main id="conteudo" tabindex="-1">
-    {% if messages %}
-      <ul class="messages" role="status">
-        {% for message in messages %}
-          <li class="message message-{{ message.tags }}">{{ message }}</li>
-        {% endfor %}
-      </ul>
-    {% endif %}
+  <main id="conteudo" tabindex="-1" class="{% block main_class %}{% endblock %}">
+    {% if messages %}<ul class="messages" role="status">{% for message in messages %}<li class="message message-{{ message.tags }}">{{ message }}</li>{% endfor %}</ul>{% endif %}
     {% block content %}{% endblock %}
   </main>
-
-  {% if user.is_authenticated and request.membership %}
-    <nav class="bottom-nav" aria-label="{% trans 'Main' %}">
-      {% if request.membership.role == 'client' %}
-        <a href="{% url 'portal_list' %}">{% trans "Approvals" %}</a>
-        <a href="{% url 'portal_calendar' %}">{% trans "Calendar" %}</a>
-        <a href="{% url 'portal_files' %}">{% trans "Files" %}</a>
-        <a href="{% url 'portal_contact' %}">{% trans "Contact" %}</a>
-      {% else %}
-        <a href="{% url 'home' %}">{% trans "Home" %}</a>
-        <a href="{% url 'client_list' %}">{% trans "Clients" %}</a>
-        <a href="{% url 'content_calendar' %}">{% trans "Calendar" %}</a>
-        <a href="{% url 'task_list' %}">{% trans "Tasks" %}</a>
-        <a href="{% url 'notification_list' %}">{% trans "Alerts" %}{% if unread_notification_count %} ({{ unread_notification_count }}){% endif %}</a>
-      {% endif %}
-    </nav>
+  {% if user.is_authenticated and request.membership and not public_page %}
+    <nav class="bottom-nav" aria-label="{% trans 'Quick navigation' %}">{% for item in mobile_navigation %}{% include 'components/nav_link.html' %}{% endfor %}<button type="button" data-menu-toggle aria-controls="workspace-menu" aria-expanded="false">{% include 'components/icon.html' with name='menu' %}<span>{% trans "More" %}</span></button></nav>
+  {% else %}
+    <footer class="public-footer"><div>{% include 'components/brand.html' with destination='landing' %}<p>{% trans "A little more flow. A lot more concept." %}</p></div><span>{% trans "Made for creative routines." %} &copy; {% now 'Y' %} Conceito OS</span><a href="{% url 'contact' %}">{% trans "Let's talk" %}{% include 'components/icon.html' with name='arrow' %}</a></footer>
   {% endif %}
-  <script>
-    (function () {
-      var root = document.documentElement;
-      var button = document.getElementById("theme-toggle");
-      function isDark() {
-        var forced = root.getAttribute("data-theme");
-        if (forced) return forced === "dark";
-        return window.matchMedia("(prefers-color-scheme: dark)").matches;
-      }
-      function show() { button.setAttribute("aria-pressed", isDark() ? "true" : "false"); }
-      button.addEventListener("click", function () {
-        var next = isDark() ? "light" : "dark";
-        root.setAttribute("data-theme", next);
-        try { localStorage.setItem("conceito-theme", next); } catch (e) {}
-        show();
-      });
-      show();
-    })();
-  </script>
+  {% block extra_scripts %}{% endblock %}
 </body>
 </html>

@@ -2,7 +2,7 @@
 id: dsg
 status: draft
 phase: MVP
-version: 1.2
+version: 1.3
 updated: 2026-11-16
 ---
 
@@ -46,10 +46,27 @@ Consequence: lilac, nude pink and gray are **fill colors**. They MUST NOT be use
 - **DSG-005** Every screen has empty, loading, success, recoverable-error and forbidden states.
 - **DSG-006** Final guide to produce: SVG logo, typography, spacing, components, tokens, states, contrast.
 - **DSG-007** Images in the PDF are visual references, not UI code.
+- **DSG-010** The application uses grouped sidebar links with icons and active
+  indicators, a quiet surface-colored header, a single icon theme switch and an
+  account dropdown. The mobile bottom navigation has labeled icons and a selected
+  background. The public introduction uses generous whitespace, lilac/pink fills,
+  editorial serif accents (local Georgia fallback, no external font request) and
+  an explicitly illustrative HTML product preview. Inputs use a stronger border
+  token; muted text and accent actions have light and dark theme tokens. Existing
+  role visibility and backend permissions remain authoritative (NAV-017, NAV-018).
 - **DSG-008** Add a darker "strong" variant of the primary color for links, focus rings, active states and borders, reaching ≥ 4.5:1 on `background`. Value chosen by the designer. PROPOSAL, follows from the contrast check.
 - **DSG-009** Semantic status colors (success, warning, error, info) with accessible contrast, never conveying meaning by color alone. PROPOSAL.
 
 ## Visual reference
+
+Evidence for DSG-010: the shared templates in `web/templates/components/` and
+`base.html`, `web/static/css/app.css`, `web/static/js/app.js`, and
+`apps/core/tests/test_public_site.py`. Contrast tests also cover muted text,
+active navigation backgrounds, primary action text and input borders in both
+themes. Local Chromium checks covered six viewport widths (360–1440 px), theme
+persistence, account/logout, mobile menu/Escape and zero horizontal page overflow;
+axe-core WCAG A/AA checks covered the public pages, dashboard, reports and account
+at mobile/desktop widths in light/dark themes. This is not a screen-reader audit.
 
 `Conceito_OS_Especificacao_Completa_Visual.pdf` (approved moodboard and wireframes) — not in this repository yet; suggested location: a folder under docs/ (not created yet).
 

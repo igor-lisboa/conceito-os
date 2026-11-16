@@ -47,4 +47,4 @@ class MFAQRCodeTests(TestCase):
         response = self.client.get(reverse("mfa_setup"))
 
         self.assertNotContains(response, 'class="mfa-qr"')
-        self.assertNotContains(response, "<svg")
+        self.assertNotContains(response, device.secret)

@@ -2,8 +2,8 @@
 id: nav
 status: draft
 phase: MVP
-version: 1.3
-updated: 2026-11-02
+version: 1.4
+updated: 2026-11-16
 ---
 
 # Navigation and responsiveness
@@ -41,6 +41,46 @@ updated: 2026-11-02
 ## Client portal
 
 Separate, simple environment: Home, Calendar, Approvals, Results, Files, Contact. No access to internal management, finances or other clients.
+
+## Current application shell and public entry (2026-11-16)
+
+Requested by Igor: simplify the crowded navigation, use a single theme icon,
+improve account/logout and the mobile bottom bar, and add a public introduction
+with separate paths for existing users and prospective clients.
+
+- **NAV-015** The public root `/` introduces existing capabilities, labels its
+  product preview as illustrative, and offers two paths: existing access goes to
+  `/accounts/login/` (or the workspace for signed-in visitors); prospective clients
+  go to `/contact/`. The authenticated dashboard moves to `/dashboard/` and retains
+  the `home` route name, login requirement and client-to-portal redirect.
+- **NAV-016** The public contact form asks for name, email, brand/company, interest
+  and project context. Required fields, email, choice and length limits are
+  validated on the server. Valid answers produce an encoded `mailto:` draft for
+  the existing `CONTACT_EMAIL`. The visitor opens their mail app and reviews/sends
+  the draft. Show a direct address and the answers as a fallback. No account,
+  lead, database record or outgoing server email is created by this flow.
+- **NAV-017** Desktop navigation groups currently implemented modules in a
+  persistent sidebar (workspace, planning and owner administration). CRM visibility
+  follows the per-person capability. Client users see only portal destinations.
+  The top bar contains section context, notifications, a single sun/moon theme
+  button and an account menu containing account, security, language and POST logout.
+  The theme button has an accessible action label and remembers the choice.
+- **NAV-018** Below 1024 px, a fixed bottom bar uses icons, text labels and an active
+  state: Home, Clients, Calendar, Tasks, More. The client variant uses Approvals,
+  Calendar, Files, Contact, More. More opens the full navigation drawer; Escape,
+  close and backdrop dismiss it, focus stays inside while open and returns to the
+  opener when dismissed. The bottom bar is hidden on desktop and public pages.
+
+This implements the currently available module subset; it does not introduce the
+future sidebar destinations proposed above or resolve their full scope (D-02).
+
+## Evidence
+
+- `apps/core/tests/test_public_site.py`: public entry, Portuguese text, protected
+  dashboard, existing sign-in/logout, portal isolation, active entries, CRM grant,
+  contact validation, CSRF, URL encoding, escaping and absence of outgoing email.
+- `apps/core/tests/test_theme_toggle.py`, `test_theme_contrast.py`, `test_i18n.py`:
+  theme controls, existing contrast pairs and language selection/catalog.
 
 ## Behavior rules
 
