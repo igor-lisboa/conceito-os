@@ -7,6 +7,8 @@ the same code runs locally, in tests and on Vercel. See README.md for the list.
 import os
 from pathlib import Path
 
+from config.database import database_settings
+
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
@@ -89,6 +91,7 @@ MIDDLEWARE = [
     "apps.accounts.middleware.OrganizationTimezoneMiddleware",
     "apps.accounts.middleware.MFAEnforcementMiddleware",
     "apps.accounts.middleware.IdleTimeoutMiddleware",
+    "apps.core.db_routing.PrimaryAfterWriteMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -112,22 +115,14 @@ TEMPLATES = [
     },
 ]
 
-# --- Database (MySQL) ------------------------------------------------------
-# The database is not provisioned yet. These settings are ready; run
-# `python manage.py migrate` once the MySQL server exists (see README.md).
+# --- Database ----------------------------------------------------------------
+# Production: PostgreSQL, from two connection strings (see .env.example):
+#   DATABASE_URL_READWRITE  the primary; every write goes here, and reads that must be current
+#   DATABASE_URL_READONLY   optional; reads of lists, counts and reports go here (alias "replica")
+# Without DATABASE_URL_READWRITE the MySQL variables below are used (local Docker, tests).
+# Decision D-04 (MySQL) is being revisited: see docs/deployment.md and the decisions register.
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": os.environ.get("MYSQL_DATABASE", "conceito_os"),
-        "USER": os.environ.get("MYSQL_USER", ""),
-        "PASSWORD": os.environ.get("MYSQL_PASSWORD", ""),
-        "HOST": os.environ.get("MYSQL_HOST", "127.0.0.1"),
-        "PORT": os.environ.get("MYSQL_PORT", "3306"),
-        "CONN_MAX_AGE": int(os.environ.get("DJANGO_CONN_MAX_AGE", "0")),
-        "OPTIONS": {"charset": "utf8mb4"},
-    }
-}
+DATABASES = database_settings(os.environ)
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
@@ -137,6 +132,11 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # --- Auth ------------------------------------------------------------------
 
 AUTH_USER_MODEL = "accounts.User"
+# Read replica routing (apps/core/db_routing.py). Seconds after a change during which the same
+# person reads from the primary. PROPOSAL: 5; confirm with the replica lag measured in production.
+DB_PRIMARY_STICKY_SECONDS = int(os.environ.get("DB_PRIMARY_STICKY_SECONDS", "5"))
+DATABASE_ROUTERS = ["apps.core.db_routing.ReplicaRouter"]
+
 # Idle sign-out (TD-S8, answer 6A). 8 hours is a PROPOSAL, not yet confirmed by the product owner.
 SESSION_IDLE_TIMEOUT_SECONDS = int(os.environ.get("SESSION_IDLE_TIMEOUT_SECONDS", str(8 * 3600)))
 

@@ -34,7 +34,7 @@ Claude does NOT decide items on this list without approval from Beatriz (product
 
 | # | Decision | Date | Outcome |
 | --- | --- | --- | --- |
-| D-04 | Database engine | 2026-11-01 | MySQL 8 (product owner). Supabase and Postgres are not used. |
+| D-04 | Database engine | 2026-11-16 | Changed at the owner's request (Igor Lisboa): PostgreSQL in production with a read/write and an optional read-only connection; MySQL kept for local Docker and tests. Pending Beatriz's confirmation. Was: MySQL 8 (2026-11-01). |
 | — | Backend framework | 2026-11-01 | Django 5.2 LTS (product owner). See [docs/architecture.md](../../docs/architecture.md). |
 | — | Architecture of the content context | 2026-11-01 | Hexagonal + DDD tactical patterns in `production`; simple services in `clients` and `accounts`. |
 | — | Hosting | 2026-11-01 | Vercel Python runtime; migrations run from the developer machine. |

@@ -21,7 +21,7 @@ Built by and for **Conceito Co**, with **Beatriz** as product owner.
 - [Project layout](#project-layout)
 - [Getting started (local)](#getting-started-local)
 - [Running the tests](#running-the-tests)
-- [Database (MySQL)](#database-mysql)
+- [Database](#database)
 - [Deployment (Vercel)](#deployment-vercel)
 - [Configuration reference](#configuration-reference)
 - [How we work](#how-we-work)
@@ -58,7 +58,7 @@ Built by and for **Conceito Co**, with **Beatriz** as product owner.
 | --- | --- | --- |
 | Language | Python 3.12 | Readable, widely known, good libraries. |
 | Web framework | Django 5.2 (LTS) | Auth, admin, forms, migrations and security defaults included. |
-| Database | MySQL 8 through PyMySQL | Chosen by the product owner. PyMySQL is pure Python, so it installs on Windows and Vercel without build tools. |
+| Database | PostgreSQL in production (primary + optional read-only replica); MySQL 8 for local Docker and tests | D-04 is being revisited: PostgreSQL added on 2026-11-16 at the owner's request, pending Beatriz's confirmation. See [docs/deployment.md](docs/deployment.md). |
 | Static files | WhiteNoise | Serves static files from the app itself, so the serverless deployment needs no extra storage. |
 | Hosting | Vercel (Python runtime) | Git-based deploys and previews. |
 | Tests | Django's test runner | Built in. No extra framework to learn. |
@@ -78,7 +78,7 @@ The root holds only what the tools expect there. Everything else is grouped:
 proj-beatriz/
 ├── manage.py               Django command entry point
 ├── README.md, CLAUDE.md    this guide, and the instructions for the AI assistant
-├── docker-compose.yml      local MySQL and Mailpit
+├── docker-compose.yml      local PostgreSQL, MySQL and Mailpit
 ├── vercel.json             Vercel routing (every request goes to api/)
 ├── requirements*.txt       production and development dependencies
 ├── ruff.toml               lint rules
@@ -113,7 +113,7 @@ proj-beatriz/
 
 ## Getting started (local)
 
-You need Python 3.12 and, to run the app with real data, a MySQL 8 server (see
+You need Python 3.12 and, to run the app with real data, a PostgreSQL 16+ server (or MySQL 8 locally) (see
 [Database](#database-mysql)). The tests do not need MySQL.
 
 ### 1. Create the virtual environment and install dependencies
@@ -326,7 +326,9 @@ All configuration comes from environment variables. See `config/settings/base.py
 | `DJANGO_DEBUG` | No | `False` | `True` only on your machine. |
 | `DJANGO_ALLOWED_HOSTS` | No | `localhost,127.0.0.1` | Comma-separated host names. |
 | `DJANGO_CSRF_TRUSTED_ORIGINS` | No | empty | Comma-separated `https://` origins for production. |
-| `DJANGO_CONN_MAX_AGE` | No | `0` | Database connection reuse, in seconds. Keep 0 on Vercel. |
+| `DATABASE_URL_READWRITE` | Production | (none) | PostgreSQL primary connection string. Without it the MySQL variables are used (local Docker). |
+| `DATABASE_URL_READONLY` | No | (none) | Read-only connection (replica or SELECT-only role) for lists, counts and reports. |
+| `DB_CONN_MAX_AGE` | No | `0` | Database connection reuse, in seconds. Keep 0 on Vercel. |
 | `MYSQL_DATABASE` | No | `conceito_os` | |
 | `MYSQL_USER` | Yes, for MySQL | empty | |
 | `MYSQL_PASSWORD` | Yes, for MySQL | empty | |

@@ -50,6 +50,11 @@ class ContentItem(UUIDModel):
 
     class Meta:
         ordering = ["-updated_at", "-id"]
+        # The list, calendar and board filter by organization, client and state (load, NFR-030).
+        indexes = [
+            models.Index(fields=["organization", "client"], name="content_org_client_idx"),
+            models.Index(fields=["organization", "state"], name="content_org_state_idx"),
+        ]
 
     def __str__(self):
         return self.title

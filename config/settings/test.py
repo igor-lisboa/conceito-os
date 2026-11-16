@@ -1,12 +1,15 @@
 """Settings used by the test suite.
 
 By default tests run on SQLite in memory, so they need no database server.
-To run the suite against the real MySQL engine (for example the Docker database
-from docker-compose.yml), set TEST_DATABASE=mysql. Django then creates a separate
-test_<MYSQL_DATABASE> database and drops it afterwards. Your data is not touched.
+To run the suite against a real engine (the Docker databases from docker-compose.yml),
+set TEST_DATABASE=mysql or TEST_DATABASE=postgres. Django then creates a separate
+test database and drops it afterwards. Your data is not touched. The test settings never
+use the production URL from .env.
 """
 
 import os
+
+from config.database import mysql_settings
 
 from .base import *  # noqa: F401,F403
 
@@ -16,9 +19,23 @@ MFA_ENCRYPTION_KEY = "1OdtVyP4W-5XAoFCefzo8FN2CMQoYg6Bos_BB8uqT_E="
 DEBUG = False
 ALLOWED_HOSTS = ["testserver", "localhost"]
 
-if os.environ.get("TEST_DATABASE", "sqlite").lower() == "mysql":
-    # Keep DATABASES from base.py: it reads the MYSQL_* variables.
-    pass
+# The test database is always a local one, never the production URL from .env.
+TEST_DATABASE_MODE = os.environ.get("TEST_DATABASE", "sqlite").lower()
+if TEST_DATABASE_MODE == "mysql":
+    DATABASES = mysql_settings(os.environ)  # the MYSQL_* variables (local Docker)
+elif TEST_DATABASE_MODE == "postgres":
+    # Local Docker Postgres (docker-compose.yml). Tests create and drop a test_ database on it.
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": os.environ.get("POSTGRES_DB", "conceito_os"),
+            "USER": os.environ.get("POSTGRES_USER", "conceito"),
+            "PASSWORD": os.environ.get("POSTGRES_PASSWORD", "conceito-local-only"),
+            "HOST": os.environ.get("POSTGRES_HOST", "127.0.0.1"),
+            "PORT": os.environ.get("POSTGRES_PORT", "5432"),
+            "OPTIONS": {"sslmode": "disable"},
+        }
+    }
 else:
     DATABASES = {
         "default": {
