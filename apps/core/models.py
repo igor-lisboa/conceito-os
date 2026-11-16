@@ -31,9 +31,11 @@ class AuditEvent(UUIDModel):
     """A record of something that happened. Rows are append-only: they can be
     created and read, but never edited or deleted (see save/delete below)."""
 
-    organization = models.ForeignKey("accounts.Organization", on_delete=models.CASCADE, related_name="audit_events")
+    # PROTECT, not CASCADE or SET_NULL: deleting an organization or a user would otherwise
+    # remove or rewrite audit rows, and Django's cascade skips the guards above (SEC-007).
+    organization = models.ForeignKey("accounts.Organization", on_delete=models.PROTECT, related_name="audit_events")
     actor = models.ForeignKey(
-        settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name="audit_events"
+        settings.AUTH_USER_MODEL, null=True, on_delete=models.PROTECT, related_name="audit_events"
     )
     action = models.CharField(max_length=60)
     entity_type = models.CharField(max_length=60)
