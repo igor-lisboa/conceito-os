@@ -1,15 +1,18 @@
-"""Limit failed sign-in attempts, per account and per network address.
+"""Limit failed sign-in attempts, per account and per network address (SEC-008).
 
-Counts live in Django's cache, which is the database cache (createcachetable). The
-database is shared by every serverless instance, so the limits hold across instances.
-Counting is read-then-write, not atomic, so parallel attempts can be counted slightly
-low; the limits are approximate under heavy parallel attempts (see
-docs/technical-debt.md, TD-12 and TD-S9). The table must exist in the production database.
+Counts are rows in the LoginFailure table, which every serverless instance shares. Each
+failure is one atomic SQL UPDATE (count = count + 1), so parallel attempts are all
+counted (closes TD-S9). A count lasts WINDOW_SECONDS from its first failure.
 """
 
 import hashlib
+from datetime import timedelta
 
-from django.core.cache import cache
+from django.db import IntegrityError, transaction
+from django.db.models import F
+from django.utils import timezone
+
+from .models import LoginFailure
 
 MAX_FAILURES = 5  # per account
 MAX_FAILURES_PER_ADDRESS = 20
@@ -18,22 +21,47 @@ WINDOW_SECONDS = 15 * 60
 
 def _key(kind, value):
     digest = hashlib.sha256(value.encode("utf-8")).hexdigest()
-    return f"login-failures:{kind}:{digest}"
+    return f"{kind}:{digest}"
+
+
+def _live(now):
+    return LoginFailure.objects.filter(expires_at__gt=now)
+
+
+def _count(key, now):
+    return _live(now).filter(key=key).values_list("count", flat=True).first() or 0
 
 
 def is_locked(identifier, address):
-    failures_for_account = cache.get(_key("account", identifier), 0)
-    failures_from_address = cache.get(_key("address", address), 0)
+    now = timezone.now()
+    failures_for_account = _count(_key("account", identifier), now)
+    failures_from_address = _count(_key("address", address), now)
     return failures_for_account >= MAX_FAILURES or failures_from_address >= MAX_FAILURES_PER_ADDRESS
 
 
+def _bump(key, now):
+    # 1. A live count: one atomic increment.
+    if _live(now).filter(key=key).update(count=F("count") + 1):
+        return
+    expires_at = now + timedelta(seconds=WINDOW_SECONDS)
+    # 2. An expired count: start a new window. Only one parallel request matches this
+    #    filter; the others find a live count in step 1 next time, or fall to step 3.
+    if LoginFailure.objects.filter(key=key, expires_at__lte=now).update(count=1, expires_at=expires_at):
+        return
+    # 3. No count yet: create it. A parallel request may have created it first.
+    try:
+        with transaction.atomic():
+            LoginFailure.objects.create(key=key, count=1, expires_at=expires_at)
+    except IntegrityError:
+        _live(now).filter(key=key).update(count=F("count") + 1)
+
+
 def record_failure(identifier, address):
+    now = timezone.now()
+    LoginFailure.objects.filter(expires_at__lte=now).delete()
     for kind, value in (("account", identifier), ("address", address)):
-        key = _key(kind, value)
-        # add() creates the counter if missing; incr() counts up within the window.
-        if not cache.add(key, 1, timeout=WINDOW_SECONDS):
-            cache.incr(key)
+        _bump(_key(kind, value), now)
 
 
 def clear_failures(identifier):
-    cache.delete(_key("account", identifier))
+    LoginFailure.objects.filter(key=_key("account", identifier)).delete()

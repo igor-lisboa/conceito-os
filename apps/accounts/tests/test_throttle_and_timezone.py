@@ -1,6 +1,5 @@
 """Sign-in attempt limits (SEC-008), per-organization time zone (CAL-011), and settings."""
 
-from django.core.cache import cache
 from django.test import RequestFactory, TestCase
 from django.urls import reverse
 from django.utils import timezone
@@ -12,7 +11,6 @@ from apps.core.testing import make_membership, make_organization, make_owner
 
 class SignInAttemptLimitTests(TestCase):
     def setUp(self):
-        cache.clear()
         self.agency = make_organization()
         self.owner = make_owner(self.agency)
         self.owner.user.set_password("Senha-Certa-2026!")
