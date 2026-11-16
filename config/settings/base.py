@@ -130,14 +130,8 @@ DATABASES = {
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# Shared counters (sign-in attempt limits). The database cache is shared by every
-# process. Create its table once: python manage.py createcachetable
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.db.DatabaseCache",
-        "LOCATION": "django_cache",
-    }
-}
+# No cache is configured: sign-in attempt counts live in the database (LoginFailure),
+# so every instance shares them and no cache table is needed.
 
 # --- Auth ------------------------------------------------------------------
 

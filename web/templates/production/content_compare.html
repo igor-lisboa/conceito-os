@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Compare versions" %} · {{ content.title }} · Conceito OS{% endblock %}
+
+{% block content %}
+  <p><a href="{% url 'content_detail' content.pk %}">&larr; {{ content.title }}</a></p>
+  <h1>{% trans "Compare versions" %}</h1>
+
+  {% if versions|length < 2 %}
+    <p class="card">{% trans "A comparison needs at least two versions. This piece has one." %}</p>
+  {% else %}
+    <form method="get" class="card">
+      <label for="id_from">{% trans "Earlier version" %}</label>
+      <select name="from" id="id_from">
+        {% for version in versions %}
+          <option value="{{ version.number }}"{% if version.pk == left.pk %} selected{% endif %}>{% trans "Version" %} {{ version.number }}</option>
+        {% endfor %}
+      </select>
+      <label for="id_to">{% trans "Later version" %}</label>
+      <select name="to" id="id_to">
+        {% for version in versions %}
+          <option value="{{ version.number }}"{% if version.pk == right.pk %} selected{% endif %}>{% trans "Version" %} {{ version.number }}</option>
+        {% endfor %}
+      </select>
+      <button>{% trans "Compare" %}</button>
+    </form>
+
+    <table>
+      <caption>{% trans "Differences are marked in the Status column" %}</caption>
+      <thead>
+        <tr>
+          <th scope="col">{% trans "Field" %}</th>
+          <th scope="col">{% trans "Version" %} {{ left.number }}</th>
+          <th scope="col">{% trans "Version" %} {{ right.number }}</th>
+          <th scope="col">{% trans "Status" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in rows %}
+          <tr>
+            <th scope="row">{{ row.label }}</th>
+            <td>{{ row.left|default:""|linebreaksbr }}</td>
+            <td>{{ row.right|default:""|linebreaksbr }}</td>
+            <td>{% if row.changed %}{% trans "Changed" %}{% else %}{% trans "Same" %}{% endif %}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+{% endblock %}

@@ -85,15 +85,8 @@ python manage.py migrate
 
 Check the migration list with `python manage.py showmigrations`.
 
-Then create the table that stores sign-in attempt counters. Run it once per database,
-and again after upgrades that mention it:
-
-```bash
-python manage.py createcachetable
-```
-
-Without this table, sign-in still works, but the attempt limit cannot count and every
-attempt looks fresh.
+The sign-in attempt counters are stored in a table that `migrate` creates, so no extra
+step is needed.
 
 ## 6. Create the first administrator
 

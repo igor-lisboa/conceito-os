@@ -251,9 +251,6 @@ docker compose down -v     # stop and delete all local data (then run migrate ag
 The init script in `docker/mysql/init/` runs only when the volume is first
 created. If you change it, run `docker compose down -v` and start again.
 
-After the migrations, run `python manage.py createcachetable` once. It creates the
-table that counts failed sign-in attempts.
-
 ### First administrator
 
 The administrator is created with a command, not by hand. The email and password
@@ -414,7 +411,6 @@ These are known gaps, not bugs. They are tracked in the specs.
 - **Calendar and board do not drag.** Reschedule and change stages with the buttons on each piece.
 - **Alerts for failures go to the logs only.** Paging a person needs an external service.
 - **Welcome and invitation emails are in Portuguese.** The language is not stored per person yet.
-- **Sign-in attempt limits are approximate under parallel attempts.** Counters live in the database cache, shared by all instances (its table must exist: `createcachetable`). A dedicated atomic store is debt (TD-S9).
 - **Dark mode and tablet-specific layouts** are out of scope (see the design system spec).
 
 ---

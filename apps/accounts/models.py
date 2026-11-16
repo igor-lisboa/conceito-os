@@ -75,3 +75,19 @@ class MFADevice(UUIDModel):
 
     def __str__(self):
         return f"MFA for {self.user}"
+
+
+class LoginFailure(UUIDModel):
+    """A count of failed sign-in attempts for one account or one network address (SEC-008).
+
+    Stored in the database so every serverless instance sees the same count. Each failure
+    is one atomic UPDATE (count = count + 1), so parallel attempts are all counted (TD-S9).
+    """
+
+    key = models.CharField(max_length=80, unique=True)
+    count = models.PositiveIntegerField(default=0)
+    # The window ends this long after the first failure; then the count starts again.
+    expires_at = models.DateTimeField(db_index=True)
+
+    def __str__(self):
+        return f"{self.key}: {self.count}"

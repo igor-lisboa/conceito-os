@@ -22,7 +22,7 @@ This skill only verifies. It never deploys, never runs migrations on a productio
 
 5. **Secrets not in git.** Run `git ls-files | grep -i "\.env$"` (must print nothing). Search tracked files for obvious secrets: `git grep -n "PASSWORD\s*=\s*['\"][^'\"]\+['\"]"` and `git grep -n "SECRET_KEY\s*=\s*['\"]"`. Ignore test settings and documentation examples; report anything else.
 
-6. **Migrations and cache table.** Check the deployment guide lists `migrate` and `createcachetable` (`docs/deployment.md`). Check `makemigrations --check` is clean.
+6. **Migrations.** Check the deployment guide lists `migrate` (`docs/deployment.md`); it also creates the sign-in attempt table. Check `makemigrations --check` is clean.
 
 7. **Static files.** Check `web/static` exists and `WHITENOISE_USE_FINDERS` is on in the settings.
 
@@ -30,4 +30,4 @@ This skill only verifies. It never deploys, never runs migrations on a productio
 
 ## Report
 
-A checklist: each item ok / missing / finding. Then a short list of what only the owner can do: create the Vercel project, set the variables in Vercel (secret ones marked sensitive), create the MySQL server and the SMTP account, run `migrate` and `createcachetable` once against production, create the first administrator with `create_initial_admin` (rotate the local password first), and set up backups.
+A checklist: each item ok / missing / finding. Then a short list of what only the owner can do: create the Vercel project, set the variables in Vercel (secret ones marked sensitive), create the MySQL server and the SMTP account, run `migrate` once against production, create the first administrator with `create_initial_admin` (rotate the local password first), and set up backups.

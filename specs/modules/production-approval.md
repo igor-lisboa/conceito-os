@@ -2,8 +2,8 @@
 id: pro
 status: partially-implemented
 phase: MVP
-version: 1.5
-updated: 2026-11-02
+version: 1.6
+updated: 2026-11-16
 ---
 
 # Production, content and approval
@@ -13,7 +13,7 @@ updated: 2026-11-02
 - **PRO-001** Production stages shown to users: `idea → planned → script → production → internal review → client approval → scheduled → published → analyzed`. They map onto the fixed technical content states in [states-events](../technical/states-events.md#content). Whether agencies can rename/add stages is D-19.
 - **PRO-002** A content item has briefing, artwork/file, script, full caption, hashtags, CTA, date/channel and versions.
 - **PRO-003** Editor with autosave, attachments, per-network preview and "send to review". On mobile, steps: `Text → Media → Date/network → Review → Send for approval`.
-- **PRO-004** Versions, revision count, comments (with mentions), owners and due dates. *PROPOSAL (2026-11-02, built, pending D-30): the author may edit their own comment, which is then marked as edited, and delete it. Editing does not notify mentions again. Only the author changes a comment; others get forbidden. Comments are not edited from the client portal.*
+- **PRO-004** Versions, revision count, comments (with mentions), owners and due dates. *PROPOSAL (2026-11-02, built, pending D-30): the author may edit their own comment, which is then marked as edited, and delete it. Editing does not notify mentions again. Only the author changes a comment; others get forbidden. Comments are not edited from the client portal. Version comparison (PROPOSAL, built 2026-11-16): any internal person who can see a piece can compare two of its versions side by side, read-only, at `/content/:id/compare/`, with the earlier and later version chosen by number (default: the last two). Changed fields are marked in text, not by colour alone. Not available from the client portal.*
 - **PRO-005** Production Kanban: move cards according to rules and permissions; comment; log time; flag blockers. On mobile, a list filterable by stage (no horizontal dragging).
 - **PRO-006** Preview of images, carousels and videos, and the full caption text.
 - **PRO-007** Client approval: approve, or request changes with a comment; the decision returns to the editor with history.
@@ -51,6 +51,7 @@ updated: 2026-11-02
 ## Evidence
 
 - Comment edit and delete (PRO-004, PROPOSAL): `apps/production/tests/test_comment_edit_delete.py`
+- Version comparison (PRO-004, PROPOSAL): `apps/production/tests/test_version_compare.py`
 - Domain rules: `apps/production/tests/domain/test_content.py`, `test_states.py`
 - Use cases and permissions: `apps/production/tests/application/test_content_service.py
 - Persistence round-trip: `apps/production/tests/adapters/test_django_repository.py
