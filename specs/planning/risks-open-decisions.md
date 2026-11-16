@@ -2,8 +2,8 @@
 id: rsk
 status: draft
 phase: all
-version: 1.2
-updated: 2026-11-04
+version: 1.3
+updated: 2026-11-16
 ---
 
 # Risks and open decisions
@@ -58,6 +58,7 @@ Claude does NOT decide items on this list without approval from Beatriz (product
 | D-27 | Planned date (PRO-015, PRO-016): changes need a recorded reason; the date locks once the piece reaches client review, or is scheduled or published | PRO, CAL | Confirmed by the product owner (2026-11-02): reason always required; lock from client review, scheduled and published. |
 | D-28 | Board drag: which moves a card may take by drag (PRO-017) | PRO | Confirmed by the product owner (2026-11-02): only the four manual moves of PD-41. Approvals, rejections, scheduling and publishing stay on the piece page because they need a comment, date or link. |
 | D-30 | Who may edit or delete a comment (PRO-004): author only, or also owners and managers; and whether an edit notifies newly mentioned people | PRO | Built as PROPOSAL: author only, edits marked as edited, no new notifications on edit. Recommendation: keep author only, because it matches a comment being the author's own note; owners/managers can still act through the team. Pending product owner. |
+| D-31 | Who is notified when a comment mentions someone (NTF-006): today every organization member whose email is mentioned gets a notification, even if they cannot see the piece (for example a client-role member), and the notification shows the piece title. Options: (a) notify only members who can see the piece (recommended: same visibility rule as the piece itself); (b) keep as is. | NTF / SEC | Found while writing the internal contracts (TD-49); not changed. Recommendation: option (a), because a notification is a disclosure of the piece title. Pending product owner. |
 | D-29 | Phone layout: filters as a drawer, and the piece editor in steps (NAV-002, NAV-014) | NAV, PRO | Confirmed by the product owner (2026-11-02): filters are a collapsed panel that opens when a filter is set; the step-by-step editor moves to P2, because the single page works on phones. |
 
 ## Decided
