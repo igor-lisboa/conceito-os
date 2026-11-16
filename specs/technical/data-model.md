@@ -2,7 +2,7 @@
 id: dat
 status: draft
 phase: all
-version: 1.2
+version: 1.3
 updated: 2026-11-16
 ---
 
@@ -49,6 +49,7 @@ updated: 2026-11-16
 - **DAT-005** Versioned records (strategy, content, identity) are append-only per version.
 - **DAT-006** Relevant events record actor, timestamps, version, rationale and external ID.
 - **DAT-007** Soft delete always: no business record is ever removed from the database (decided 2026-11-16, D-17). Deleted rows are hidden from every screen and kept for audit.
+- **DAT-012** A campaign belongs to one client. A piece may reference one campaign of its own client; the service rejects any other (decided 2026-11-16, CAL-001). Campaigns are soft deleted like every other record.
 - **DAT-011** Personal data is anonymized, not deleted (decided 2026-11-16, D-17): on a person's request or when a contract ends, names, emails and contact fields are replaced by an anonymous marker; the record and its links stay. Anonymization is audited.
 - **DAT-010** Every record has a GUID (UUID) as its primary key, including people (users). Numbers are never used as record identifiers, so URLs and events cannot reveal how many records exist. Documentation codes (requirement IDs such as `CRM-001`, decision IDs `PD-NN`, debt IDs `TD-NN`) are names for people to read, not record keys. Evidence: `apps/core/tests/test_identifiers.py`.
 - **DAT-008** Timestamps stored in UTC; display in the organization's timezone. PROPOSAL.

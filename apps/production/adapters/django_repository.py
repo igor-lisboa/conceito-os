@@ -9,7 +9,7 @@ the rows that are new. That keeps the adapter small and easy to reason about.
 
 from apps.accounts.models import Membership
 from apps.accounts.roles import Role
-from apps.clients.models import Client
+from apps.clients.models import Campaign, Client
 
 from ..domain.content import (
     Approval,
@@ -43,6 +43,7 @@ class DjangoContentRepository:
 
         row.client_id = content.client_id
         row.owner_id = content.owner_id
+        row.campaign_id = content.campaign_id
         row.title = content.title
         row.channel = content.channel.value
         row.content_format = content.content_format.value
@@ -67,6 +68,11 @@ class DjangoContentRepository:
             .values_list("client_approval_required", flat=True)
             .first()
         )
+
+    def campaign_belongs_to_client(self, organization_id, client_id, campaign_id):
+        return Campaign.objects.filter(
+            organization_id=organization_id, client_id=client_id, pk=campaign_id
+        ).exists()
 
     def is_internal_member(self, organization_id, user_id):
         return (
@@ -109,6 +115,7 @@ def _to_domain(row):
         organization_id=row.organization_id,
         client_id=row.client_id,
         owner_id=row.owner_id,
+        campaign_id=row.campaign_id,
         title=row.title,
         channel=Channel(row.channel),
         content_format=ContentFormat(row.content_format),

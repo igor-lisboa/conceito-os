@@ -84,3 +84,21 @@ class BrandAsset(UUIDModel):
 
     def __str__(self):
         return self.title
+
+
+class Campaign(SoftDeleteModel):
+    """A group of pieces for one client over a period (CAL-001). Soft deleted, never removed (DAT-007)."""
+
+    organization = models.ForeignKey("accounts.Organization", on_delete=models.CASCADE, related_name="+")
+    client = models.ForeignKey(Client, on_delete=models.PROTECT, related_name="campaigns")
+    name = models.CharField(max_length=120)
+    starts_on = models.DateField(null=True, blank=True)
+    ends_on = models.DateField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name
+

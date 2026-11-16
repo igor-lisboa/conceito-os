@@ -1,6 +1,6 @@
 from django.urls import path
 
-from . import views
+from . import campaign_views, views
 
 urlpatterns = [
     path("", views.ClientListView.as_view(), name="client_list"),
@@ -8,4 +8,5 @@ urlpatterns = [
     path("<uuid:pk>/", views.ClientDetailView.as_view(), name="client_detail"),
     path("<uuid:pk>/briefing/", views.BriefingUpdateView.as_view(), name="client_briefing"),
     path("<uuid:pk>/library/new/", views.AssetCreateView.as_view(), name="client_asset_create"),
+    path("<uuid:pk>/campaigns/", campaign_views.ClientCampaignsView.as_view(), name="client_campaigns"),
 ]

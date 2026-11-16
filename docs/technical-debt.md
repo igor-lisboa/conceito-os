@@ -158,6 +158,8 @@ cost later.
 | Calendar drag of planned dates (PRO-015, PRO-016) | 2026-11-02 | `apps/production/tests/test_planned_date.py` |
 | TD-S14 (board drag on manual moves, PRO-017) | 2026-11-02 | `apps/production/tests/test_board_drag.py` |
 | TD-S11 (MFA secret encrypted at rest, key in `MFA_ENCRYPTION_KEY`; production refuses to start without it) | 2026-11-02 | `apps/accounts/tests/test_mfa_encryption.py`, `apps/accounts/tests/test_mfa_key_check.py`; migration `apps/accounts/migrations/0004_encrypt_mfa_secret.py` |
+| CAL-001 campaign entity and campaign filter (decided 10A) | 2026-11-16 | `apps/clients/tests/test_campaigns.py`; `apps/clients/campaign_views.py`; `apps/production/planning.py` (PlanningFilterForm.campaign) |
+| D-16 per-person CRM access (decided 4B) | 2026-11-16 | `apps/accounts/tests/test_crm_access.py`; migration `accounts/0007_membership_crm_access` (grants existing account managers) |
 | TD-DAT (soft delete everywhere; team and comments soft deleted, anonymization of team members) | 2026-11-16 | `apps/accounts/tests/test_soft_delete_and_anonymize.py`; migrations `accounts/0006`, `clients/0002`, `production/0005` |
 | SEC-017 client wall (every client screen checked for another client's data) | 2026-11-16 | `apps/core/tests/test_client_wall.py` |
 | TD-S5 (sign-in by email only; usernames no longer sign in) | 2026-11-16 | `apps/accounts/tests/test_auth.py` (`test_username_no_longer_signs_in`); `apps/accounts/backends.py` |

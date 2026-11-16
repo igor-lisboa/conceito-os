@@ -2,8 +2,8 @@
 id: cal
 status: draft
 phase: MVP (calendar) / P2 (seasonal and assisted generation)
-version: 1.4
-updated: 2026-11-04
+version: 1.5
+updated: 2026-11-16
 ---
 
 # Editorial calendar and seasonality
@@ -13,6 +13,7 @@ updated: 2026-11-04
 ### Calendar (MVP)
 
 - **CAL-001** Month/week/list/Kanban views, filtered by client, network, campaign, state, owner and date; filters kept in the URL. *Partly implemented 2026-11-04: the calendar and the board filter by client, channel (network), owner and date (month); the calendar also by state. Campaign filter open: there is no campaign entity yet.*
+  Campaign entity and campaign filter built 2026-11-16 (decided 10A): campaigns belong to one client; a piece may reference one campaign of the same client; the calendar and board filter by campaign; the campaign is set when the piece is created (editing it later is a Phase 2 detail).
 - **CAL-002** On mobile: daily/weekly agenda and compact filters.
 - **CAL-003** Drag to change date MUST validate rules (e.g. can't move an approved piece without re-approval if the date is part of what was approved — PROPOSAL); the change updates the related task. Built for planned dates: drag opens a form that needs a reason, and pieces at or after client review and scheduled pieces cannot be dragged ([PRO-015](production-approval.md), [PRO-016](production-approval.md)). Tasks follow the piece (built): an open task of the piece that was due on the old planned day moves to the new day; other tasks keep their date. PROPOSAL, pending product owner confirmation.
 - **CAL-004** Duplicate a piece and open the editor from the calendar.

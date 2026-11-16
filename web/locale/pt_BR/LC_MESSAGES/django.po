@@ -1330,3 +1330,57 @@ msgstr "Dados pessoais anonimizados."
 
 msgid "Remove this person's access before anonymizing their data."
 msgstr "Remova o acesso desta pessoa antes de anonimizar os dados dela."
+
+msgid "Campaign"
+msgstr "Campanha"
+
+msgid "Campaigns"
+msgstr "Campanhas"
+
+msgid "Campaign created."
+msgstr "Campanha criada."
+
+msgid "Starts on"
+msgstr "Começa em"
+
+msgid "Ends on"
+msgstr "Termina em"
+
+msgid "No campaigns for this client yet."
+msgstr "Nenhuma campanha para este cliente ainda."
+
+msgid "New campaign"
+msgstr "Nova campanha"
+
+msgid "Create campaign"
+msgstr "Criar campanha"
+
+msgid "The end date cannot be before the start date."
+msgstr "A data final não pode ser antes da data inicial."
+
+msgid "Optional. Must be a campaign of the chosen client."
+msgstr "Opcional. Precisa ser uma campanha do cliente escolhido."
+
+msgid "Campaign not found."
+msgstr "Campanha não encontrada."
+
+msgid "Can manage CRM (account managers)"
+msgstr "Pode gerenciar o CRM (gestores de contas)"
+
+msgid "Leads and proposals. Owners always can."
+msgstr "Leads e propostas. Proprietários sempre podem."
+
+msgid "CRM"
+msgstr "CRM"
+
+msgid "Stop CRM access"
+msgstr "Retirar acesso ao CRM"
+
+msgid "Allow CRM access"
+msgstr "Dar acesso ao CRM"
+
+msgid "Always"
+msgstr "Sempre"
+
+msgid "CRM access updated."
+msgstr "Acesso ao CRM atualizado."

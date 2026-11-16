@@ -33,6 +33,9 @@ class InMemoryContentRepository:
     def client_approval_rule(self, organization_id, client_id):
         return self.client_rules.get((organization_id, client_id))
 
+    def campaign_belongs_to_client(self, organization_id, client_id, campaign_id):
+        return getattr(self, "campaigns", {}).get(campaign_id) == (organization_id, client_id)
+
     def is_internal_member(self, organization_id, user_id):
         return (organization_id, user_id) in self.internal_members
 

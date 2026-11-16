@@ -51,6 +51,7 @@ class ContentService:
         content_format,
         owner_id=None,
         version=None,
+        campaign_id=None,
     ):
         require_capability(actor, Capability.CREATE_CONTENT)
         if not can_see_client(actor, client_id):
@@ -61,6 +62,11 @@ class ContentService:
             raise NotFound("Client not found.")
         if owner_id is not None and not self.repository.is_internal_member(actor.organization_id, owner_id):
             raise DomainError("The person responsible must be a member of the same organization.")
+        # A campaign of another client is "not found", like a client the person cannot see (SEC-017).
+        if campaign_id is not None and not self.repository.campaign_belongs_to_client(
+            actor.organization_id, client_id, campaign_id
+        ):
+            raise NotFound("Campaign not found.")
 
         content = Content.create(
             organization_id=actor.organization_id,
@@ -70,6 +76,7 @@ class ContentService:
             channel=Channel(channel),
             content_format=ContentFormat(content_format),
             client_approval_required=approval_required,
+            campaign_id=campaign_id,
             first_version=version or VersionData(),
             created_by_user_id=actor.user_id,
         )

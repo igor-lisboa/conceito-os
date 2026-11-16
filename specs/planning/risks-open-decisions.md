@@ -55,7 +55,7 @@ Claude does NOT decide items on this list without approval from Beatriz (product
 | D-13 | Prospecting and trend sources | 2026-11-16 | Official or licensed sources only (26A). |
 | D-14 | Logo design pipeline | 2026-11-16 | Human designer with an integrated tool (27A). |
 | D-15 | Font licensing | 2026-11-16 | Google Fonts, self-hosted (28A). |
-| D-16 | CRM permission flags ("if permitted") | 2026-11-16 | Owners set a permission flag per person (4B). Build pending. |
+| D-16 | CRM permission flags ("if permitted") | 2026-11-16 | Owners set a permission flag per person (4B). Built 2026-11-16: account managers manage CRM only when an owner grants it; existing account managers keep it. |
 | D-18 | Validate novelty claims before marketing | 2026-11-16 | Test with real users first (29A). |
 | D-19 | Configurable production stages | 2026-11-16 | Fully configurable stages (30B). Conflicts with the fixed-states recommendation and the approval rules; confirm before building. |
 | D-20 | Job function to role mapping | 2026-11-16 | Map to existing roles plus flags (31A). |
@@ -71,7 +71,7 @@ Claude does NOT decide items on this list without approval from Beatriz (product
 | D-31 | Who is notified about a mention | 2026-11-16 | Only internal members who can open the piece (1A). Implemented; client-role members never notified. |
 | TD-S5 | Sign in with username | 2026-11-16 | Email only (12A). Implemented; usernames no longer sign in. |
 | CRM-001 | Lead pipeline stages | 2026-11-16 | Keep the five stages: new, contacted, meeting, won, lost (13A). Spec wording to be fixed. |
-| PRO-003 | Mobile piece editor (step by step) | 2026-11-16 | Build the step-by-step editor in the MVP (14B). Reverses D-29 for the editor: needs Beatriz's confirmation. Build pending. |
-| CAL-001 | Campaign filter on the calendar | 2026-11-16 | Add a campaign entity now (10A). Build pending. |
-| PD-46 | Dragging scheduled pieces | 2026-11-16 | Allowed, with a required reason and a notice of the edit (11B). Build pending. |
+| PRO-003 | Mobile piece editor (step by step) | 2026-11-16 | Answer 14B: step-by-step editor in the MVP. NOT built: reverses D-29, which Beatriz confirmed on 2026-11-02. Waiting for Beatriz's decision. |
+| CAL-001 | Campaign filter on the calendar | 2026-11-16 | Add a campaign entity now (10A). Built 2026-11-16. |
+| PD-46 | Dragging scheduled pieces | 2026-11-16 | Answer 11B: allowed with a required reason and a notice. NOT built: conflicts with D-27 (lock from client review, scheduled and published), which Beatriz confirmed on 2026-11-02. Waiting for Beatriz's decision. |
 | D-22 | Numeric non-functional targets | 2026-11-16 | Approved as proposed: availability 99.5% per month; 95% of common pages under 1 second; daily backups kept 30 days; recovery point 24 h; recovery time 4 h; images 10 MB, documents 25 MB; load test at twice the expected users (number still to be given). NFR-031, NFR-032, NFR-040, NFR-042 updated. |

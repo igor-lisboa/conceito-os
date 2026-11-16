@@ -22,12 +22,27 @@ class ContentVersionForm(forms.Form):
     media_url = forms.URLField(label=_("Media link"), max_length=500, required=False)
 
 
+def _visible_campaigns(membership):
+    """Campaigns of the clients this person can see (SEC-017)."""
+    from apps.clients.models import Campaign
+
+    return Campaign.objects.filter(
+        organization=membership.organization, client__in=visible_clients(membership)
+    )
+
+
 class ContentForm(ContentVersionForm):
     """Creates a piece together with its first version."""
 
-    field_order = ["client", "title", "channel", "content_format", "owner", "caption", "cta", "script", "media_url"]
+    field_order = [
+        "client", "campaign", "title", "channel", "content_format", "owner", "caption", "cta", "script", "media_url",
+    ]
 
     client = forms.ModelChoiceField(queryset=None, label=_("Client"))
+    campaign = forms.ModelChoiceField(
+        queryset=None, label=_("Campaign"), required=False,
+        help_text=_("Optional. Must be a campaign of the chosen client."),
+    )
     title = forms.CharField(label=_("Title"), max_length=160)
     channel = forms.ChoiceField(label=_("Channel"), choices=translated_choices(Channel))
     content_format = forms.ChoiceField(label=_("Format"), choices=translated_choices(ContentFormat))
@@ -36,6 +51,7 @@ class ContentForm(ContentVersionForm):
     def __init__(self, *args, membership, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["client"].queryset = visible_clients(membership)
+        self.fields["campaign"].queryset = _visible_campaigns(membership)
         # End customers cannot be responsible for content.
         internal = Membership.objects.filter(organization=membership.organization).exclude(role=Role.CLIENT.value)
         self.fields["owner"].queryset = User.objects.filter(memberships__in=internal).distinct()

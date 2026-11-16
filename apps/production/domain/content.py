@@ -103,6 +103,7 @@ class Content:
     content_format: ContentFormat
     client_approval_required: bool
     owner_id: int | None = None
+    campaign_id: int | None = None
     state: ContentState = ContentState.DRAFT
     versions: list = field(default_factory=list)
     approvals: list = field(default_factory=list)

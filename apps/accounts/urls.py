@@ -10,6 +10,7 @@ urlpatterns = [
     path("team/invite/", views.TeamInviteView.as_view(), name="team_invite"),
     path("team/<uuid:pk>/remove/", views.TeamRemoveView.as_view(), name="team_remove"),
     path("team/<uuid:pk>/anonymize/", views.TeamAnonymizeView.as_view(), name="team_anonymize"),
+    path("team/<uuid:pk>/crm-access/", views.TeamCrmAccessView.as_view(), name="team_crm_access"),
     path("account/", views.AccountView.as_view(), name="account"),
     path("organization/", views.OrganizationSettingsView.as_view(), name="organization_settings"),
     path("mfa/setup/", mfa_views.MFASetupView.as_view(), name="mfa_setup"),

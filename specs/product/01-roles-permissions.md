@@ -2,8 +2,8 @@
 id: prm
 status: draft
 phase: MVP
-version: 1.1
-updated: 2026-10-30
+version: 1.2
+updated: 2026-11-16
 ---
 
 # Roles and permissions
@@ -34,7 +34,7 @@ Permissions apply per **agency (tenant)**, **client** and **action**. Each user 
 | Approve/reject own client's content | Optional | Optional | No | No | Yes |
 | Schedule/publish to networks | Yes | If permitted | Not by default | No | No |
 | Read metrics | All | Assigned | If permitted | Not by default | Own accounts only |
-| Prospect and move CRM | Yes | If permitted | Not by default | No | No |
+| Prospect and move CRM | Yes | Only if an owner grants it per person (decided 2026-11-16, D-16) | Not by default | No | No |
 | Prices, contracts, internal finance | Full | Limited, configurable | No | No | Own published proposals/contracts only |
 | Manage credentials and integrations | Yes | Not by default | No | No | Only authorize own accounts via secure flow |
 | Export/delete data | Yes, audited | Limited | No | No | Request own data per policy |

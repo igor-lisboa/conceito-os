@@ -88,7 +88,12 @@ def has_capability(subject, capability):
     """
     if subject is None:
         return False
-    return capability in ROLE_CAPABILITIES.get(Role(subject.role), set())
+    if capability not in ROLE_CAPABILITIES.get(Role(subject.role), set()):
+        return False
+    # D-16 (answer 4B): an account manager manages CRM only when an owner has granted it to them.
+    if capability == Capability.MANAGE_CRM and Role(subject.role) == Role.ACCOUNT_MANAGER:
+        return bool(getattr(subject, "crm_access", False))
+    return True
 
 
 def require_capability(subject, capability):

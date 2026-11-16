@@ -6,7 +6,7 @@
 {% block content %}
   <h1>{{ object.title }}</h1>
   <p>
-    {{ object.client.name }} · {{ object.get_channel_display }} · {{ object.get_content_format_display }}
+    {{ object.client.name }}{% if object.campaign %} · {{ object.campaign.name }}{% endif %} · {{ object.get_channel_display }} · {{ object.get_content_format_display }}
     · <span class="state-badge">{{ object.get_state_display }}</span>
   </p>
   {% if object.scheduled_for %}<p>{% trans "Scheduled for" %} {{ object.scheduled_for }}</p>{% endif %}

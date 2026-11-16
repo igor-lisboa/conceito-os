@@ -61,10 +61,14 @@ class PlanningFilterForm(forms.Form):
     channel = forms.ChoiceField(label=_("Channel"), choices=[], required=False)
     owner = forms.ModelChoiceField(label=_("Owner"), queryset=None, required=False)
     state = forms.ChoiceField(label=_("State"), choices=[], required=False)
+    campaign = forms.ModelChoiceField(label=_("Campaign"), queryset=None, required=False)
 
     def __init__(self, *args, membership, show_state=False, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["client"].queryset = visible_clients(membership)
+        from apps.production.forms import _visible_campaigns
+
+        self.fields["campaign"].queryset = _visible_campaigns(membership)
         self.fields["channel"].choices = [("", _("All"))] + translated_choices(Channel)
         # Owners are people of this organization only (tenant isolation).
         self.fields["owner"].queryset = get_user_model().objects.filter(
@@ -92,6 +96,8 @@ class PlanningFilterForm(forms.Form):
             queryset = queryset.filter(owner=values["owner"])
         if values.get("state"):
             queryset = queryset.filter(state=values["state"])
+        if values.get("campaign"):
+            queryset = queryset.filter(campaign=values["campaign"])
         return queryset
 
 

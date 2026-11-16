@@ -20,6 +20,9 @@ class ContentRepository(Protocol):
     def client_approval_rule(self, organization_id: int, client_id: int) -> bool | None:
         """Whether the client needs approval. None if the client is not in this organization."""
 
+    def campaign_belongs_to_client(self, organization_id: int, client_id: int, campaign_id: int) -> bool:
+        """True if this campaign exists, is not deleted, and belongs to this client of this organization."""
+
     def is_internal_member(self, organization_id: int, user_id: int) -> bool:
         """True if the user is a member of the organization and not a client end-user."""
 

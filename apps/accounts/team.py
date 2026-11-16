@@ -37,13 +37,14 @@ logger = logging.getLogger(__name__)
 MEMBER_INVITED = "member.invited"
 MEMBER_REMOVED = "member.removed"
 MEMBER_ANONYMIZED = "person.anonymized"
+MEMBER_CRM_ACCESS_CHANGED = "member.crm_access_changed"
 INVITATION_LANGUAGE = "pt-br"
 # Anonymized accounts get an address in a reserved domain, so they can never receive mail.
 ANONYMOUS_DOMAIN = "anonymized.invalid"
 
 
 @transaction.atomic
-def invite_member(membership, *, email, role, client_ids=()):
+def invite_member(membership, *, email, role, client_ids=(), crm_access=False):
     """Add a person to the organization. Creates the account if the email is new."""
     require_capability(membership, Capability.MANAGE_TEAM)
     email = email.strip().lower()
@@ -57,7 +58,7 @@ def invite_member(membership, *, email, role, client_ids=()):
     elif Membership.objects.filter(user=user, organization=organization).exists():
         raise DomainError("This person is already a member of this organization.")
 
-    invited = _restore_or_create_membership(user, organization, role)
+    invited = _restore_or_create_membership(user, organization, role, crm_access)
 
     clients = Client.objects.filter(organization=organization, archived_at__isnull=True, pk__in=client_ids)
     for client in clients:
@@ -68,7 +69,7 @@ def invite_member(membership, *, email, role, client_ids=()):
         actor=membership.user,
         action=MEMBER_INVITED,
         entity=invited,
-        metadata={"role": role, "clients": sorted(str(c.pk) for c in clients)},
+        metadata={"role": role, "crm_access": bool(crm_access), "clients": sorted(str(c.pk) for c in clients)},
     )
     transaction.on_commit(lambda: send_invitation_email(user, organization.name))
     return invited
@@ -99,18 +100,43 @@ def remove_member(membership, target):
     end_user_sessions(target.user)
 
 
-def _restore_or_create_membership(user, organization, role):
+def _restore_or_create_membership(user, organization, role, crm_access=False):
     """A removed person who is invited again gets their old membership back (soft delete, DAT-007).
 
     The unique (user, organization) constraint allows one row, so the removed row is reused.
     """
     former = Membership.all_objects.filter(user=user, organization=organization).first()
     if former is None:
-        return Membership.objects.create(user=user, organization=organization, role=role)
+        return Membership.objects.create(
+            user=user, organization=organization, role=role, crm_access=crm_access
+        )
     former.role = role
+    former.crm_access = crm_access
     former.deleted_at = None
-    former.save(update_fields=["role", "deleted_at"])
+    former.save(update_fields=["role", "crm_access", "deleted_at"])
     return former
+
+
+@transaction.atomic
+def set_crm_access(membership, target, *, allowed):
+    """Owner grants or removes CRM access for one person (D-16, answer 4B)."""
+    require_capability(membership, Capability.MANAGE_TEAM)
+    if target.organization_id != membership.organization_id:
+        raise DomainError("This membership belongs to another organization.")
+    if target.deleted_at is not None:
+        raise DomainError("This person has no access to the organization.")
+    if target.crm_access == allowed:
+        return target
+    target.crm_access = allowed
+    target.save(update_fields=["crm_access"])
+    record_event(
+        organization=membership.organization,
+        actor=membership.user,
+        action=MEMBER_CRM_ACCESS_CHANGED,
+        entity=target,
+        metadata={"crm_access": allowed},
+    )
+    return target
 
 
 def _restore_or_create_access(organization, client, membership):

@@ -14,6 +14,8 @@ class LeadTests(TestCase):
         self.agency = make_organization()
         self.owner = make_owner(self.agency)
         self.manager = make_membership(self.agency, Role.ACCOUNT_MANAGER)
+        self.manager.crm_access = True  # D-16: CRM is granted per person by an owner
+        self.manager.save(update_fields=["crm_access"])
         self.lead = Lead.objects.create(organization=self.agency, name="Confeitaria Doce Lar")
 
     def test_owner_creates_a_lead_in_the_organization(self):

@@ -19,6 +19,10 @@ from .domain.states import ContentState
 class ContentItem(UUIDModel):
     organization = models.ForeignKey("accounts.Organization", on_delete=models.CASCADE, related_name="+")
     client = models.ForeignKey("clients.Client", on_delete=models.CASCADE, related_name="content_items")
+    # Optional; must belong to the same client (checked by the service). Soft deleted campaigns stay linked.
+    campaign = models.ForeignKey(
+        "clients.Campaign", null=True, blank=True, on_delete=models.PROTECT, related_name="content_items"
+    )
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         null=True,

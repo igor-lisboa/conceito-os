@@ -92,6 +92,7 @@ class TeamInviteView(CapabilityRequiredMixin, FormView):
                 email=data["email"],
                 role=data["role"],
                 client_ids=[client.pk for client in data["clients"]],
+                crm_access=data["crm_access"],
             ),
             success_message="Invitation sent.",
         )
@@ -108,6 +109,23 @@ class TeamRemoveView(CapabilityRequiredMixin, View):
             request,
             lambda: team.remove_member(request.membership, target),
             success_message="Access removed.",
+        )
+        return redirect("team_list")
+
+
+class TeamCrmAccessView(CapabilityRequiredMixin, View):
+    """Owner action: allow or stop one person's CRM access (D-16)."""
+
+    required_capability = Capability.MANAGE_TEAM
+    http_method_names = ["post"]
+
+    def post(self, request, pk):
+        target = get_object_or_404(Membership, pk=pk, organization=request.membership.organization)
+        allowed = request.POST.get("allowed") == "1"
+        run_action(
+            request,
+            lambda: team.set_crm_access(request.membership, target, allowed=allowed),
+            success_message="CRM access updated.",
         )
         return redirect("team_list")
 

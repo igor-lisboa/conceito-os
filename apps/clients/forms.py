@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.translation import gettext_lazy as _
 
-from .models import BrandAsset, ClientBriefing
+from .models import BrandAsset, Campaign, ClientBriefing
 
 
 class ClientForm(forms.Form):
@@ -45,3 +45,23 @@ class BrandAssetForm(forms.ModelForm):
             "kind": _("Kind"),
             "url": _("Link"),
         }
+
+
+class CampaignForm(forms.ModelForm):
+    """A campaign of one client (CAL-001). Dates are optional; the end cannot come before the start."""
+
+    class Meta:
+        model = Campaign
+        fields = ["name", "starts_on", "ends_on"]
+        labels = {"name": _("Name"), "starts_on": _("Starts on"), "ends_on": _("Ends on")}
+        widgets = {
+            "starts_on": forms.DateInput(attrs={"type": "date"}),
+            "ends_on": forms.DateInput(attrs={"type": "date"}),
+        }
+
+    def clean(self):
+        cleaned = super().clean()
+        starts, ends = cleaned.get("starts_on"), cleaned.get("ends_on")
+        if starts and ends and ends < starts:
+            raise forms.ValidationError(_("The end date cannot be before the start date."))
+        return cleaned

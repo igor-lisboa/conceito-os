@@ -93,6 +93,7 @@ class ContentCreateView(CapabilityRequiredMixin, FormView):
                 channel=data["channel"],
                 content_format=data["content_format"],
                 owner_id=owner.pk if owner else None,
+                campaign_id=data["campaign"].pk if data.get("campaign") else None,
                 version=VersionData(
                     caption=data["caption"],
                     cta=data["cta"],

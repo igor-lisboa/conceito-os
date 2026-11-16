@@ -37,6 +37,12 @@ class InviteMemberForm(forms.Form):
         help_text=_("Owners see every client, so this is only needed for other roles."),
     )
 
+    crm_access = forms.BooleanField(
+        label=_("Can manage CRM (account managers)"),
+        required=False,
+        help_text=_("Leads and proposals. Owners always can."),
+    )
+
     def __init__(self, *args, membership, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["clients"].queryset = visible_clients(membership)
