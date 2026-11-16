@@ -1,6 +1,6 @@
 ---
 name: quality-gate
-description: Run the full quality check of the Conceito OS project (lint, tests on SQLite and MySQL, migrations in sync, system check) and report the real result. Use before saying a change is done, before a commit, or when the user asks "está tudo ok?".
+description: Run the full quality check of the Conceito OS project (lint, tests on SQLite and PostgreSQL, migrations in sync, system check) and report the real result. Use before saying a change is done, before a commit, or when the user asks "está tudo ok?".
 ---
 
 # Quality gate
@@ -17,8 +17,8 @@ Python in this project is the virtualenv interpreter. On Windows Git Bash use `.
 2. **Tests on SQLite** (default, no database server needed):
    `./.venv/Scripts/python.exe manage.py test --settings=config.settings.test`
 
-3. **Tests on MySQL** (real engine). It needs the local container running. Check first with `docker compose ps`; if it is not healthy, run `docker compose up -d --wait`. Then:
-   `TEST_DATABASE=mysql ./.venv/Scripts/python.exe manage.py test --settings=config.settings.test`
+3. **Tests on PostgreSQL** (the production engine). It needs the local container running. Check first with `docker compose ps`; if it is not healthy, run `docker compose up -d --wait`. Then:
+   `TEST_DATABASE=postgres ./.venv/Scripts/python.exe manage.py test --settings=config.settings.test`
 
 4. **Migrations in sync** (must print "No changes detected"):
    `./.venv/Scripts/python.exe manage.py makemigrations --check --dry-run --settings=config.settings.test`

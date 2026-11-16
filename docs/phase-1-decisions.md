@@ -33,8 +33,8 @@ receive notifications. Everything beyond that is in the technical debt document.
 | ID | Decision | Status | Why | Where |
 | --- | --- | --- | --- | --- |
 | PD-10 | Python 3.12 with Django 5.2 LTS. | Built | Auth, admin, forms, migrations and security defaults included; large community. | `requirements.txt` |
-| PD-11 | MySQL 8.4 (utf8mb4) as the database. Supabase and Postgres are not used. | Built | Chosen by the product owner (closes D-04). | `docker-compose.yml`, `config/settings/base.py` |
-| PD-12 | PyMySQL as the MySQL driver. | Built | Pure Python: installs on Windows and Vercel without compiling. | `config/__init__.py` |
+| PD-11 | MySQL 8.4 (utf8mb4) as the database. Supabase and Postgres are not used. | Superseded 2026-11-16 (MySQL removed; PostgreSQL only, D-04) | Chosen by the product owner (closes D-04). | `docker-compose.yml`, `config/settings/base.py` |
+| PD-12 | PyMySQL as the MySQL driver. | Superseded 2026-11-16 (MySQL removed; PostgreSQL only, D-04) | Pure Python: installs on Windows and Vercel without compiling. | `config/__init__.py` |
 | PD-13 | Server-rendered templates, not a separate frontend. | Built | One codebase, one deploy, fewer moving parts for the team. | `web/templates/` |
 | PD-14 | Hosting on Vercel as a Python serverless function, WhiteNoise for static files. | Built (not yet deployed) | The product owner's choice. Migrations run from the developer machine, not in the build. | `vercel.json`, `api/index.py`, [deployment guide](deployment.md) |
 | PD-15 | `production` (content lifecycle) uses **hexagonal architecture with DDD tactical patterns**. `clients` and `accounts` use simple services. | Built | The lifecycle has many rules that must be testable without a database. Simple CRUD does not need the extra layers. | [architecture](architecture.md) |
@@ -127,9 +127,9 @@ receive notifications. Everything beyond that is in the technical debt document.
 
 | ID | Decision | Status | Why | Where |
 | --- | --- | --- | --- | --- |
-| PD-90 | Local development uses Docker Compose: MySQL and a Mailpit SMTP server with a web inbox. Both bound to 127.0.0.1. | Built | The same database engine as production; no email leaves the machine. | `docker-compose.yml` |
+| PD-90 | Local development uses Docker Compose: MySQL and a Mailpit SMTP server with a web inbox. Both bound to 127.0.0.1. | Superseded 2026-11-16 (MySQL removed; PostgreSQL only, D-04) | The same database engine as production; no email leaves the machine. | `docker-compose.yml` |
 | PD-91 | Local settings are read from a git-ignored `.env` file. Shell variables win over the file. | Built | Removes dependence on what is set in the current terminal. | `config/settings/base.py` |
-| PD-92 | Tests run on SQLite in memory by default and on MySQL with `TEST_DATABASE=mysql`. The full suite runs on both before a change is accepted. | Built | Fast by default; MySQL is the real target. | `config/settings/test.py` |
+| PD-92 | Tests run on SQLite in memory by default and on MySQL with `TEST_DATABASE=mysql`. The full suite runs on both before a change is accepted. | Superseded 2026-11-16 (MySQL removed; PostgreSQL only, D-04) | Fast by default; MySQL is the real target. | `config/settings/test.py` |
 | PD-93 | Port 8080 is the default local port. | Built | Port 8000 is blocked on some Windows machines. | README |
 | PD-94 | Secrets (database passwords, SMTP credentials, the secret key) never go into code, migrations, fixtures or docs. | Built | Basic security hygiene; written into the assistant's rules too. | `.claude/rules/security-and-data.md`, `.gitignore` |
 | PD-95 | Email sending is configured by `EMAIL_*` variables. Locally it points to Mailpit. | Built | Production uses the provider's SMTP settings. | `config/settings/base.py`, [deployment guide](deployment.md) |

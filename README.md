@@ -21,7 +21,7 @@ Built by and for **Conceito Co**, with **Beatriz** as product owner.
 - [Project layout](#project-layout)
 - [Getting started (local)](#getting-started-local)
 - [Running the tests](#running-the-tests)
-- [Database](#database)
+- [Database](#database-postgresql)
 - [Deployment (Vercel)](#deployment-vercel)
 - [Configuration reference](#configuration-reference)
 - [How we work](#how-we-work)
@@ -58,7 +58,7 @@ Built by and for **Conceito Co**, with **Beatriz** as product owner.
 | --- | --- | --- |
 | Language | Python 3.12 | Readable, widely known, good libraries. |
 | Web framework | Django 5.2 (LTS) | Auth, admin, forms, migrations and security defaults included. |
-| Database | PostgreSQL in production (primary + optional read-only replica); MySQL 8 for local Docker and tests | D-04 is being revisited: PostgreSQL added on 2026-11-16 at the owner's request, pending Beatriz's confirmation. See [docs/deployment.md](docs/deployment.md). |
+| Database | PostgreSQL 17 (primary, plus an optional read-only replica) | Decision D-04, changed on 2026-11-16 at the owner's request, pending Beatriz's confirmation. MySQL was removed. See [docs/deployment.md](docs/deployment.md). |
 | Static files | WhiteNoise | Serves static files from the app itself, so the serverless deployment needs no extra storage. |
 | Hosting | Vercel (Python runtime) | Git-based deploys and previews. |
 | Tests | Django's test runner | Built in. No extra framework to learn. |
@@ -78,7 +78,7 @@ The root holds only what the tools expect there. Everything else is grouped:
 proj-beatriz/
 ├── manage.py               Django command entry point
 ├── README.md, CLAUDE.md    this guide, and the instructions for the AI assistant
-├── docker-compose.yml      local PostgreSQL, MySQL and Mailpit
+├── docker-compose.yml      local PostgreSQL and Mailpit
 ├── vercel.json             Vercel routing (every request goes to api/)
 ├── requirements*.txt       production and development dependencies
 ├── ruff.toml               lint rules
@@ -108,13 +108,12 @@ proj-beatriz/
 ├── docs/                   architecture, phase 1 decisions, technical debt, deployment
 ├── specs/                  product specifications (the source of truth for behavior)
 ├── scripts/                maintenance scripts (translations)
-└── docker/                 initialization of the local MySQL container
 ```
 
 ## Getting started (local)
 
-You need Python 3.12 and, to run the app with real data, a PostgreSQL 16+ server (or MySQL 8 locally) (see
-[Database](#database-mysql)). The tests do not need MySQL.
+You need Python 3.12 and, to run the app with real data, a PostgreSQL 16+ server (see
+[Database](#database-postgresql)). The tests do not need a server.
 
 ### 1. Create the virtual environment and install dependencies
 
@@ -140,8 +139,8 @@ and variables already set in your shell take priority. The file is git-ignored.
 The full list is in [Configuration reference](#configuration-reference).
 
 The values for the Docker database are already in the example:
-`MYSQL_HOST=127.0.0.1`, `MYSQL_USER=conceito`, `MYSQL_PASSWORD=conceito-local-only`.
-If you see `Access denied for user '<your Windows name>'`, the `MYSQL_USER` variable
+`POSTGRES_HOST=127.0.0.1`, `POSTGRES_USER=conceito`, `POSTGRES_PASSWORD=conceito-local-only`.
+If you see `password authentication failed for user`, the `POSTGRES_USER` variable
 is missing: the driver then falls back to your operating system user.
 
 ```powershell
@@ -160,7 +159,7 @@ Keep the generated key the same while you develop, or your sessions reset.
 
 ### 3. Run the development server
 
-This needs the MySQL database to exist and have its tables (see [Database](#database-mysql)).
+This needs the PostgreSQL database to exist and have its tables (see [Database](#database-postgresql)).
 
 ```bash
 python manage.py runserver
@@ -181,7 +180,7 @@ python manage.py test --settings=config.settings.test
 python -m ruff check .
 ```
 
-The test settings use SQLite in memory, so the tests never touch MySQL. The
+The test settings use SQLite in memory, so the tests never touch PostgreSQL. The
 suite runs in a few seconds. Test layers:
 
 | Folder | What it checks | Database? |
@@ -201,44 +200,36 @@ python manage.py test production.tests.domain --settings=config.settings.test
 
 ---
 
-## Database (MySQL)
+## Database (PostgreSQL)
 
-### Local MySQL with Docker (recommended)
+The database engine is PostgreSQL. Production uses a read/write connection and an
+optional read-only one (see [docs/deployment.md](docs/deployment.md)).
 
-`docker-compose.yml` starts MySQL 8.4 with `utf8mb4` on `127.0.0.1:3306`. Data
-is kept in a Docker volume. The passwords are for your machine only.
+### Local PostgreSQL with Docker (recommended)
+
+`docker-compose.yml` starts PostgreSQL 17 on `127.0.0.1:5432`. Data is kept in a
+Docker volume. The passwords are for your machine only.
 
 ```bash
-docker compose up -d --wait        # start MySQL and wait until it is healthy
+docker compose up -d --wait        # start PostgreSQL and wait until it is healthy
 docker compose ps                  # should show "healthy"
 ```
 
-Point the app at it. Use the variables from the Docker file (the defaults match):
-
-```powershell
-# Windows PowerShell
-$env:MYSQL_HOST = "127.0.0.1"
-$env:MYSQL_USER = "conceito"
-$env:MYSQL_PASSWORD = "conceito-local-only"
-$env:MYSQL_DATABASE = "conceito_os"
-python manage.py migrate
-python manage.py createsuperuser
-python manage.py runserver
-```
+With no `DATABASE_URL_READWRITE` set, the app uses this container. The defaults match
+the Docker file, so only the `POSTGRES_*` variables in `.env` need changing if you
+changed them there.
 
 ```bash
-# macOS / Linux / Git Bash
-export MYSQL_HOST=127.0.0.1 MYSQL_USER=conceito MYSQL_PASSWORD=conceito-local-only MYSQL_DATABASE=conceito_os
 python manage.py migrate
 python manage.py createsuperuser
 python manage.py runserver
 ```
 
-Run the test suite against MySQL instead of SQLite (Django creates and drops a
+Run the test suite against PostgreSQL instead of SQLite (Django creates and drops a
 `test_conceito_os` database; your data is not touched):
 
 ```bash
-TEST_DATABASE=mysql python manage.py test --settings=config.settings.test
+TEST_DATABASE=postgres python manage.py test --settings=config.settings.test
 ```
 
 Stop or reset the database:
@@ -247,9 +238,6 @@ Stop or reset the database:
 docker compose down        # stop, keep the data
 docker compose down -v     # stop and delete all local data (then run migrate again)
 ```
-
-The init script in `docker/mysql/init/` runs only when the volume is first
-created. If you change it, run `docker compose down -v` and start again.
 
 ### First administrator
 
@@ -282,18 +270,11 @@ The welcome email is written in Portuguese (pt-BR); change `WELCOME_EMAIL_LANGUA
 in `apps/accounts/emails.py` to change it. Password reset emails follow the language
 the person is browsing in.
 
-### Your own MySQL server
+### Your own PostgreSQL server
 
-Create the database and user yourself, then set the `MYSQL_*` variables:
-
-```sql
-CREATE DATABASE conceito_os CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
-CREATE USER 'conceito'@'%' IDENTIFIED BY 'a-strong-password';
-GRANT ALL PRIVILEGES ON conceito_os.* TO 'conceito'@'%';
-GRANT ALL PRIVILEGES ON `test_conceito_os`.* TO 'conceito'@'%';  -- only if you run tests on MySQL
-```
-
-Then run `python manage.py migrate` and `python manage.py createsuperuser`.
+Set `DATABASE_URL_READWRITE` (and optionally `DATABASE_URL_READONLY`) in `.env`, then run
+`python manage.py migrate` and `python manage.py createsuperuser`. The `.env.example`
+file shows the format.
 
 Migrations are already generated in each app's `migrations/` folder. Run `python manage.py showmigrations` to see them. When you change a
 model, run `python manage.py makemigrations <app>` and review the file before
@@ -326,14 +307,9 @@ All configuration comes from environment variables. See `config/settings/base.py
 | `DJANGO_DEBUG` | No | `False` | `True` only on your machine. |
 | `DJANGO_ALLOWED_HOSTS` | No | `localhost,127.0.0.1` | Comma-separated host names. |
 | `DJANGO_CSRF_TRUSTED_ORIGINS` | No | empty | Comma-separated `https://` origins for production. |
-| `DATABASE_URL_READWRITE` | Production | (none) | PostgreSQL primary connection string. Without it the MySQL variables are used (local Docker). |
+| `DATABASE_URL_READWRITE` | Production | (none) | PostgreSQL primary connection string. Without it the local Docker PostgreSQL is used. |
 | `DATABASE_URL_READONLY` | No | (none) | Read-only connection (replica or SELECT-only role) for lists, counts and reports. |
 | `DB_CONN_MAX_AGE` | No | `0` | Database connection reuse, in seconds. Keep 0 on Vercel. |
-| `MYSQL_DATABASE` | No | `conceito_os` | |
-| `MYSQL_USER` | Yes, for MySQL | empty | |
-| `MYSQL_PASSWORD` | Yes, for MySQL | empty | |
-| `MYSQL_HOST` | No | `127.0.0.1` | |
-| `MYSQL_PORT` | No | `3306` | |
 | `EMAIL_HOST` | No | `127.0.0.1` | SMTP server. Locally the Mailpit container. |
 | `EMAIL_PORT` | No | `1025` | SMTP port. |
 | `EMAIL_HOST_USER` | Production | empty | SMTP login, if the provider needs one. |
@@ -403,7 +379,7 @@ architecture boundaries).
 
 These are known gaps, not bugs. They are tracked in the specs.
 
-- **Only the local Docker database is migrated.** The production MySQL server does not exist yet; run `migrate` against it once it is ready ([deployment guide](docs/deployment.md)).
+- **Only the local Docker database is migrated.** The production PostgreSQL server does not exist yet; run `migrate` against it once it is ready ([deployment guide](docs/deployment.md)).
 - **Publishing is manual.** Scheduling marks the intent; a person publishes and marks it published. Automatic publishing needs the Meta and TikTok integrations ([spec](specs/modules/social-integrations.md)).
 - **No file uploads.** Media is a link. Storage on Vercel needs an external service (decision pending).
 - **Dates use UTC in forms.** The spec asks for each agency's timezone. The data is stored in UTC; the per-organization timezone is not applied to the screens yet.
@@ -428,7 +404,7 @@ These are known gaps, not bugs. They are tracked in the specs.
 | [docs/architecture.md](docs/architecture.md) | How the code is organized, why, and the alternatives we rejected. |
 | [docs/phase-1-decisions.md](docs/phase-1-decisions.md) | Every decision taken for the Phase 1 MVP, with its reason and where it lives in the code. |
 | [docs/technical-debt.md](docs/technical-debt.md) | What the full specification needs and the code does not do yet, by priority. |
-| [docs/deployment.md](docs/deployment.md) | Vercel and MySQL setup, step by step. |
+| [docs/deployment.md](docs/deployment.md) | Vercel and PostgreSQL setup, step by step. |
 | [CLAUDE.md](CLAUDE.md) | Instructions for the AI assistant working in this repository. |
 
 ---

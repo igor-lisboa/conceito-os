@@ -29,7 +29,7 @@ class User(AbstractUser):
 
     def save(self, *args, **kwargs):
         # Store emails in lowercase. Uniqueness then means the same thing on every
-        # database: MySQL ignores case in unique checks by default, SQLite does not.
+        # database: some engines ignore case in unique checks, others do not.
         if self.email:
             self.email = self.email.lower()
         super().save(*args, **kwargs)

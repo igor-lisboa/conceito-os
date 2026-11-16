@@ -119,8 +119,8 @@ TEMPLATES = [
 # Production: PostgreSQL, from two connection strings (see .env.example):
 #   DATABASE_URL_READWRITE  the primary; every write goes here, and reads that must be current
 #   DATABASE_URL_READONLY   optional; reads of lists, counts and reports go here (alias "replica")
-# Without DATABASE_URL_READWRITE the MySQL variables below are used (local Docker, tests).
-# Decision D-04 (MySQL) is being revisited: see docs/deployment.md and the decisions register.
+# Without DATABASE_URL_READWRITE the local Docker PostgreSQL is used (docker-compose.yml).
+# The database engine is PostgreSQL only (decision D-04, changed 2026-11-16).
 
 DATABASES = database_settings(os.environ)
 

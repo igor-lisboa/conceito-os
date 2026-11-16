@@ -15,7 +15,7 @@ ports-and-adapters). Simple parts of the system are not forced into this shape.
 | Question | Answer | Why |
 | --- | --- | --- |
 | Framework | Django 5.2 (LTS) | Auth, admin, migrations, forms and security come built in; a junior developer can find help for almost anything. |
-| Database | MySQL (via PyMySQL) | Chosen by the product owner. PyMySQL is pure Python, so it installs on Windows and Vercel without compiling. |
+| Database | PostgreSQL (via psycopg), a read/write primary and an optional read-only replica | Decision D-04, changed 2026-11-16 at the owner's request; pending Beatriz's confirmation. psycopg is the standard Postgres driver for Django. |
 | Where do rules live? | In a domain model that does not import Django | The lifecycle of a piece of content has many rules (approval, edit invalidation, scheduling, failures). They must be testable without a database and must not be scattered across views and model methods. |
 | Pattern | Hexagonal (ports and adapters) + DDD tactical patterns | Keeps the rules independent of Django, the database and the clock. The spec describes these rules in detail, so the code should mirror the spec. |
 | Where do we NOT apply it? | `clients` (briefing, client records) and `accounts` (login, roles) | These are mostly CRUD with a few rules. A full hexagon there would add files and mapping code with no benefit. See section 6. |
@@ -46,7 +46,7 @@ ports-and-adapters). Simple parts of the system are not forced into this shape.
             │  NO Django. NO database.│   └─────┬──────────────────────────────┘
             └─────────────────────────┘         │ ORM
                                        ┌────────▼────────┐
-                                       │  MySQL tables    │
+                                       │  PostgreSQL tables│
                                        └─────────────────┘
 ```
 
@@ -130,7 +130,7 @@ If step 8 breaks a rule, nothing is saved and nothing is audited (tested in
 - **Fast, precise tests.** The domain tests run without a database. The application layer tests use in-memory fakes. Only the adapter, query, HTTP and portal tests touch the database.
 - **Rules cannot be skipped by accident.** Views never change a state directly. Every change goes through `Content`, so the edit rule (an approved piece returns to review), the rule that a scheduled piece cannot be edited, and the rule that approvals point at the exact version reviewed are enforced everywhere.
 - **Audit is a by-product.** Each domain event becomes an audit row in the same transaction. A rule failure leaves no half-written trail.
-- **Swappable infrastructure.** The MySQL decision was made after the design. Changing the database, the clock or the audit storage touches only `adapters/` and `composition.py`.
+- **Swappable infrastructure.** The database decision (PostgreSQL, changed from MySQL on 2026-11-16) was made after the design. Changing the database, the clock or the audit storage touches only `adapters/` and `composition.py`.
 - **Specs and code speak the same language.** Names such as `CLIENT_REVIEW`, `decide_internal`, `RETURNS_TO_INTERNAL_REVIEW_ON_EDIT` map to spec IDs (PRO-013, CRM-007, BIL-010…). This matters because the product owner reads the specs, not the code.
 - **Maintenance for juniors.** Each folder has one job, and a feature has a clear recipe (section 8).
 

@@ -16,7 +16,7 @@ them when the backlog is built (see [engineering deliverables](../specs/planning
 
 ## Where the functional MVP stands
 
-Working today, with tests on SQLite and MySQL (the quality gate prints the current count):
+Working today, with tests on SQLite and PostgreSQL (the quality gate prints the current count):
 
 - Sign-in by email, password recovery, welcome email, first administrator command.
 - Organizations, memberships, the role matrix, and per-client visibility.
@@ -51,7 +51,7 @@ Phase 1 code scope is complete except the items marked *partly* in the P1 table.
 | ID | Debt | Spec reference | Why it matters | Size | Depends on |
 | --- | --- | --- | --- | --- | --- |
 | TD-13 | Backups of the production database, with a restore test that is run and recorded. | ARC-005, NFR-040 | Losing agency content would be irreversible. | S | Production database provider |
-| TD-39 | Deploy to Vercel and check it end to end against a real MySQL server, with real SMTP. | PD-14, deployment guide | Only the local Docker setup has been exercised. | S | TD-13, TD-45 |
+| TD-39 | Deploy to Vercel and check it end to end against a real PostgreSQL server, with real SMTP. | PD-14, deployment guide | Only the local Docker setup has been exercised. | S | TD-13, TD-45 |
 | TD-40 | Rotate the administrator password for production, and set every production secret only in the hosting settings. | PD-76, PD-94 | The local development password must not be used in production. | S | TD-39 |
 | TD-45 | Verified email domain and SMTP account with the provider. | AUTH-002, PD-73, NTF-001 | Welcome and reset emails need a provider that delivers them. | S | Provider account |
 | TD-47 | Personal data: export on request. Anonymization is done for team members (AUTH-024), leads and client-role contacts (the same as team members). Retention is decided: keep everything forever, anonymize (D-17). Legal basis per data type is still open. | SEC-009, SEC-011, DAT-011 | Required by LGPD. | M | Legal review of the bases (D-17) |
@@ -125,7 +125,7 @@ cost later.
 | TD-34 (dark mode with the MVP, PROPOSAL palette; answer 10B) | 2026-11-16 | `web/static/css/app.css`; `apps/core/tests/test_theme_contrast.py` |
 | TD-S6 (link required for a manual publication, answer 7A) | 2026-11-16 | `apps/production/tests/test_published_link.py` |
 | TD-S8 (idle sign-out, PROPOSAL 8 hours, answer 6A) | 2026-11-16 | `apps/accounts/tests/test_idle_timeout.py`; `apps/accounts/middleware.py` (IdleTimeoutMiddleware) |
-| TD-S9 (sign-in counters are atomic SQL increments in the `LoginFailure` table; no cache table needed) | 2026-11-16 | `apps/accounts/tests/test_login_failures.py`; migration `apps/accounts/migrations/0005_loginfailure.py`; parallel-request path not covered by a test (SQLite in-memory cannot run it), MySQL run pending |
+| TD-S9 (sign-in counters are atomic SQL increments in the `LoginFailure` table; no cache table needed) | 2026-11-16 | `apps/accounts/tests/test_login_failures.py`; migration `apps/accounts/migrations/0005_loginfailure.py`; parallel-request path not covered by a test (SQLite in-memory cannot run it), PostgreSQL run passed (2026-11-16) |
 | TD-15 | 2026-11-01 | `apps/accounts/tests/test_throttle_and_timezone.py` |
 | TD-43 | 2026-11-01 | `apps/production/tests/test_published_link.py` |
 | Notifications (NTF-001..004, 006 partly) | 2026-11-01 | `apps/notifications/tests/`, `apps/production/tests/application/test_notifications_events.py` |

@@ -1,6 +1,6 @@
 ---
 name: deploy-check
-description: Check that Conceito OS is ready to be deployed to Vercel with its MySQL and SMTP, without deploying anything. Verifies environment variables, production security settings, the Vercel entry point, and that no secret is tracked by git. Use before a deploy or when the user asks whether production is ready.
+description: Check that Conceito OS is ready to be deployed to Vercel with its PostgreSQL and SMTP, without deploying anything. Verifies environment variables, production security settings, the Vercel entry point, and that no secret is tracked by git. Use before a deploy or when the user asks whether production is ready.
 ---
 
 # Deploy check
@@ -30,4 +30,4 @@ This skill only verifies. It never deploys, never runs migrations on a productio
 
 ## Report
 
-A checklist: each item ok / missing / finding. Then a short list of what only the owner can do: create the Vercel project, set the variables in Vercel (secret ones marked sensitive), create the MySQL server and the SMTP account, run `migrate` once against production, create the first administrator with `create_initial_admin` (rotate the local password first), and set up backups.
+A checklist: each item ok / missing / finding. Then a short list of what only the owner can do: create the Vercel project, set the variables in Vercel (secret ones marked sensitive), create the PostgreSQL database and the SMTP account, run `migrate` once against production, create the first administrator with `create_initial_admin` (rotate the local password first), and set up backups.

@@ -1,4 +1,4 @@
-"""Database settings come from the environment: PostgreSQL read/write and read-only, or MySQL."""
+"""Database settings come from the environment. The engine is PostgreSQL."""
 
 from django.core.exceptions import ImproperlyConfigured
 from django.test import SimpleTestCase
@@ -7,9 +7,10 @@ from config.database import database_settings
 
 
 class DatabaseSettingsTests(SimpleTestCase):
-    def test_without_a_postgres_url_the_mysql_variables_are_used(self):
-        databases = database_settings({"MYSQL_DATABASE": "x", "MYSQL_USER": "u"})
-        self.assertEqual(databases["default"]["ENGINE"], "django.db.backends.mysql")
+    def test_without_a_url_the_local_docker_postgres_is_used(self):
+        databases = database_settings({})
+        self.assertEqual(databases["default"]["ENGINE"], "django.db.backends.postgresql")
+        self.assertEqual((databases["default"]["HOST"], databases["default"]["PORT"]), ("127.0.0.1", "5432"))
         self.assertNotIn("replica", databases)
 
     def test_the_read_write_url_becomes_the_primary(self):
@@ -55,4 +56,4 @@ class DatabaseSettingsTests(SimpleTestCase):
 
     def test_a_non_postgres_url_is_refused(self):
         with self.assertRaises(ImproperlyConfigured):
-            database_settings({"DATABASE_URL_READWRITE": "mysql://a:b@h/db"})
+            database_settings({"DATABASE_URL_READWRITE": "mysql://a:b@h/db"})  # MySQL is not supported

@@ -2,7 +2,7 @@
 id: arc
 status: partially-implemented
 phase: all
-version: 1.3
+version: 1.4
 updated: 2026-11-16
 ---
 
@@ -16,11 +16,11 @@ The product owner chose this stack. It supersedes the suggestion from the source
 | --- | --- | --- |
 | Backend | Python 3.12, Django 5.2 LTS | See [docs/architecture.md](../../docs/architecture.md) for the reasons and the rejected alternatives. |
 | Architecture | Hexagonal (ports and adapters) with DDD tactical patterns in the `production` context; simple services in `clients` and `accounts` | Rules for each context are in section "Layering" below. |
-| Database | PostgreSQL in production: a read/write primary and an optional read-only replica (psycopg). MySQL 8 for local Docker and tests. D-04 changed 2026-11-16, pending Beatriz's confirmation. |
+| Database | PostgreSQL 17: a read/write primary and an optional read-only replica (psycopg). MySQL was removed on 2026-11-16. D-04 changed at the owner's request, pending Beatriz's confirmation. |
 | Frontend | Server-rendered Django templates, responsive CSS | A separate SPA is deferred until an API or native app needs it. Next.js from the source spec is not used now. |
 | Static files | WhiteNoise | Served from the app folders; no separate storage. |
 | Hosting | Vercel, Python serverless runtime, `api/index.py` entry point | Migrations run from the developer machine, not in Vercel. No file storage on the platform. |
-| Tests | Django test runner, SQLite in memory by default; MySQL or PostgreSQL in Docker with TEST_DATABASE | The suite passes on all three engines. |
+| Tests | Django test runner. SQLite in memory by default; PostgreSQL in Docker with TEST_DATABASE=postgres. | The suite passes on SQLite and PostgreSQL. |
 
 ## Layering (ARC-010..ARC-016)
 

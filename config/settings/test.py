@@ -1,15 +1,13 @@
 """Settings used by the test suite.
 
 By default tests run on SQLite in memory, so they need no database server.
-To run the suite against a real engine (the Docker databases from docker-compose.yml),
-set TEST_DATABASE=mysql or TEST_DATABASE=postgres. Django then creates a separate
-test database and drops it afterwards. Your data is not touched. The test settings never
-use the production URL from .env.
+To run the suite against PostgreSQL (the production engine, local Docker container from
+docker-compose.yml), set TEST_DATABASE=postgres. Django then creates a separate test
+database and drops it afterwards. Your data is not touched. The test settings never use
+the production URL from .env.
 """
 
 import os
-
-from config.database import mysql_settings
 
 from .base import *  # noqa: F401,F403
 
@@ -21,9 +19,7 @@ ALLOWED_HOSTS = ["testserver", "localhost"]
 
 # The test database is always a local one, never the production URL from .env.
 TEST_DATABASE_MODE = os.environ.get("TEST_DATABASE", "sqlite").lower()
-if TEST_DATABASE_MODE == "mysql":
-    DATABASES = mysql_settings(os.environ)  # the MYSQL_* variables (local Docker)
-elif TEST_DATABASE_MODE == "postgres":
+if TEST_DATABASE_MODE == "postgres":
     # Local Docker Postgres (docker-compose.yml). Tests create and drop a test_ database on it.
     DATABASES = {
         "default": {

@@ -21,7 +21,7 @@ ROOT = Path(__file__).resolve().parents[2]
 PATH_TOKEN = re.compile(r"`((?:apps|web|api|config|scripts|docs|specs|docker|\.claude)/[\w./-]+)`")
 LINK = re.compile(r"\]\(([^)#\s]+)\)")
 ENV_NAME = re.compile(
-    r"\b(DJANGO_[A-Z_]+|MYSQL_[A-Z_]+|EMAIL_[A-Z_]+|INITIAL_ADMIN_[A-Z_]+|MFA_ENCRYPTION_KEY|SITE_URL)\b"
+    r"\b(DJANGO_[A-Z_]+|POSTGRES_[A-Z_]+|DATABASE_URL_[A-Z_]+|DB_[A-Z_]+|EMAIL_[A-Z_]+|INITIAL_ADMIN_[A-Z_]+|MFA_ENCRYPTION_KEY|SITE_URL)\b"
 )
 TEST_CLAIM = re.compile(r"\b(\d{2,4}) tests\b")
 

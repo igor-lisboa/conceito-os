@@ -30,5 +30,5 @@ for Django or Python, a decision by the team.
 
 - Patch and minor bumps inside the pinned range: list them as safe to batch.
 - Major bumps (Django 6, cryptography major): list them with the upgrade risk. Do not recommend
-  them without a test run on both SQLite and MySQL.
+  them without a test run on SQLite and PostgreSQL.
 - Cite the source of any version date. Never state an end-of-support date from memory.
