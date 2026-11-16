@@ -31,4 +31,33 @@
       {% endfor %}
     </tbody>
   </table>
+
+  <section>
+    <h2>{% trans "Removed people" %}</h2>
+    <p>{% trans "Their access is off. Their records stay. Anonymizing replaces their name and email; this cannot be undone." %}</p>
+    {% if removed_members %}
+      <table>
+        <thead><tr><th>{% trans "Email" %}</th><th>{% trans "Role" %}</th><th>{% trans "Removed on" %}</th><th></th></tr></thead>
+        <tbody>
+          {% for member, anonymized in removed_members %}
+            <tr>
+              <td>{% if anonymized %}{% trans "Anonymized" %}{% else %}{{ member.user.email }}{% endif %}</td>
+              <td>{{ member.get_role_display }}</td>
+              <td>{{ member.deleted_at|date:"Y-m-d H:i" }}</td>
+              <td>
+                {% if not anonymized %}
+                  <form method="post" action="{% url 'team_anonymize' member.pk %}">
+                    {% csrf_token %}
+                    <button class="button-secondary">{% trans "Anonymize personal data" %}</button>
+                  </form>
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>{% trans "No removed people." %}</p>
+    {% endif %}
+  </section>
 {% endblock %}

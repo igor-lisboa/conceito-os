@@ -5,7 +5,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 from apps.core.choices import translated_choices
-from apps.core.models import UUIDModel
+from apps.core.models import SoftDeleteModel, UUIDModel
 
 from .fields import EncryptedSecretField
 from .roles import Role
@@ -46,7 +46,7 @@ class Organization(UUIDModel):
         return self.name
 
 
-class Membership(UUIDModel):
+class Membership(SoftDeleteModel):
     """Links a user to an organization with one role inside it."""
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="memberships")

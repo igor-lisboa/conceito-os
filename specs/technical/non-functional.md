@@ -2,8 +2,8 @@
 id: nfr
 status: draft
 phase: all
-version: 1.1
-updated: 2026-11-02
+version: 1.2
+updated: 2026-11-16
 ---
 
 # Non-functional requirements
@@ -29,14 +29,14 @@ New in the review. The source spec states several qualities without targets; thi
 ## Performance (targets TBD)
 
 - **NFR-030** Pages and lists remain usable on mobile networks; large lists paginate or virtualize.
-- **NFR-031** Media uploads support large videos with progress and resume or retry. Size limits TBD.
-- **NFR-032** Target page-load and API latency: TBD (D-22).
+- **NFR-031** Media uploads support large videos with progress and resume or retry. Limits (decided 2026-11-16, D-22): images 10 MB, documents 25 MB; video limits follow with TD-33 (Phase 3).
+- **NFR-032** Target page-load latency (decided 2026-11-16, D-22): 95% of common pages load in under 1 second at expected load. Load test at twice the expected number of users (the expected number is still to be provided).
 
 ## Reliability
 
-- **NFR-040** Backups with tested restore ([ARC-005](architecture.md)). RPO/RTO targets: TBD (D-22).
+- **NFR-040** Backups with tested restore ([ARC-005](architecture.md)). Decided 2026-11-16 (D-22): daily backups kept 30 days; recovery point 24 hours; recovery time 4 hours.
 - **NFR-041** No loss of drafts on network error, edit conflict or integration failure (UC-EXC-001/002).
-- **NFR-042** Availability target: TBD (D-22).
+- **NFR-042** Availability target (decided 2026-11-16, D-22): 99.5% per month.
 
 ## Cost and observability
 

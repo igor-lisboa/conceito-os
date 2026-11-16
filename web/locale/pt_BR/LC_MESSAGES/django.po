@@ -967,8 +967,8 @@ msgstr "Meses"
 msgid ""
 "Move a piece with its buttons on the piece page. Each change is recorded."
 msgstr ""
-"Mova uma peça pelos botões da própria página da peça. Cada mudança "
-"fica registrada."
+"Mova uma peça pelos botões da própria página da peça. Cada mudança fica "
+"registrada."
 
 msgid "New task"
 msgstr "Nova tarefa"
@@ -1043,8 +1043,8 @@ msgid ""
 "Two-step sign-in is on. You will be asked for a code from your app after "
 "your password."
 msgstr ""
-"A verificação em duas etapas está ativa. Depois da senha, você vai "
-"precisar de um código do seu aplicativo."
+"A verificação em duas etapas está ativa. Depois da senha, você vai precisar "
+"de um código do seu aplicativo."
 
 msgid "Write a comment (mention someone with @email)"
 msgstr "Escreva um comentário (mencione alguém com @e-mail)"
@@ -1102,8 +1102,7 @@ msgstr "A verificação em duas etapas está ativa na sua conta."
 
 msgid "That code is not right. Check the time on your phone and try again."
 msgstr ""
-"Este código não está certo. Confira a hora do seu celular e tente de "
-"novo."
+"Este código não está certo. Confira a hora do seu celular e tente de novo."
 
 msgid "That code is not right."
 msgstr "Este código não está certo."
@@ -1115,18 +1114,23 @@ msgstr ""
 "1. Instale um aplicativo autenticador no seu celular (Google Authenticator, "
 "Microsoft Authenticator ou similar)."
 
-msgid "2. Scan this code with the app, or add an account with the key below, or open the link on the phone:"
-msgstr "2. Escaneie este código com o aplicativo, ou adicione uma conta com a chave abaixo, ou abra o link no celular:"
+msgid ""
+"2. Scan this code with the app, or add an account with the key below, or "
+"open the link on the phone:"
+msgstr ""
+"2. Escaneie este código com o aplicativo, ou adicione uma conta com a chave "
+"abaixo, ou abra o link no celular:"
 
 msgid "QR code for your authenticator app"
-msgstr "QR code para o seu aplicativo autenticador"
-"2. Adicione uma conta com esta chave, ou abra o link abaixo no celular:"
+msgstr ""
+"QR code para o seu aplicativo autenticador2. Adicione uma conta com esta "
+"chave, ou abra o link abaixo no celular:"
 
 msgid "3. Type the 6-digit code the app shows now:"
 msgstr "3. Digite o código de 6 dígitos que o aplicativo mostra agora:"
 
-# --- Error pages (404, 403, 500) ---------------------------------------------
-
+# --- Error pages (404, 403, 500)
+# ---------------------------------------------
 msgid "Page not found"
 msgstr "Página não encontrada"
 
@@ -1139,8 +1143,12 @@ msgstr "Voltar ao início"
 msgid "Access denied"
 msgstr "Acesso negado"
 
-msgid "Your role does not allow this action. Ask an owner of the organization if you need access."
-msgstr "Seu perfil não permite esta ação. Peça a um proprietário da organização se precisar de acesso."
+msgid ""
+"Your role does not allow this action. Ask an owner of the organization if "
+"you need access."
+msgstr ""
+"Seu perfil não permite esta ação. Peça a um proprietário da organização se "
+"precisar de acesso."
 
 msgid "Something went wrong"
 msgstr "Algo deu errado"
@@ -1149,7 +1157,6 @@ msgid "An unexpected error happened. Try again in a few minutes."
 msgstr "Ocorreu um erro inesperado. Tente novamente em alguns minutos."
 
 # --- Account and email language (NTF-010) -----------------------------------
-
 msgid "Account"
 msgstr "Conta"
 
@@ -1165,8 +1172,8 @@ msgstr "Os e-mails do Conceito OS são enviados neste idioma."
 msgid "English"
 msgstr "Inglês"
 
-# --- Planned dates (PRO-015, PRO-016) ----------------------------------------
-
+# --- Planned dates (PRO-015, PRO-016)
+# ----------------------------------------
 msgid "The planned date is locked once the piece reaches the client."
 msgstr "A data planejada fica travada quando o conteúdo chega ao cliente."
 
@@ -1200,22 +1207,35 @@ msgstr "Data planejada"
 msgid "No planned date yet."
 msgstr "Ainda sem data planejada."
 
-msgid "The planned date is locked once the piece reaches the client, or after it is scheduled."
-msgstr "A data planejada fica travada quando o conteúdo chega ao cliente ou depois de agendado."
+msgid ""
+"The planned date is locked once the piece reaches the client, or after it is"
+" scheduled."
+msgstr ""
+"A data planejada fica travada quando o conteúdo chega ao cliente ou depois "
+"de agendado."
 
-msgid "Drag a planned piece to another day to change its planned date. You can also open the piece and change the date there with the keyboard."
-msgstr "Arraste um conteúdo planejado para outro dia para mudar a data planejada. Você também pode abrir o conteúdo e mudar a data por lá, com o teclado."
+msgid ""
+"Drag a planned piece to another day to change its planned date. You can also"
+" open the piece and change the date there with the keyboard."
+msgstr ""
+"Arraste um conteúdo planejado para outro dia para mudar a data planejada. "
+"Você também pode abrir o conteúdo e mudar a data por lá, com o teclado."
 
 msgid "Scheduled and planned content, month view"
 msgstr "Conteúdos agendados e planejados, visão mensal"
 
-# --- Board drag and collapsible filters (D-28, D-29) -------------------------
-
+# --- Board drag and collapsible filters (D-28, D-29)
+# -------------------------
 msgid "Filters"
 msgstr "Filtros"
 
-msgid "Drag a card to the next stage when the team can move it by hand. Approvals, scheduling and publishing are on the piece page. Each change is recorded."
-msgstr "Arraste um cartão para a próxima etapa quando a equipe puder movê-lo manualmente. Aprovações, agendamento e publicação ficam na página do conteúdo. Cada mudança é registrada."
+msgid ""
+"Drag a card to the next stage when the team can move it by hand. Approvals, "
+"scheduling and publishing are on the piece page. Each change is recorded."
+msgstr ""
+"Arraste um cartão para a próxima etapa quando a equipe puder movê-lo "
+"manualmente. Aprovações, agendamento e publicação ficam na página do "
+"conteúdo. Cada mudança é registrada."
 
 msgid "edited"
 msgstr "editado"
@@ -1244,13 +1264,16 @@ msgstr "Responsável"
 msgid "State"
 msgstr "Etapa"
 
-#: apps/production/views.py web/templates/production/content_detail.html web/templates/production/content_compare.html
+#: apps/production/views.py web/templates/production/content_detail.html
+#: web/templates/production/content_compare.html
 msgid "Compare versions"
 msgstr "Comparar versões"
 
 #: web/templates/production/content_compare.html
 msgid "A comparison needs at least two versions. This piece has one."
-msgstr "Uma comparação precisa de pelo menos duas versões. Este conteúdo tem apenas uma."
+msgstr ""
+"Uma comparação precisa de pelo menos duas versões. Este conteúdo tem apenas "
+"uma."
 
 #: web/templates/production/content_compare.html
 msgid "Earlier version"
@@ -1279,3 +1302,31 @@ msgstr "Alterado"
 #: web/templates/production/content_compare.html
 msgid "Same"
 msgstr "Igual"
+
+msgid "Removed people"
+msgstr "Pessoas removidas"
+
+msgid ""
+"Their access is off. Their records stay. Anonymizing replaces their name and"
+" email; this cannot be undone."
+msgstr ""
+"O acesso delas está desligado. Os registros permanecem. Anonimizar substitui"
+" o nome e o e-mail; não pode ser desfeito."
+
+msgid "Anonymized"
+msgstr "Anonimizado"
+
+msgid "Removed on"
+msgstr "Removido em"
+
+msgid "Anonymize personal data"
+msgstr "Anonimizar dados pessoais"
+
+msgid "No removed people."
+msgstr "Nenhuma pessoa removida."
+
+msgid "Personal data anonymized."
+msgstr "Dados pessoais anonimizados."
+
+msgid "Remove this person's access before anonymizing their data."
+msgstr "Remova o acesso desta pessoa antes de anonimizar os dados dela."

@@ -56,6 +56,21 @@ class TeamListView(CapabilityRequiredMixin, ListView):
             .prefetch_related("client_accesses__client")
         )
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # People whose access was removed (soft deleted): listed so an owner can anonymize them (DAT-011).
+        removed = (
+            Membership.all_objects.filter(
+                organization=self.request.membership.organization, deleted_at__isnull=False
+            )
+            .select_related("user")
+            .order_by("-deleted_at")
+        )
+        context["removed_members"] = [
+            (member, member.user.email.endswith("@" + team.ANONYMOUS_DOMAIN)) for member in removed
+        ]
+        return context
+
 
 class TeamInviteView(CapabilityRequiredMixin, FormView):
     required_capability = Capability.MANAGE_TEAM
@@ -93,6 +108,24 @@ class TeamRemoveView(CapabilityRequiredMixin, View):
             request,
             lambda: team.remove_member(request.membership, target),
             success_message="Access removed.",
+        )
+        return redirect("team_list")
+
+
+class TeamAnonymizeView(CapabilityRequiredMixin, View):
+    """Owner action: replace a removed person's personal data with an anonymous marker (D-17)."""
+
+    required_capability = Capability.MANAGE_TEAM
+    http_method_names = ["post"]
+
+    def post(self, request, pk):
+        target = get_object_or_404(
+            Membership.all_objects, pk=pk, organization=request.membership.organization, deleted_at__isnull=False
+        )
+        run_action(
+            request,
+            lambda: team.anonymize_member(request.membership, target),
+            success_message="Personal data anonymized.",
         )
         return redirect("team_list")
 

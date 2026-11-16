@@ -30,8 +30,7 @@ Claude does NOT decide items on this list without approval from Beatriz (product
 | # | Decision | Where | Initial recommendation |
 | --- | --- | --- | --- |
 
-| D-17 | Legal basis per data type and retention periods (MFA and anonymizing decided, see below) | security | Partly decided 2026-11-16: MFA optional (5B), client data anonymized after the contract ends (6C). Open: the legal basis for each data type and the retention periods. Suggested list being prepared for legal review. |
-| D-22 | Numeric non-functional targets (latency, availability, RPO/RTO, upload limits) | NFR | Open: the product owner asked for a proposal to confirm or change (answer 8). |
+| D-17 | Legal basis per data type | security | Retention decided 2026-11-16: keep everything forever; soft delete always; anonymize personal data on request or when a contract ends (DAT-007, DAT-011). MFA optional (5B). Open: the legal basis for each data type; the list is in docs/data-types.md, pending legal review. |
 ## Decided
 
 | # | Decision | Date | Outcome |
@@ -75,3 +74,4 @@ Claude does NOT decide items on this list without approval from Beatriz (product
 | PRO-003 | Mobile piece editor (step by step) | 2026-11-16 | Build the step-by-step editor in the MVP (14B). Reverses D-29 for the editor: needs Beatriz's confirmation. Build pending. |
 | CAL-001 | Campaign filter on the calendar | 2026-11-16 | Add a campaign entity now (10A). Build pending. |
 | PD-46 | Dragging scheduled pieces | 2026-11-16 | Allowed, with a required reason and a notice of the edit (11B). Build pending. |
+| D-22 | Numeric non-functional targets | 2026-11-16 | Approved as proposed: availability 99.5% per month; 95% of common pages under 1 second; daily backups kept 30 days; recovery point 24 h; recovery time 4 h; images 10 MB, documents 25 MB; load test at twice the expected users (number still to be given). NFR-031, NFR-032, NFR-040, NFR-042 updated. |

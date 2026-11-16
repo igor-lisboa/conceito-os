@@ -2,6 +2,7 @@ import uuid
 
 from django.conf import settings
 from django.db import models
+from django.utils import timezone
 
 
 class UUIDModel(models.Model):
@@ -15,6 +16,37 @@ class UUIDModel(models.Model):
 
     class Meta:
         abstract = True
+
+
+class SoftDeleteQuerySet(models.QuerySet):
+    """Deleting marks rows as deleted; nothing is removed from the database (DAT-007)."""
+
+    def delete(self):
+        return self.update(deleted_at=timezone.now())
+
+
+class SoftDeleteManager(models.Manager.from_queryset(SoftDeleteQuerySet)):
+    """The default manager: deleted rows are invisible everywhere, by default."""
+
+    def get_queryset(self):
+        return super().get_queryset().filter(deleted_at__isnull=True)
+
+
+class SoftDeleteModel(UUIDModel):
+    """Base for records that are never removed. `objects` hides deleted rows;
+    `all_objects` sees them (used for restore and for anonymization)."""
+
+    deleted_at = models.DateTimeField(null=True, blank=True, editable=False)
+
+    objects = SoftDeleteManager()
+    all_objects = models.Manager.from_queryset(SoftDeleteQuerySet)()
+
+    class Meta:
+        abstract = True
+
+    def delete(self, using=None, keep_parents=False):
+        self.deleted_at = timezone.now()
+        self.save(update_fields=["deleted_at"])
 
 
 class AuditEventQuerySet(models.QuerySet):

@@ -56,7 +56,7 @@ Phase 1 code scope is complete except the items marked *partly* in the P1 table.
 | TD-39 | Deploy to Vercel and check it end to end against a real MySQL server, with real SMTP. | PD-14, deployment guide | Only the local Docker setup has been exercised. | S | TD-13, TD-45 |
 | TD-40 | Rotate the administrator password for production, and set every production secret only in the hosting settings. | PD-76, PD-94 | The local development password must not be used in production. | S | TD-39 |
 | TD-45 | Verified email domain and SMTP account with the provider. | AUTH-002, PD-73, NTF-001 | Welcome and reset emails need a provider that delivers them. | S | Provider account |
-| TD-47 | Personal data: export and deletion on request, retention rules, and legal review of the bases. | SEC-009, SEC-011 | Required by LGPD for personal data of clients and team. | M | Legal review (D-17) |
+| TD-47 | Personal data: export on request, and anonymization for clients and leads. Team members can already be anonymized (AUTH-024). Retention is decided: keep everything forever, anonymize (D-17). Legal basis per data type is still open. | SEC-009, SEC-011, DAT-011 | Required by LGPD. | M | Legal review of the bases (D-17) |
 | TD-44 | Clear the two remaining HSTS warnings from `manage.py check --deploy` (subdomains and preload), once the domain is stable. | SEC-006 | Only worth doing after the domain is final, because preload is hard to undo. | S | TD-39 |
 
 ## P1: to finish Phase 1
@@ -158,6 +158,8 @@ cost later.
 | Calendar drag of planned dates (PRO-015, PRO-016) | 2026-11-02 | `apps/production/tests/test_planned_date.py` |
 | TD-S14 (board drag on manual moves, PRO-017) | 2026-11-02 | `apps/production/tests/test_board_drag.py` |
 | TD-S11 (MFA secret encrypted at rest, key in `MFA_ENCRYPTION_KEY`; production refuses to start without it) | 2026-11-02 | `apps/accounts/tests/test_mfa_encryption.py`, `apps/accounts/tests/test_mfa_key_check.py`; migration `apps/accounts/migrations/0004_encrypt_mfa_secret.py` |
+| TD-DAT (soft delete everywhere; team and comments soft deleted, anonymization of team members) | 2026-11-16 | `apps/accounts/tests/test_soft_delete_and_anonymize.py`; migrations `accounts/0006`, `clients/0002`, `production/0005` |
+| SEC-017 client wall (every client screen checked for another client's data) | 2026-11-16 | `apps/core/tests/test_client_wall.py` |
 | TD-S5 (sign-in by email only; usernames no longer sign in) | 2026-11-16 | `apps/accounts/tests/test_auth.py` (`test_username_no_longer_signs_in`); `apps/accounts/backends.py` |
 | TD-S12 (QR code on the MFA setup screen; the typed key stays as fallback) | 2026-11-02 | `apps/accounts/tests/test_mfa_qr.py`; `apps/accounts/mfa.py` (`provisioning_svg`) |
 | TD-49 (internal contracts for states, audit actions and notification kinds, checked by test; no public API or jobs exist yet) | 2026-11-16 | `docs/api-contracts.md`; `apps/production/tests/test_api_contracts.py` |

@@ -2,8 +2,8 @@
 id: dat
 status: draft
 phase: all
-version: 1.1
-updated: 2026-11-01
+version: 1.2
+updated: 2026-11-16
 ---
 
 # Data model — initial entities
@@ -48,7 +48,8 @@ updated: 2026-11-01
 - **DAT-004** Researched records store `source` and `observed_at`; metrics store source, window and availability.
 - **DAT-005** Versioned records (strategy, content, identity) are append-only per version.
 - **DAT-006** Relevant events record actor, timestamps, version, rationale and external ID.
-- **DAT-007** Soft delete/archive by default; hard deletion only through an audited flow (LGPD).
+- **DAT-007** Soft delete always: no business record is ever removed from the database (decided 2026-11-16, D-17). Deleted rows are hidden from every screen and kept for audit.
+- **DAT-011** Personal data is anonymized, not deleted (decided 2026-11-16, D-17): on a person's request or when a contract ends, names, emails and contact fields are replaced by an anonymous marker; the record and its links stay. Anonymization is audited.
 - **DAT-010** Every record has a GUID (UUID) as its primary key, including people (users). Numbers are never used as record identifiers, so URLs and events cannot reveal how many records exist. Documentation codes (requirement IDs such as `CRM-001`, decision IDs `PD-NN`, debt IDs `TD-NN`) are names for people to read, not record keys. Evidence: `apps/core/tests/test_identifiers.py`.
 - **DAT-008** Timestamps stored in UTC; display in the organization's timezone. PROPOSAL.
 - **DAT-009** Money stored as integer cents (or exact decimal) with currency. PROPOSAL.

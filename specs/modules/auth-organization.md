@@ -2,7 +2,7 @@
 id: auth
 status: partially-implemented
 phase: MVP
-version: 1.4
+version: 1.5
 updated: 2026-11-16
 ---
 
@@ -42,6 +42,7 @@ Owner/admin manages everything here. Other roles only manage their own session a
 - **AUTH-021** Integrations page: connected accounts, token status, reconnect, revoke ([INT](social-integrations.md)).
 - **AUTH-022** Webhook and policy configuration (P2+).
 - **AUTH-023** Every admin action returns to the originating area with confirmation.
+- **AUTH-024** Removing a member is a soft delete: the row and its client links are kept, and the person is hidden everywhere. Inviting the same person again restores the same membership (decided 2026-11-16, DAT-007). An owner may anonymize a removed person's personal data (name, email, authenticator switched off; the account can no longer sign in). Records are kept and point at the anonymized account (decided 2026-11-16, DAT-011, D-17). Anonymization is audited and cannot be done to an active person.
 
 ## Data
 

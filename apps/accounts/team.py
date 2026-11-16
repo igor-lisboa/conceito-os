@@ -9,6 +9,7 @@ accounts and clients; see docs/architecture.md).
 """
 
 import logging
+import uuid
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -25,7 +26,7 @@ from apps.clients.models import Client, ClientAccess
 from apps.core.audit import record_event
 from apps.core.exceptions import DomainError
 
-from .models import Membership
+from .models import Membership, MFADevice
 from .permissions import Capability, require_capability
 from .roles import Role
 from .sessions import end_user_sessions
@@ -35,7 +36,10 @@ logger = logging.getLogger(__name__)
 
 MEMBER_INVITED = "member.invited"
 MEMBER_REMOVED = "member.removed"
+MEMBER_ANONYMIZED = "person.anonymized"
 INVITATION_LANGUAGE = "pt-br"
+# Anonymized accounts get an address in a reserved domain, so they can never receive mail.
+ANONYMOUS_DOMAIN = "anonymized.invalid"
 
 
 @transaction.atomic
@@ -53,11 +57,11 @@ def invite_member(membership, *, email, role, client_ids=()):
     elif Membership.objects.filter(user=user, organization=organization).exists():
         raise DomainError("This person is already a member of this organization.")
 
-    invited = Membership.objects.create(user=user, organization=organization, role=role)
+    invited = _restore_or_create_membership(user, organization, role)
 
     clients = Client.objects.filter(organization=organization, archived_at__isnull=True, pk__in=client_ids)
     for client in clients:
-        ClientAccess.objects.create(organization=organization, client=client, membership=invited)
+        _restore_or_create_access(organization, client, invited)
 
     record_event(
         organization=organization,
@@ -93,6 +97,68 @@ def remove_member(membership, target):
     target.delete()
     # The person's open browsers stop working at once (AUTH-012). Their account stays.
     end_user_sessions(target.user)
+
+
+def _restore_or_create_membership(user, organization, role):
+    """A removed person who is invited again gets their old membership back (soft delete, DAT-007).
+
+    The unique (user, organization) constraint allows one row, so the removed row is reused.
+    """
+    former = Membership.all_objects.filter(user=user, organization=organization).first()
+    if former is None:
+        return Membership.objects.create(user=user, organization=organization, role=role)
+    former.role = role
+    former.deleted_at = None
+    former.save(update_fields=["role", "deleted_at"])
+    return former
+
+
+def _restore_or_create_access(organization, client, membership):
+    access = ClientAccess.all_objects.filter(client=client, membership=membership).first()
+    if access is None:
+        ClientAccess.objects.create(organization=organization, client=client, membership=membership)
+    elif access.deleted_at is not None:
+        access.deleted_at = None
+        access.save(update_fields=["deleted_at"])
+
+
+@transaction.atomic
+def anonymize_member(membership, target):
+    """Replace a removed person's personal data with an anonymous marker (DAT-011, D-17).
+
+    The records stay: their comments, approvals and audit events keep pointing at the same
+    account, which no longer shows a name or an email. Only a person whose access was removed
+    can be anonymized, so an active person's data is never changed by mistake.
+    """
+    require_capability(membership, Capability.MANAGE_TEAM)
+    organization = membership.organization
+    if target.organization_id != organization.pk:
+        raise DomainError("This membership belongs to another organization.")
+    if target.deleted_at is None:
+        raise DomainError("Remove this person's access before anonymizing their data.")
+    user = target.user
+    if user.email.endswith("@" + ANONYMOUS_DOMAIN):
+        return target  # already anonymized
+
+    marker = f"anonymous-{uuid.uuid4().hex[:12]}"
+    user.email = f"{marker}@{ANONYMOUS_DOMAIN}"
+    user.username = marker
+    user.first_name = ""
+    user.last_name = ""
+    user.is_active = False
+    user.set_unusable_password()
+    user.save()
+    # The authenticator stays encrypted, but it is switched off so it can never be used.
+    MFADevice.objects.filter(user=user).update(confirmed=False)
+
+    record_event(
+        organization=organization,
+        actor=membership.user,
+        action=MEMBER_ANONYMIZED,
+        entity=target,
+        metadata={"role": target.role},
+    )
+    return target
 
 
 def _owner_count(organization):

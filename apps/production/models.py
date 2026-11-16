@@ -10,7 +10,7 @@ from django.conf import settings
 from django.db import models
 
 from apps.core.choices import translated_choices
-from apps.core.models import UUIDModel
+from apps.core.models import SoftDeleteModel, UUIDModel
 
 from .domain.content import ApprovalDecision, ApprovalStage, Channel, ContentFormat
 from .domain.states import ContentState
@@ -89,7 +89,7 @@ class Approval(UUIDModel):
         return f"{ApprovalStage(self.stage).label}: {ApprovalDecision(self.decision).label} (v{self.version.number})"
 
 
-class Comment(UUIDModel):
+class Comment(SoftDeleteModel):
     organization = models.ForeignKey("accounts.Organization", on_delete=models.CASCADE, related_name="+")
     content = models.ForeignKey("production.ContentItem", on_delete=models.CASCADE, related_name="comments")
     author = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.SET_NULL, related_name="+")

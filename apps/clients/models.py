@@ -2,7 +2,7 @@ from django.db import models
 
 from apps.core.choices import translated_choices
 from apps.core.enums import LabeledEnum
-from apps.core.models import UUIDModel
+from apps.core.models import SoftDeleteModel, UUIDModel
 
 
 class Client(UUIDModel):
@@ -26,7 +26,7 @@ class Client(UUIDModel):
         return self.name
 
 
-class ClientAccess(UUIDModel):
+class ClientAccess(SoftDeleteModel):
     """Lets one membership see one client. Owners see every client without these rows."""
 
     organization = models.ForeignKey("accounts.Organization", on_delete=models.CASCADE, related_name="+")
