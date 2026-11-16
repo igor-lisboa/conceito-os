@@ -18,9 +18,11 @@ but a database-level limit protects the data if a string is ever used by mistake
 
 ## 1. Things to know before you start
 
-- **Migrations are not run by Vercel.** Run them once from your machine against
-  the production database, then deploy. Running them on every request would be
-  wrong, and the build step has no database access.
+- **Migrations run in the production build.** `vercel.json` runs `vercel_build.py`
+  after the dependencies are installed. It migrates only production builds; a failed
+  migration fails the build, so the previous version keeps serving. Set
+  `RUN_MIGRATIONS=0` in Vercel to skip it. Keep migrations backward compatible: the
+  old version may still be running while the new build migrates the database.
 - **No file uploads yet.** Vercel's filesystem is read-only except `/tmp`, and it
   is erased between requests. Media is stored as URLs until a storage decision
   is made (see `specs/planning/risks-open-decisions.md`).
