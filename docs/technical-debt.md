@@ -50,35 +50,21 @@ Phase 1 code scope is complete except the items marked *partly* in the P1 table.
 
 | ID | Debt | Spec reference | Why it matters | Size | Depends on |
 | --- | --- | --- | --- | --- | --- |
-| TD-03 | [done: invitations, removal, team screens] Invite team members by email, set their role and client access, and remove their access (immediately effective). Today members are created in the Django admin. | AUTH-011, AUTH-012, CLI-004, PRM-007 | Without it, adding people needs a developer. Removing access is a security requirement. | M | Email (done), team screens |
-| TD-12 | [done: counts in a database table shared by all instances, exact under parallel attempts (TD-S9 closed)] Limit repeated failed sign-in attempts per account and per address. | SEC-008 | The login page is public on the internet. The counts must be shared between serverless instances, so the choice depends on the hosting setup. | S | Hosting setup |
 | TD-13 | Backups of the production database, with a restore test that is run and recorded. | ARC-005, NFR-040 | Losing agency content would be irreversible. | S | Production database provider |
 | TD-39 | Deploy to Vercel and check it end to end against a real MySQL server, with real SMTP. | PD-14, deployment guide | Only the local Docker setup has been exercised. | S | TD-13, TD-45 |
 | TD-40 | Rotate the administrator password for production, and set every production secret only in the hosting settings. | PD-76, PD-94 | The local development password must not be used in production. | S | TD-39 |
 | TD-45 | Verified email domain and SMTP account with the provider. | AUTH-002, PD-73, NTF-001 | Welcome and reset emails need a provider that delivers them. | S | Provider account |
-| TD-47 | Personal data: export on request, and anonymization for clients and leads. Team members can already be anonymized (AUTH-024). Retention is decided: keep everything forever, anonymize (D-17). Legal basis per data type is still open. | SEC-009, SEC-011, DAT-011 | Required by LGPD. | M | Legal review of the bases (D-17) |
+| TD-47 | Personal data: export on request. Anonymization is done for team members (AUTH-024), leads and client-role contacts (the same as team members). Retention is decided: keep everything forever, anonymize (D-17). Legal basis per data type is still open. | SEC-009, SEC-011, DAT-011 | Required by LGPD. | M | Legal review of the bases (D-17) |
 | TD-44 | Clear the two remaining HSTS warnings from `manage.py check --deploy` (subdomains and preload), once the domain is stable. | SEC-006 | Only worth doing after the domain is final, because preload is hard to undo. | S | TD-39 |
 
 ## P1: to finish Phase 1
 
 | ID | Debt | Spec reference | Why it matters | Size | Depends on |
 | --- | --- | --- | --- | --- | --- |
-| TD-01 | [done for the manual minimum: leads, proposals, monthly metrics with N/D. PDF and automation still open] **CRM, proposals and reports, manual minimum.** Leads with stage and next action; proposals typed by hand with status; a monthly report where people enter metric values by hand, and missing metrics show as `N/D`. No automation, no AI, no PDF. | PD-02, CRM-001, CRM-003, CRM-006, ONB-001, MET-001..003, MET-005 (manual part) | Agreed as part of Phase 1 (decision D-01). The largest gap in the agreed scope. | L | None |
-| TD-02 | [done: links with kinds] **Brand file library as links.** Each brand gets a list of links (logo, fonts, templates, references) with a title and a kind. | PD-03, CLI-007 | Agreed in Phase 1. No file upload until a storage service is chosen (TD-33). | S | None |
 | TD-04 | [done for month view, agenda, duplicate, and drag to change a planned date (PRO-015, PRO-016). Scheduled pieces cannot be dragged (PD-46)] **Calendar views:** month, week, and a daily agenda on phones; filter by client, channel, stage, and date; duplicate a piece from the calendar; change a date with validation. | CAL-001..004, CAL-006, CAL-011 | The calendar is how the team plans. Today there is only a filtered list. | M | Timezone (TD-09) |
-| TD-05 | [done for the board, with drag along the four manual moves (PRO-017, D-28). Approvals and scheduling stay on the piece page] **Kanban production board** (desktop columns; phone lists grouped by stage). | PRO-005, section 17.3 item 2 | Spec MVP item. Today the list filter covers the data but not the board. | M | None |
-| TD-06 | [done] **Tasks:** create a task for a client or a piece, with an owner and a due date; mark done; list "mine". | Section 8 entity `tasks`, Phase 1 "tarefas" | Phase 1 scope; the team needs to track follow-ups. | M | None |
 | TD-07 | [done for the bottom bar and the collapsible filters (NAV-014, D-29). The step-by-step piece editor moved to P2 as TD-51] **Phone navigation:** bottom bar (Home, Clients, Calendar, Tasks, More); filters in a collapsible panel; the piece editor in steps (text, media, date, review). | NAV-002, 15.1, 18.1 | The spec treats phones as a first-class target, not a shrunk desktop. Today the layout is responsive CSS only. | M | TD-04, TD-05 |
-| TD-08 | [done: owner audit screen] **Audit log screen** for the owner, filterable by person, action, and client. | AUTH-020, SEC-007 | The data is recorded; only the admin can read it today. | S | None |
-| TD-09 | [done: organization time zone on screens and typed dates] **Apply each organization's timezone** on every screen and in date inputs. | CAL-011, NFR-003 | Dates are stored in UTC and shown in UTC today. A Brazilian team reads them wrong. | S | None |
-| TD-11 | [done, optional per account. Mandatory for owners waits for decision D-17] **Multi-factor sign-in** for owners and administrators (for others, by risk decision). | AUTH-004, D-17 | Owners can publish and read finances; the spec asks for MFA by risk. | M | Decision D-17 |
-| TD-15 | [done: name and time zone] **Organization settings screen:** name, timezone, default notification email. | AUTH-014 | Today these are set only in the admin. | S | TD-09 |
-| TD-29 | [done: comments and mentions] **Comments on a piece**, with mentions that notify the person. Today comments exist only on approvals. | PRO-004, NTF-006, 17.2 | Spec production item: discussion happens on the piece, not only in decisions. | M | Notifications (done) |
-| TD-43 | [done: link kept on the piece] **Record the published link** of a post, when the team publishes by hand. | INT-010 | Keeps proof of publication for reports and client questions. | S | None |
 | TD-36 | [done for WCAG 2.2 AA automated checks (axe-core, 32 page and width checks, 0 violations), keyboard focus on the board and calendar (every focus stop visible), and the 200% zoom check (640 px, no horizontal scroll). Open: a screen reader pass, which needs a person with a screen reader] **Accessibility check** of the screens against WCAG 2.2 AA, with a keyboard and a screen reader pass. | NFR-010, NFR-011, DSG-003 | The spec makes AA the target; only colour contrast has been checked so far. | S | None |
 | TD-14 | [done for logs. Alerts that page a person need an external service] **Logs and alerts** for failed emails, failed sign-ins and server errors. | ARC-006 | Today failures are logged to the console only. | S | TD-39 |
-| TD-26 | [done: calendar, results, files and contact] **Client portal:** the Home, Calendar, Results, Files and Contact sections. Only Approvals exists. | POR-002 | Phase 1 has the approvals portal; the other sections are part of the spec's portal. | M | TD-04, TD-02 |
-| TD-48 | [done for email: each person chooses the language of their emails on the account page, NTF-010; in-app text already follows the viewer] **Notifications and mail templates in the client's language** (today: the request's language). | NTF-005 partly, NTF-010 | Clients may be in a different language from the team. | S | None |
 
 ## P2: Phase 2 (operations and strategy)
 
@@ -120,7 +106,6 @@ cost later.
 
 | ID | Shortcut | Risk | When to fix |
 | --- | --- | --- | --- |
-| TD-S4 | `visible_content` (read side) repeats the rule of `apps/production/domain/policy.py` in ORM form. A test keeps them in step. | Two places to change when the rule changes. | When the policy changes next |
 | TD-S6 | Publishing is marked by hand. The link is kept (TD-43) and the method is recorded as `manual` (2026-11-04). | Relies on people remembering to mark it. | With TD-20 |
 | TD-S7 | The database has no `WHERE`-level row security; tenant isolation is in application code, tested. | A future bug in a query could leak data. | Consider with TD-37 |
 | TD-S8 | Session cookies and password reset links use the Django defaults (sessions in the database). | Fine for now; no session limit per device yet. | With TD-11 |
@@ -158,6 +143,8 @@ cost later.
 | Calendar drag of planned dates (PRO-015, PRO-016) | 2026-11-02 | `apps/production/tests/test_planned_date.py` |
 | TD-S14 (board drag on manual moves, PRO-017) | 2026-11-02 | `apps/production/tests/test_board_drag.py` |
 | TD-S11 (MFA secret encrypted at rest, key in `MFA_ENCRYPTION_KEY`; production refuses to start without it) | 2026-11-02 | `apps/accounts/tests/test_mfa_encryption.py`, `apps/accounts/tests/test_mfa_key_check.py`; migration `apps/accounts/migrations/0004_encrypt_mfa_secret.py` |
+| TD-S4 (visibility rule in one `Scope` in policy.py; the read side applies it as a filter) | 2026-11-16 | `apps/production/tests/test_queries.py`; `apps/production/domain/policy.py` |
+| CRM lead anonymization (DAT-011) | 2026-11-16 | `apps/crm/tests/test_lead_anonymize.py`; `apps/crm/anonymize.py` |
 | CAL-001 campaign entity and campaign filter (decided 10A) | 2026-11-16 | `apps/clients/tests/test_campaigns.py`; `apps/clients/campaign_views.py`; `apps/production/planning.py` (PlanningFilterForm.campaign) |
 | D-16 per-person CRM access (decided 4B) | 2026-11-16 | `apps/accounts/tests/test_crm_access.py`; migration `accounts/0007_membership_crm_access` (grants existing account managers) |
 | TD-DAT (soft delete everywhere; team and comments soft deleted, anonymization of team members) | 2026-11-16 | `apps/accounts/tests/test_soft_delete_and_anonymize.py`; migrations `accounts/0006`, `clients/0002`, `production/0005` |

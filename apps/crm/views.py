@@ -7,7 +7,9 @@ from django.views.generic import CreateView, ListView
 
 from apps.accounts.mixins import CapabilityRequiredMixin
 from apps.accounts.permissions import Capability
+from apps.core.http import run_action
 
+from .anonymize import anonymize_lead
 from .forms import LeadForm, ProposalForm
 from .models import Lead, LeadStage, Proposal, ProposalStatus
 
@@ -42,6 +44,22 @@ class LeadCreateView(CapabilityRequiredMixin, CreateView):
         form.instance.organization = self.request.membership.organization
         messages.success(self.request, gettext("Lead saved."))
         return super().form_valid(form)
+
+
+class LeadAnonymizeView(CapabilityRequiredMixin, View):
+    """Owner or CRM person action: anonymize a lead's personal data on request (D-17)."""
+
+    required_capability = Capability.MANAGE_CRM
+    http_method_names = ["post"]
+
+    def post(self, request, pk):
+        lead = get_object_or_404(Lead, pk=pk, organization=request.membership.organization)
+        run_action(
+            request,
+            lambda: anonymize_lead(request.membership, lead),
+            success_message="Lead anonymized.",
+        )
+        return redirect("lead_board")
 
 
 class LeadStageView(CapabilityRequiredMixin, View):

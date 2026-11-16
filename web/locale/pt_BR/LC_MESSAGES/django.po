@@ -1384,3 +1384,9 @@ msgstr "Sempre"
 
 msgid "CRM access updated."
 msgstr "Acesso ao CRM atualizado."
+
+msgid "Lead anonymized."
+msgstr "Lead anonimizado."
+
+msgid "Anonymized lead"
+msgstr "Lead anonimizado"
