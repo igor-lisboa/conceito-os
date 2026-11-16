@@ -95,7 +95,6 @@ Phase 1 code scope is complete except the items marked *partly* in the P1 table.
 | TD-35 | Formal design system: SVG logo, token validation, component states guide. | DSG-006, DSG-008 | M |
 | TD-37 | End-to-end browser tests of the main flows, and a check that the role matrix is complete. | section 12 | M |
 | TD-38 | Performance targets and a load test. | NFR-030..032 | S |
-| TD-49 | API contracts for jobs, states and events, written from the code. | section 14.5 | S |
 
 ## P3 and P4: later phases
 
@@ -161,6 +160,7 @@ cost later.
 | TD-S14 (board drag on manual moves, PRO-017) | 2026-11-02 | `apps/production/tests/test_board_drag.py` |
 | TD-S11 (MFA secret encrypted at rest, key in `MFA_ENCRYPTION_KEY`; production refuses to start without it) | 2026-11-02 | `apps/accounts/tests/test_mfa_encryption.py`, `apps/accounts/tests/test_mfa_key_check.py`; migration `apps/accounts/migrations/0004_encrypt_mfa_secret.py` |
 | TD-S12 (QR code on the MFA setup screen; the typed key stays as fallback) | 2026-11-02 | `apps/accounts/tests/test_mfa_qr.py`; `apps/accounts/mfa.py` (`provisioning_svg`) |
+| TD-49 (internal contracts for states, audit actions and notification kinds, checked by test; no public API or jobs exist yet) | 2026-11-16 | `docs/api-contracts.md`; `apps/production/tests/test_api_contracts.py` |
 | TD-31 (compare two versions side by side, read-only, PRO-004 PROPOSAL) | 2026-11-16 | `apps/production/tests/test_version_compare.py`; `apps/production/views.py` (`ContentCompareView`); `web/templates/production/content_compare.html` |
 | TD-S13 (comments editable and deletable by their author, PROPOSAL D-30) | 2026-11-02 | `apps/production/tests/test_comment_edit_delete.py`; migration `apps/production/migrations/0003_comment_edited_at.py` |
 | Session gap in AUTH-012 (removal left open sessions signed in; found in review) | 2026-11-02 | `apps/accounts/tests/test_session_revocation.py`; `apps/accounts/sessions.py` |
