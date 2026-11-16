@@ -24,8 +24,9 @@ class EmailSignInTests(TestCase):
     def test_email_is_case_insensitive(self):
         self.assertTrue(self.client.login(username="ANA@Conceito.com.br", password="Senha-Forte-2026!"))
 
-    def test_username_still_works(self):
-        self.assertTrue(self.client.login(username="ana", password="Senha-Forte-2026!"))
+    def test_username_no_longer_signs_in(self):
+        # TD-S5, decided 2026-11-16: email is the only way in.
+        self.assertFalse(self.client.login(username="ana", password="Senha-Forte-2026!"))
 
     def test_wrong_password_is_refused(self):
         self.assertFalse(self.client.login(username="ana@conceito.com.br", password="errada"))

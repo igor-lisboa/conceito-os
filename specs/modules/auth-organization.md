@@ -2,8 +2,8 @@
 id: auth
 status: partially-implemented
 phase: MVP
-version: 1.3
-updated: 2026-11-02
+version: 1.4
+updated: 2026-11-16
 ---
 
 # Authentication, organization and team administration
@@ -22,7 +22,7 @@ Owner/admin manages everything here. Other roles only manage their own session a
 
 ### Authentication
 
-- **AUTH-001** Sign in with email + password or an authorized identity provider; sign out.
+- **AUTH-001** Sign in with email + password or an authorized identity provider; sign out. Sign-in uses the email address only; a username does not sign in (decided 2026-11-16, TD-S5).
 - **AUTH-002** Password recovery. Failed sign-in or recovery MUST NOT reveal whether an account exists. *Implemented 2026-11-01: email link valid for 24 hours, one use; same answer for unknown emails.*
 - **AUTH-003** Session protection (expiry, revocation on password change or access removal). *Partly implemented 2026-11-02: a password change ends the other sessions (Django's session check), and removing access ends the person's sessions. Expiry rules and a per-device session list are open (TD-S8).*
 - **AUTH-004** MFA available, required according to risk (which roles: D-17). *Implemented 2026-11-02 as an optional authenticator app per account; the secret is encrypted at rest with `MFA_ENCRYPTION_KEY` (TD-S11), and production refuses to start without the key. Required-by-role remains open (D-17).*

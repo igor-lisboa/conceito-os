@@ -2,8 +2,8 @@
 id: ntf
 status: partially-implemented
 phase: MVP (basic) / P3 (digests and intelligence alerts)
-version: 1.2
-updated: 2026-11-02
+version: 1.3
+updated: 2026-11-16
 ---
 
 # Notifications
@@ -17,7 +17,7 @@ New in the review: consolidates notification requirements from UC-14, the MVP ac
 - **NTF-003** Delivery MUST be idempotent: one event produces at most one notification per recipient and channel.
 - **NTF-004** Notifications respect permissions: a user is never notified about a client they can't access.
 - **NTF-005** Per-user preferences by type and channel; organization defaults ([AUTH-014](auth-organization.md)).
-- **NTF-006** Mentions in comments notify the mentioned user.
+- **NTF-006** Mentions in comments notify the mentioned person only if they are an internal member who can open the piece (decided 2026-11-16, D-31). Client-role members are never notified of internal comments. A person mentioned for the first time by an edit is notified (D-30).
 - **NTF-007** MVP events: task assigned, review requested, client approved/requested changes, due date approaching, publishing failed, integration expired.
 - **NTF-008** (P3) Critical intelligence alerts per event; daily/weekly digests for Updates and Trends.
 - **NTF-009** Notifications to end clients only go through the apps/portal/email and never include internal data.

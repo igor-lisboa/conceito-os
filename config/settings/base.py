@@ -136,9 +136,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # --- Auth ------------------------------------------------------------------
 
 AUTH_USER_MODEL = "accounts.User"
+# Email is the only way to sign in (TD-S5). EmailBackend extends ModelBackend, so permissions still work.
 AUTHENTICATION_BACKENDS = [
-    "apps.accounts.backends.EmailOrUsernameBackend",
-    "django.contrib.auth.backends.ModelBackend",
+    "apps.accounts.backends.EmailBackend",
 ]
 
 AUTH_PASSWORD_VALIDATORS = [

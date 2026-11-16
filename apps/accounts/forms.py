@@ -22,7 +22,7 @@ TIMEZONE_CHOICES = [
 
 
 class EmailAuthenticationForm(AuthenticationForm):
-    """Login form that asks for an email address (the username still works)."""
+    """Login form that asks for an email address. Usernames do not sign in (TD-S5)."""
 
     username = forms.CharField(label=_("Email"), widget=forms.TextInput(attrs={"autofocus": True}))
 

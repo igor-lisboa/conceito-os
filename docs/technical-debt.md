@@ -121,7 +121,6 @@ cost later.
 | ID | Shortcut | Risk | When to fix |
 | --- | --- | --- | --- |
 | TD-S4 | `visible_content` (read side) repeats the rule of `apps/production/domain/policy.py` in ORM form. A test keeps them in step. | Two places to change when the rule changes. | When the policy changes next |
-| TD-S5 | Login by username is still allowed next to login by email. | Two ways in; the username is not always private. | Keep until the team agrees; review with TD-11 |
 | TD-S6 | Publishing is marked by hand. The link is kept (TD-43) and the method is recorded as `manual` (2026-11-04). | Relies on people remembering to mark it. | With TD-20 |
 | TD-S7 | The database has no `WHERE`-level row security; tenant isolation is in application code, tested. | A future bug in a query could leak data. | Consider with TD-37 |
 | TD-S8 | Session cookies and password reset links use the Django defaults (sessions in the database). | Fine for now; no session limit per device yet. | With TD-11 |
@@ -159,6 +158,7 @@ cost later.
 | Calendar drag of planned dates (PRO-015, PRO-016) | 2026-11-02 | `apps/production/tests/test_planned_date.py` |
 | TD-S14 (board drag on manual moves, PRO-017) | 2026-11-02 | `apps/production/tests/test_board_drag.py` |
 | TD-S11 (MFA secret encrypted at rest, key in `MFA_ENCRYPTION_KEY`; production refuses to start without it) | 2026-11-02 | `apps/accounts/tests/test_mfa_encryption.py`, `apps/accounts/tests/test_mfa_key_check.py`; migration `apps/accounts/migrations/0004_encrypt_mfa_secret.py` |
+| TD-S5 (sign-in by email only; usernames no longer sign in) | 2026-11-16 | `apps/accounts/tests/test_auth.py` (`test_username_no_longer_signs_in`); `apps/accounts/backends.py` |
 | TD-S12 (QR code on the MFA setup screen; the typed key stays as fallback) | 2026-11-02 | `apps/accounts/tests/test_mfa_qr.py`; `apps/accounts/mfa.py` (`provisioning_svg`) |
 | TD-49 (internal contracts for states, audit actions and notification kinds, checked by test; no public API or jobs exist yet) | 2026-11-16 | `docs/api-contracts.md`; `apps/production/tests/test_api_contracts.py` |
 | TD-31 (compare two versions side by side, read-only, PRO-004 PROPOSAL) | 2026-11-16 | `apps/production/tests/test_version_compare.py`; `apps/production/views.py` (`ContentCompareView`); `web/templates/production/content_compare.html` |

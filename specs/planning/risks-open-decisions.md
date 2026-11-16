@@ -29,37 +29,9 @@ Claude does NOT decide items on this list without approval from Beatriz (product
 
 | # | Decision | Where | Initial recommendation |
 | --- | --- | --- | --- |
-| D-01 | Which parts of CRM, proposals and reports are in the MVP (roadmap vs. screen inventory disagree) | roadmap, CRM, ONB, MET | Minimal cuts as proposed in each module; confirm with Beatriz |
-| D-02 | Desktop sidebar items (two different lists in the source) | navigation | Single unified list as proposed |
-| D-03 | Mobile bottom bar: "Alerts" tab vs "More" with alerts in the header | navigation | Home · Clients · Calendar · Tasks · More |
-| D-05 | Own job queue vs n8n | architecture, AUT | Own queue for core flows; n8n only for peripheral ones |
-| D-06 | AI provider(s) and budget per task | AI | Provider-agnostic layer; choose per task |
-| D-07 | Contract e-signature solution and legal templates | ONB | External integration; lawyer-reviewed templates |
-| D-08 | SaaS payment gateway | BIL | Decide in P4 |
-| D-09 | Grace period length (3–7 days suggested) | BIL | Configurable per plan |
-| D-10 | Scheduled posts during suspension | BIL | Pause at suspension start, warn beforehand |
-| D-11 | Single `invoices` table or split agency vs platform | data model | Split |
-| D-12 | "Analyzed" as a state or a flag | states | Flag (`analyzed_at`) |
-| D-13 | Allowed prospecting and trend sources | CRM, AI | Official/licensed sources only |
-| D-14 | Design pipeline for vector logos and editable files; final Conceito OS logo vector | BRD, DSG | Human designer + integrated tool |
-| D-15 | Font licensing and loading | DSG | Both on Google Fonts (OFL); self-host |
-| D-16 | Granularity of "if permitted / limited" permission flags | roles | Configurable flags per module |
-| D-17 | Retention policy, legal bases, MFA per role | security | Define with legal review; MFA mandatory for owner/admin |
-| D-18 | Validate novelty claims with users before marketing them | vision | Don't claim novelty before testing |
-| D-19 | Configurable production stages vs fixed states | PRO, states | Fixed technical states; agencies may rename UI labels only |
-| D-20 | Job function → role mapping (commercial, strategist, analyst, designer) | roles | Map to existing roles + flags, no new roles |
-| D-21 | "Client approval required": per client, per content type, or both | CLI, PRO | Per client, default on |
-| D-22 | Numeric non-functional targets (latency, availability, RPO/RTO, upload limits) | NFR | Set before production launch |
-| D-23 | Dark mode timing | DSG | After MVP; tokens ready from day one |
-| D-24 | Languages beyond pt-BR | NFR | Decided 2026-11-01: English and pt-BR. Others not planned. |
-| D-25 | Capabilities actually available per account type in Meta/TikTok APIs (publishing, metrics) | INT, MET | Technical spike before P2 |
-| D-26 | Date change after client approval requires re-approval | CAL | Confirmed by the product owner (2026-11-02): the planned date stays locked from client review, so no re-approval flow is needed; the publishing date is set after approval through unschedule and schedule, which the approval already covers. |
-| D-27 | Planned date (PRO-015, PRO-016): changes need a recorded reason; the date locks once the piece reaches client review, or is scheduled or published | PRO, CAL | Confirmed by the product owner (2026-11-02): reason always required; lock from client review, scheduled and published. |
-| D-28 | Board drag: which moves a card may take by drag (PRO-017) | PRO | Confirmed by the product owner (2026-11-02): only the four manual moves of PD-41. Approvals, rejections, scheduling and publishing stay on the piece page because they need a comment, date or link. |
-| D-30 | Who may edit or delete a comment (PRO-004): author only, or also owners and managers; and whether an edit notifies newly mentioned people | PRO | Built as PROPOSAL: author only, edits marked as edited, no new notifications on edit. Recommendation: keep author only, because it matches a comment being the author's own note; owners/managers can still act through the team. Pending product owner. |
-| D-31 | Who is notified when a comment mentions someone (NTF-006): today every organization member whose email is mentioned gets a notification, even if they cannot see the piece (for example a client-role member), and the notification shows the piece title. Options: (a) notify only members who can see the piece (recommended: same visibility rule as the piece itself); (b) keep as is. | NTF / SEC | Found while writing the internal contracts (TD-49); not changed. Recommendation: option (a), because a notification is a disclosure of the piece title. Pending product owner. |
-| D-29 | Phone layout: filters as a drawer, and the piece editor in steps (NAV-002, NAV-014) | NAV, PRO | Confirmed by the product owner (2026-11-02): filters are a collapsed panel that opens when a filter is set; the step-by-step editor moves to P2, because the single page works on phones. |
 
+| D-17 | Legal basis per data type and retention periods (MFA and anonymizing decided, see below) | security | Partly decided 2026-11-16: MFA optional (5B), client data anonymized after the contract ends (6C). Open: the legal basis for each data type and the retention periods. Suggested list being prepared for legal review. |
+| D-22 | Numeric non-functional targets (latency, availability, RPO/RTO, upload limits) | NFR | Open: the product owner asked for a proposal to confirm or change (answer 8). |
 ## Decided
 
 | # | Decision | Date | Outcome |
@@ -70,3 +42,36 @@ Claude does NOT decide items on this list without approval from Beatriz (product
 | — | Hosting | 2026-11-01 | Vercel Python runtime; migrations run from the developer machine. |
 | — | URL routes in English | 2026-11-04 | Requested by Igor Lisboa; replaces the pt-BR routes of the source spec (`/clientes` becomes `/clients`). Route names in code were already English. Pending confirmation by Beatriz (product owner). |
 | — | Frontend | 2026-11-01 | Server-rendered templates for now; SPA deferred. |
+| D-01 | Scope of CRM, proposals and reports in the MVP | 2026-11-16 | Minimal manual version in the MVP (answer 15A). Phase 2 details to be added to the spec: PDF, automation, proposal detail. |
+| D-02 | Desktop sidebar items | 2026-11-16 | One unified list (16A). |
+| D-03 | Mobile bottom bar | 2026-11-16 | Home · Clients · Calendar · Tasks · More (17A). |
+| D-05 | Job queue (Phase 3) | 2026-11-16 | n8n for all job work (18B). Core publishing then depends on n8n; review before Phase 3 starts. |
+| D-06 | AI provider (Phase 3) | 2026-11-16 | Provider-agnostic layer (19A). The product owner plans to build an LLM in-house later, so the layer must allow it. |
+| D-07 | Contract e-signature (Phase 2) | 2026-11-16 | Upload a signed PDF by hand (20B). |
+| D-08 | SaaS payment gateway (Phase 4) | 2026-11-16 | Decide in Phase 4 (21C). |
+| D-09 | Grace period after non-payment (Phase 4) | 2026-11-16 | 3 days by default, configurable per plan (22A, with the configurable option). Confirm the exact default. |
+| D-10 | Scheduled posts during suspension (Phase 4) | 2026-11-16 | Cancel scheduled posts, with alerts (23C). |
+| D-11 | Invoices table (Phase 2) | 2026-11-16 | One table (24B). Conflicts with the separation of financial contexts A and B (CLAUDE.md invariants); confirm before building. |
+| D-12 | "Analyzed" as state or flag | 2026-11-16 | Flag (25A). |
+| D-13 | Prospecting and trend sources | 2026-11-16 | Official or licensed sources only (26A). |
+| D-14 | Logo design pipeline | 2026-11-16 | Human designer with an integrated tool (27A). |
+| D-15 | Font licensing | 2026-11-16 | Google Fonts, self-hosted (28A). |
+| D-16 | CRM permission flags ("if permitted") | 2026-11-16 | Owners set a permission flag per person (4B). Build pending. |
+| D-18 | Validate novelty claims before marketing | 2026-11-16 | Test with real users first (29A). |
+| D-19 | Configurable production stages | 2026-11-16 | Fully configurable stages (30B). Conflicts with the fixed-states recommendation and the approval rules; confirm before building. |
+| D-20 | Job function to role mapping | 2026-11-16 | Map to existing roles plus flags (31A). |
+| D-21 | Client approval required | 2026-11-16 | Per client, on by default (9A). |
+| D-23 | Dark mode timing | 2026-11-16 | With the MVP (32B). Conflicts with TD-34 (Phase 3); confirm the scope change. |
+| D-25 | Social network capabilities before Phase 2 | 2026-11-16 | Assume and build, keeping the integration agnostic (33B). No spike first; confirm. |
+| D-24 | Languages beyond pt-BR | 2026-11-01 | English and pt-BR only (decided earlier). |
+| D-26 | Date change after client approval | 2026-11-02 | Confirmed by the product owner: no re-approval flow. |
+| D-27 | Planned date lock and reason | 2026-11-02 | Confirmed by the product owner: reason required; locked from client review, scheduled and published. |
+| D-28 | Board drag moves | 2026-11-02 | Confirmed by the product owner: the four manual moves only. |
+| D-29 | Phone layout (filters, editor) | 2026-11-02 | Confirmed by the product owner. Reversed for the editor by PRO-003 below, pending confirmation. |
+| D-30 | Comment edit, delete and re-notification | 2026-11-16 | Author only (2A). An edit notifies people mentioned for the first time (3B). Implemented. |
+| D-31 | Who is notified about a mention | 2026-11-16 | Only internal members who can open the piece (1A). Implemented; client-role members never notified. |
+| TD-S5 | Sign in with username | 2026-11-16 | Email only (12A). Implemented; usernames no longer sign in. |
+| CRM-001 | Lead pipeline stages | 2026-11-16 | Keep the five stages: new, contacted, meeting, won, lost (13A). Spec wording to be fixed. |
+| PRO-003 | Mobile piece editor (step by step) | 2026-11-16 | Build the step-by-step editor in the MVP (14B). Reverses D-29 for the editor: needs Beatriz's confirmation. Build pending. |
+| CAL-001 | Campaign filter on the calendar | 2026-11-16 | Add a campaign entity now (10A). Build pending. |
+| PD-46 | Dragging scheduled pieces | 2026-11-16 | Allowed, with a required reason and a notice of the edit (11B). Build pending. |
