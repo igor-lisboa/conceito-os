@@ -1,0 +1,22 @@
+# Files the Vercel function does not need. Keeps the bundle small and keeps local secrets out.
+.git
+.venv
+venv
+.env
+.env.*
+!.env.example
+.claude
+.ruff_cache
+.pytest_cache
+.coverage
+htmlcov
+docker
+docker-compose.yml
+requirements-dev.txt
+ruff.toml
+scripts
+specs
+docs
+**/__pycache__
+**/tests
+*.sqlite3
