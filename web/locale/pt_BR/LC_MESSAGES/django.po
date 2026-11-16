@@ -1393,3 +1393,6 @@ msgstr "Lead anonimizado"
 
 msgid "Enter the link to the published post."
 msgstr "Informe o link da publicação."
+
+msgid "Dark mode"
+msgstr "Modo escuro"

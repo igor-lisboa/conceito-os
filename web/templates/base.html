@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Conceito OS{% endblock %}</title>
   <link rel="stylesheet" href="{% static 'css/app.css' %}">
+  <script>
+    // Apply the saved light or dark choice before the page paints, so there is no flash.
+    // No choice saved = follow the system setting (the CSS does that).
+    try {
+      var saved = localStorage.getItem("conceito-theme");
+      if (saved === "light" || saved === "dark") document.documentElement.setAttribute("data-theme", saved);
+    } catch (e) {}
+  </script>
 </head>
 <body>
   <a class="skip-link" href="#conteudo">{% trans "Skip to content" %}</a>
@@ -41,6 +49,8 @@
         <a href="{% url 'mfa_setup' %}">{% trans "Security" %}</a>
       </nav>
     {% endif %}
+
+    <button type="button" class="theme-toggle" id="theme-toggle" aria-pressed="false">{% trans "Dark mode" %}</button>
 
     <form method="post" action="{% url 'set_language' %}" class="inline lang-switch">
       {% csrf_token %}
@@ -91,5 +101,24 @@
       {% endif %}
     </nav>
   {% endif %}
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var button = document.getElementById("theme-toggle");
+      function isDark() {
+        var forced = root.getAttribute("data-theme");
+        if (forced) return forced === "dark";
+        return window.matchMedia("(prefers-color-scheme: dark)").matches;
+      }
+      function show() { button.setAttribute("aria-pressed", isDark() ? "true" : "false"); }
+      button.addEventListener("click", function () {
+        var next = isDark() ? "light" : "dark";
+        root.setAttribute("data-theme", next);
+        try { localStorage.setItem("conceito-theme", next); } catch (e) {}
+        show();
+      });
+      show();
+    })();
+  </script>
 </body>
 </html>

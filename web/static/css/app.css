@@ -131,6 +131,7 @@ th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--co
 form p, form ul { margin: 10px 0; }
 label { display: block; font-weight: 600; margin-bottom: 4px; }
 input, select, textarea {
+  color: var(--color-text);
   width: 100%;
   max-width: 100%;
   padding: 10px;
@@ -161,3 +162,27 @@ input, select, textarea {
   tr { background: var(--color-surface); border-radius: var(--radius); margin-bottom: 12px; padding: 8px; }
   td { border: 0; padding: 4px 0; }
 }
+
+/* Skip link: hidden until a keyboard user focuses it (WCAG 2.4.1). */
+.skip-link {
+  position: absolute;
+  left: 12px;
+  top: -60px;
+  z-index: 10;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: var(--color-primary);
+  color: var(--color-text);
+}
+.skip-link:focus { top: 12px; outline: 3px solid var(--color-link); }
+
+/* Light/dark switch in the top bar. aria-pressed shows the state to screen readers. */
+.theme-toggle {
+  min-height: 36px;
+  padding: 6px 12px;
+  border: 1px solid var(--color-neutral);
+  border-radius: 8px;
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+.theme-toggle[aria-pressed="true"] { background: var(--color-neutral); }
