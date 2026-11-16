@@ -32,7 +32,6 @@ Claude does NOT decide items on this list without approval from Beatriz (product
 | D-01 | Which parts of CRM, proposals and reports are in the MVP (roadmap vs. screen inventory disagree) | roadmap, CRM, ONB, MET | Minimal cuts as proposed in each module; confirm with Beatriz |
 | D-02 | Desktop sidebar items (two different lists in the source) | navigation | Single unified list as proposed |
 | D-03 | Mobile bottom bar: "Alerts" tab vs "More" with alerts in the header | navigation | Home · Clients · Calendar · Tasks · More |
-| D-04 | Supabase vs self-managed Postgres | architecture | Evaluate Supabase for speed with RLS |
 | D-05 | Own job queue vs n8n | architecture, AUT | Own queue for core flows; n8n only for peripheral ones |
 | D-06 | AI provider(s) and budget per task | AI | Provider-agnostic layer; choose per task |
 | D-07 | Contract e-signature solution and legal templates | ONB | External integration; lawyer-reviewed templates |

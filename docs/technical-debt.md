@@ -16,7 +16,7 @@ them when the backlog is built (see [engineering deliverables](../specs/planning
 
 ## Where the functional MVP stands
 
-Working today, with tests on SQLite and MySQL (233 tests at the time of writing):
+Working today, with tests on SQLite and MySQL (the quality gate prints the current count):
 
 - Sign-in by email, password recovery, welcome email, first administrator command.
 - Organizations, memberships, the role matrix, and per-client visibility.

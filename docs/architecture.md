@@ -57,7 +57,7 @@ web layer import Django models.
 
 This is enforced by:
 - the test suite: `apps/production/tests/domain/` runs with no database and no Django models;
-- code review and the rule file `.claude/rules/architecture.md`;
+- code review against the layering rules ARC-010..016 in `specs/technical/architecture.md`;
 - `ruff`, which flags unused or missing imports (it does not enforce layering, so review matters).
 
 ---
@@ -127,7 +127,7 @@ If step 8 breaks a rule, nothing is saved and nothing is audited (tested in
 ### Concrete benefits in this codebase
 
 - **Rules are readable in one place.** `domain/states.py` is the whole lifecycle on one screen. A product owner can check it against `specs/technical/states-events.md`.
-- **Fast, precise tests.** The domain has 48 tests that run without a database. The application layer has 19 more that use in-memory fakes. Only the adapter, query, HTTP and portal tests (26 in total) touch the database.
+- **Fast, precise tests.** The domain tests run without a database. The application layer tests use in-memory fakes. Only the adapter, query, HTTP and portal tests touch the database.
 - **Rules cannot be skipped by accident.** Views never change a state directly. Every change goes through `Content`, so the edit rule (an approved piece returns to review), the rule that a scheduled piece cannot be edited, and the rule that approvals point at the exact version reviewed are enforced everywhere.
 - **Audit is a by-product.** Each domain event becomes an audit row in the same transaction. A rule failure leaves no half-written trail.
 - **Swappable infrastructure.** The MySQL decision was made after the design. Changing the database, the clock or the audit storage touches only `adapters/` and `composition.py`.

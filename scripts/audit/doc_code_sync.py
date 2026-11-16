@@ -29,7 +29,7 @@ TEST_CLAIM = re.compile(r"\b(\d{2,4}) tests\b")
 def doc_files():
     yield ROOT / "README.md"
     yield from sorted((ROOT / "docs").glob("*.md"))
-    yield from sorted((ROOT / "specs").rglob("*.md"))
+    yield from (p for p in sorted((ROOT / "specs").rglob("*.md")) if p.name != "CHANGELOG.md")
     yield from sorted((ROOT / ".claude").rglob("*.md"))
 
 

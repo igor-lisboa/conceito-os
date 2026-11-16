@@ -51,7 +51,7 @@ Consequence: lilac, nude pink and gray are **fill colors**. They MUST NOT be use
 
 ## Visual reference
 
-`Conceito_OS_Especificacao_Completa_Visual.pdf` (approved moodboard and wireframes) — not in this repository yet; suggested location `docs/references/`.
+`Conceito_OS_Especificacao_Completa_Visual.pdf` (approved moodboard and wireframes) — not in this repository yet; suggested location: a folder under docs/ (not created yet).
 
 ## Open decisions
 

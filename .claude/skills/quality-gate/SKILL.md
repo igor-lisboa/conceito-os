@@ -31,6 +31,6 @@ Python in this project is the virtualenv interpreter. On Windows Git Bash use `.
 
 ## Report
 
-Give a short table: step, result, and the failing test names or error lines if any. Keep the counts ("279 tests, OK") as printed.
+Give a short table: step, result, and the failing test names or error lines if any. Keep the counts (for example "N tests, OK") as printed.
 
 If a step fails, stop there and show the first failure. Do not change code in this skill. Fixing is a separate task.
