@@ -88,6 +88,7 @@ MIDDLEWARE = [
     "apps.accounts.middleware.ActiveMembershipMiddleware",
     "apps.accounts.middleware.OrganizationTimezoneMiddleware",
     "apps.accounts.middleware.MFAEnforcementMiddleware",
+    "apps.accounts.middleware.IdleTimeoutMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -136,6 +137,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # --- Auth ------------------------------------------------------------------
 
 AUTH_USER_MODEL = "accounts.User"
+# Idle sign-out (TD-S8, answer 6A). 8 hours is a PROPOSAL, not yet confirmed by the product owner.
+SESSION_IDLE_TIMEOUT_SECONDS = int(os.environ.get("SESSION_IDLE_TIMEOUT_SECONDS", str(8 * 3600)))
+
 # Email is the only way to sign in (TD-S5). EmailBackend extends ModelBackend, so permissions still work.
 AUTHENTICATION_BACKENDS = [
     "apps.accounts.backends.EmailBackend",

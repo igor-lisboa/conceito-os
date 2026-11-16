@@ -2,8 +2,8 @@
 id: dsg
 status: draft
 phase: MVP
-version: 1.1
-updated: 2026-10-30
+version: 1.2
+updated: 2026-11-16
 ---
 
 # Conceito OS visual identity and design system
@@ -40,7 +40,7 @@ Consequence: lilac, nude pink and gray are **fill colors**. They MUST NOT be use
 ## Requirements
 
 - **DSG-001** Centralized tokens (color, typography, spacing, radius, shadow) in a single place; components never use loose values.
-- **DSG-002** Dark mode is prepared from the tokens (light theme ships first; timing D-23).
+- **DSG-002** Dark mode ships with the MVP (decided 2026-11-16, D-23, answer 10B). It follows the system setting through the colour tokens. The dark palette is a PROPOSAL until the designer confirms it; every text pair must meet WCAG AA 4.5:1 (checked by `apps/core/tests/test_theme_contrast.py`).
 - **DSG-003** WCAG 2.2 AA contrast verified for every text/background and UI-component/background pair (target level: [NFR-010](../technical/non-functional.md)).
 - **DSG-004** Accessible components: keyboard, visible focus, adequate touch targets, interaction states (hover, focus, active, disabled, error).
 - **DSG-005** Every screen has empty, loading, success, recoverable-error and forbidden states.

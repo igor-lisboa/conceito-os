@@ -1,6 +1,6 @@
 # Personal data in Conceito OS: types, bases and handling
 
-Prepared for the legal review of decision D-17. Status: **draft, for lawyer review**.
+Prepared for the legal review of decision D-17. Status: **adopted 2026-11-16 (answer 3A): the suggested bases below are used; the lawyer confirms them before real personal data is used.**
 
 Decided 2026-11-16 (product owner):
 - Keep everything forever. Nothing is deleted from the database (DAT-007).

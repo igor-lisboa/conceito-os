@@ -49,13 +49,13 @@ class PublishedLinkTests(TestCase):
         self.assertEqual(self.piece.published_url, "https://www.instagram.com/p/abc123/")
         self.assertContains(self.client.get(reverse("content_detail", args=[self.piece.pk])), "Published post")
 
-    def test_the_link_is_optional(self):
+    def test_the_link_is_required_for_a_manual_publication(self):
+        # Decided 2026-11-16 (TD-S6, answer 7A): the link is kept as proof of publication.
         self.client.force_login(self.owner.user)
         self.client.post(reverse("content_action", args=[self.piece.pk, "mark_published"]), {})
 
         self.piece.refresh_from_db()
-        self.assertEqual(self.piece.state, ContentState.PUBLISHED.value)
-        self.assertEqual(self.piece.published_url, "")
+        self.assertNotEqual(self.piece.state, ContentState.PUBLISHED.value)
 
     def test_a_malformed_link_is_refused_and_nothing_changes(self):
         self.client.force_login(self.owner.user)

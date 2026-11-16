@@ -2,7 +2,7 @@
 id: nfr
 status: draft
 phase: all
-version: 1.2
+version: 1.3
 updated: 2026-11-16
 ---
 
@@ -30,7 +30,7 @@ New in the review. The source spec states several qualities without targets; thi
 
 - **NFR-030** Pages and lists remain usable on mobile networks; large lists paginate or virtualize.
 - **NFR-031** Media uploads support large videos with progress and resume or retry. Limits (decided 2026-11-16, D-22): images 10 MB, documents 25 MB; video limits follow with TD-33 (Phase 3).
-- **NFR-032** Target page-load latency (decided 2026-11-16, D-22): 95% of common pages load in under 1 second at expected load. Load test at twice the expected number of users (the expected number is still to be provided).
+- **NFR-032** Target page-load latency (decided 2026-11-16, D-22): 95% of common pages load in under 1 second at expected load. Load test at twice the expected number of users: 10 expected users (decided 2026-11-16, answer 4), so the test runs at 20.
 
 ## Reliability
 

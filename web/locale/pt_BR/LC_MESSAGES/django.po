@@ -1390,3 +1390,6 @@ msgstr "Lead anonimizado."
 
 msgid "Anonymized lead"
 msgstr "Lead anonimizado"
+
+msgid "Enter the link to the published post."
+msgstr "Informe o link da publicação."

@@ -85,7 +85,7 @@ class HappyPathTests(TestCase):
         self.assertEqual(content.state, ContentState.SCHEDULED)
         self.assertEqual(content.scheduled_for, LATER)
 
-        content.mark_published(now=LATER)
+        content.mark_published(now=LATER, url="https://example.com/p/1")
         self.assertEqual(content.state, ContentState.PUBLISHED)
         self.assertEqual(content.published_at, LATER)
 
@@ -272,7 +272,7 @@ class FinalStateTests(TestCase):
         content = new_content()
         approve_everything(content)
         content.schedule(LATER, now=NOW)
-        content.mark_published(now=LATER)
+        content.mark_published(now=LATER, url="https://example.com/p/1")
         return content
 
     def test_published_piece_cannot_be_edited(self):

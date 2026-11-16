@@ -1,5 +1,6 @@
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
+from django.conf import settings
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils import timezone
@@ -80,4 +81,30 @@ class MFAEnforcementMiddleware:
         ):
             if MFADevice.objects.filter(user=user, confirmed=True).exists():
                 return redirect(f"{reverse('mfa_verify')}?next={request.get_full_path()}")
+        return self.get_response(request)
+
+
+class IdleTimeoutMiddleware:
+    """Sign people out after a period without activity (TD-S8, answer 6A).
+
+    The length comes from settings.SESSION_IDLE_TIMEOUT_SECONDS. The 8-hour default is a
+    PROPOSAL (not yet confirmed by the product owner). Ending the session uses Django's
+    logout, so the session row is removed as well.
+    """
+
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        user = getattr(request, "user", None)
+        if user is not None and user.is_authenticated:
+            now = timezone.now().timestamp()
+            last = request.session.get("last_activity")
+            limit = getattr(settings, "SESSION_IDLE_TIMEOUT_SECONDS", 8 * 3600)
+            if last is not None and now - last > limit:
+                from django.contrib.auth import logout
+
+                logout(request)
+                return redirect(f"{reverse('login')}?timeout=1")
+            request.session["last_activity"] = now
         return self.get_response(request)

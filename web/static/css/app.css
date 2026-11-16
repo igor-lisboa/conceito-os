@@ -4,8 +4,11 @@
  * as fills only. Text and links use the graphite and the darker "strong" purple
  * (contrast checked: see the design system spec).
  */
+/* Light is the default. Dark (D-23, answer 10B) is PROPOSAL: the values are checked for
+   contrast by apps/core/tests/test_theme_contrast.py, but the designer has not confirmed them. */
 :root {
   --color-background: #f8f7fa;
+  --color-surface: #ffffff;
   --color-primary: #c9b8e9;
   --color-accent: #e7d6dd;
   --color-neutral: #d9d9e0;
@@ -16,7 +19,27 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  /* Dark mode is planned (D-23). Until then the light theme is always used. */
+  :root:not([data-theme="light"]) {
+    --color-background: #17161c;
+    --color-surface: #24232c;
+    --color-primary: #4b3d70;
+    --color-accent: #4a3c46;
+    --color-neutral: #3d3c48;
+    --color-text: #f1f0f5;
+    --color-link: #c9b8e9;
+    --color-danger: #f2a7b9;
+  }
+}
+
+:root[data-theme="dark"] {
+  --color-background: #17161c;
+  --color-surface: #24232c;
+  --color-primary: #4b3d70;
+  --color-accent: #4a3c46;
+  --color-neutral: #3d3c48;
+  --color-text: #f1f0f5;
+  --color-link: #c9b8e9;
+  --color-danger: #f2a7b9;
 }
 
 * { box-sizing: border-box; }
@@ -56,7 +79,7 @@ h2 { font-size: 1.15rem; margin: 24px 0 8px; }
 a { color: var(--color-link); }
 
 .card {
-  background: #fff;
+  background: var(--color-surface);
   border-radius: var(--radius);
   padding: 16px;
   margin: 12px 0;
@@ -89,7 +112,7 @@ select:focus-visible, textarea:focus-visible {
 .button-secondary { background: var(--color-neutral); }
 .link-button { background: none; padding: 0; min-height: 0; color: var(--color-text); text-decoration: underline; }
 
-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: var(--radius); overflow: hidden; }
+table { width: 100%; border-collapse: collapse; background: var(--color-surface); border-radius: var(--radius); overflow: hidden; }
 th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--color-neutral); }
 
 .state-badge {
@@ -101,7 +124,7 @@ th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--co
 }
 
 .messages { list-style: none; padding: 0; }
-.message { padding: 10px 14px; border-radius: var(--radius); margin: 8px 0; background: #fff; }
+.message { padding: 10px 14px; border-radius: var(--radius); margin: 8px 0; background: var(--color-surface); }
 .message-error { border-left: 4px solid var(--color-danger); }
 .message-success { border-left: 4px solid var(--color-link); }
 
@@ -114,7 +137,7 @@ input, select, textarea {
   border: 1px solid var(--color-neutral);
   border-radius: 8px;
   font: inherit;
-  background: #fff;
+  background: var(--color-surface);
 }
 .errorlist { color: var(--color-danger); padding: 0; list-style: none; }
 
@@ -135,6 +158,6 @@ input, select, textarea {
   main { padding: 16px; }
   table, thead, tbody, th, td, tr { display: block; }
   thead { display: none; }
-  tr { background: #fff; border-radius: var(--radius); margin-bottom: 12px; padding: 8px; }
+  tr { background: var(--color-surface); border-radius: var(--radius); margin-bottom: 12px; padding: 8px; }
   td { border: 0; padding: 4px 0; }
 }

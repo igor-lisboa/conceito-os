@@ -213,6 +213,9 @@ class Content:
         """
         if method != PUBLISH_METHOD_MANUAL:
             raise DomainError(f"Unknown publish method: {method}")
+        # Decided 2026-11-16 (TD-S6, answer 7A): a manual publication always keeps the link as proof.
+        if not url or not url.strip():
+            raise DomainError("Enter the link to the published post.")
         self._change_state(
             ContentState.PUBLISHED,
             published_at=now,

@@ -2,7 +2,7 @@
 id: sec
 status: draft
 phase: all
-version: 1.2
+version: 1.3
 updated: 2026-11-16
 ---
 
@@ -12,7 +12,7 @@ LGPD = Lei Geral de Proteção de Dados, Brazil's data protection law.
 
 ## Requirements
 
-- **SEC-001** Strong authentication; MFA according to risk; session protection; failed login never reveals whether an account exists ([AUTH](../modules/auth-organization.md)).
+- **SEC-001** Strong authentication; MFA according to risk; session protection (idle sign-out after 8 hours without activity, a PROPOSAL pending confirmation; decided 2026-11-16, answer 6A); failed login never reveals whether an account exists ([AUTH](../modules/auth-organization.md)).
 - **SEC-002** Tenant isolation by `organization_id`; authorization by organization, user and client.
 - **SEC-003** Row Level Security where applicable, **with tests** proving isolation.
 - **SEC-004** Private storage; signed short-lived links; permissions checked when the link is issued.

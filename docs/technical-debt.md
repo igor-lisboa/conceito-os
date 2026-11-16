@@ -92,7 +92,6 @@ Phase 1 code scope is complete except the items marked *partly* in the P1 table.
 | TD-25 | Trend pipeline (collection, deduplication, classification) and platform update tracking. | AI-050..061 | P3 |
 | TD-27 | Notification digests and intelligence alerts. | NTF-008 | P3 |
 | TD-33 | File storage service for uploads, video processing and quotas. | ARC (media), NFR-031, D-14 | P3 |
-| TD-34 | Dark mode. | D-23, DSG-002 | P3 |
 | TD-46 | Idempotent jobs and webhooks with dead-letter handling. | ARC-003 | P3 |
 | TD-23 | SaaS billing: plans, gateway, webhooks, grace periods, suspension, subscription dashboard. | BIL-001..016, section 3.8 | P4 |
 | TD-50 | Self-service onboarding, plan limits and usage policies. | Phase 4 | P4 |
@@ -106,9 +105,9 @@ cost later.
 
 | ID | Shortcut | Risk | When to fix |
 | --- | --- | --- | --- |
-| TD-S6 | Publishing is marked by hand. The link is kept (TD-43) and the method is recorded as `manual` (2026-11-04). | Relies on people remembering to mark it. | With TD-20 |
+| TD-S6 (done 2026-11-16) | Publishing is marked by hand. The link is kept (TD-43) and the method is recorded as `manual` (2026-11-04). | Relies on people remembering to mark it. | With TD-20 |
 | TD-S7 | The database has no `WHERE`-level row security; tenant isolation is in application code, tested. | A future bug in a query could leak data. | Consider with TD-37 |
-| TD-S8 | Session cookies and password reset links use the Django defaults (sessions in the database). | Fine for now; no session limit per device yet. | With TD-11 |
+| TD-S8 (done 2026-11-16, idle sign-out) | Session cookies and password reset links use the Django defaults (sessions in the database). | Fine for now; no session limit per device yet. | With TD-11 |
 | TD-S10 | Monthly metrics are typed by hand. Nothing checks them against the network. | Wrong numbers can reach a report. | With TD-19 |
 
 ---
@@ -123,6 +122,9 @@ cost later.
 | TD-08 | 2026-11-01 | `apps/core/tests/test_audit_view.py` |
 | TD-09 | 2026-11-01 | `apps/accounts/tests/test_throttle_and_timezone.py` |
 | TD-12 (counts in a shared database table, atomic per failure) | 2026-11-01, counter moved 2026-11-16 | `apps/accounts/tests/test_throttle_and_timezone.py`, `apps/accounts/tests/test_login_failures.py` |
+| TD-34 (dark mode with the MVP, PROPOSAL palette; answer 10B) | 2026-11-16 | `web/static/css/app.css`; `apps/core/tests/test_theme_contrast.py` |
+| TD-S6 (link required for a manual publication, answer 7A) | 2026-11-16 | `apps/production/tests/test_published_link.py` |
+| TD-S8 (idle sign-out, PROPOSAL 8 hours, answer 6A) | 2026-11-16 | `apps/accounts/tests/test_idle_timeout.py`; `apps/accounts/middleware.py` (IdleTimeoutMiddleware) |
 | TD-S9 (sign-in counters are atomic SQL increments in the `LoginFailure` table; no cache table needed) | 2026-11-16 | `apps/accounts/tests/test_login_failures.py`; migration `apps/accounts/migrations/0005_loginfailure.py`; parallel-request path not covered by a test (SQLite in-memory cannot run it), MySQL run pending |
 | TD-15 | 2026-11-01 | `apps/accounts/tests/test_throttle_and_timezone.py` |
 | TD-43 | 2026-11-01 | `apps/production/tests/test_published_link.py` |

@@ -39,7 +39,7 @@ class PublishMethodTests(TestCase):
         self.service.schedule(owner, self.piece.pk, when=timezone.now() + timedelta(days=1))
 
     def test_marking_published_records_the_manual_method(self):
-        self.service.mark_published(actor_for(self.owner), self.piece.pk, url="")
+        self.service.mark_published(actor_for(self.owner), self.piece.pk, url="https://example.com/p/1")
 
         self.assertEqual(ContentItem.objects.get(pk=self.piece.pk).publish_method, PUBLISH_METHOD_MANUAL)
 
@@ -53,10 +53,10 @@ class PublishMethodTests(TestCase):
     def test_an_unknown_method_is_refused(self):
         content = self.service.repository.get(self.agency.pk, self.piece.pk)
         with self.assertRaises(DomainError):
-            content.mark_published(now=timezone.now(), method="api")
+            content.mark_published(now=timezone.now(), method="api", url="https://example.com/p/1")
 
     def test_the_piece_page_says_it_was_published_by_hand(self):
-        self.service.mark_published(actor_for(self.owner), self.piece.pk, url="")
+        self.service.mark_published(actor_for(self.owner), self.piece.pk, url="https://example.com/p/1")
         self.client.force_login(self.owner.user)
 
         response = self.client.get(reverse("content_detail", args=[self.piece.pk]))
