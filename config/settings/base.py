@@ -48,8 +48,18 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "")
 # Keep it apart from the database and the code; losing it locks MFA users out.
 MFA_ENCRYPTION_KEY = os.environ.get("MFA_ENCRYPTION_KEY", "")
 DEBUG = env_bool("DJANGO_DEBUG", default=False)
-ALLOWED_HOSTS = env_list("DJANGO_ALLOWED_HOSTS", default="localhost,127.0.0.1")
-CSRF_TRUSTED_ORIGINS = env_list("DJANGO_CSRF_TRUSTED_ORIGINS")
+# Vercel sets these for each deployment (VERCEL_URL: this deployment; VERCEL_BRANCH_URL and
+# VERCEL_PROJECT_PRODUCTION_URL: the stable domains). They are added automatically, so every
+# deployment's own address is accepted. Requires "Expose system environment variables" in Vercel.
+VERCEL_HOSTS = [
+    host for host in (
+        os.environ.get("VERCEL_URL", ""),
+        os.environ.get("VERCEL_BRANCH_URL", ""),
+        os.environ.get("VERCEL_PROJECT_PRODUCTION_URL", ""),
+    ) if host
+]
+ALLOWED_HOSTS = env_list("DJANGO_ALLOWED_HOSTS", default="localhost,127.0.0.1") + VERCEL_HOSTS
+CSRF_TRUSTED_ORIGINS = env_list("DJANGO_CSRF_TRUSTED_ORIGINS") + [f"https://{host}" for host in VERCEL_HOSTS]
 
 SESSION_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_SECURE = not DEBUG

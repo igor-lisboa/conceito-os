@@ -20,3 +20,20 @@ class ShouldMigrateTests(SimpleTestCase):
 
     def test_the_switch_on_keeps_them_on(self):
         self.assertTrue(vercel_build.should_migrate({"VERCEL_ENV": "production", "RUN_MIGRATIONS": "1"}))
+
+
+class VercelHostsTests(SimpleTestCase):
+    """Each Vercel deployment's own address is an allowed host (DisallowedHost on the first visit)."""
+
+    def test_the_deployment_host_is_allowed_when_vercel_sets_it(self):
+        import importlib
+        import os
+        from unittest import mock
+
+        from config.settings import base
+
+        with mock.patch.dict(os.environ, {"VERCEL_URL": "conceito-abc123-team.vercel.app"}):
+            reloaded = importlib.reload(base)
+            self.assertIn("conceito-abc123-team.vercel.app", reloaded.ALLOWED_HOSTS)
+            self.assertIn("https://conceito-abc123-team.vercel.app", reloaded.CSRF_TRUSTED_ORIGINS)
+        importlib.reload(base)
