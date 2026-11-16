@@ -13,6 +13,8 @@ media/
 
 # Local environment (secrets go here, never in git)
 .env
+.env.*
+!.env.example
 
 # Editors / OS
 .idea/
